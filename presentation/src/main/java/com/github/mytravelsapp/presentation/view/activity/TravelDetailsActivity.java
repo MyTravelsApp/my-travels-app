@@ -11,6 +11,7 @@ import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 
 /**
@@ -42,7 +43,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (savedInstanceState == null) {
-            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, -1);
+            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
             addFragment(R.id.detail_fragment, TravelDetailsFragment.newInstance(this.travelId));
         } else {
             travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
@@ -67,7 +68,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result = false;
+        boolean result;
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:

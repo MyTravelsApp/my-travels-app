@@ -2,6 +2,7 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,6 +37,9 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     @Bind(R.id.rv_travels)
     RecyclerView rv_travels;
 
+    @Bind(R.id.btn_add_travel)
+    FloatingActionButton btn_add_travel;
+
     private TravelAdapter adapter;
 
     private TravelListListener travelListListener;
@@ -62,6 +66,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         this.adapter = new TravelAdapter(getActivity(), new ArrayList<TravelModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);
         this.rv_travels.setAdapter(this.adapter);
+        this.btn_add_travel.setOnClickListener(onAddClickListener);
 
         return fragmentView;
     }
@@ -96,6 +101,13 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         }
     }
 
+    @Override
+    public void newTravel() {
+        if (travelListListener != null) {
+            travelListListener.onAddTravelClicked();
+        }
+    }
+
     private void initialize() {
         getComponent(TravelComponent.class).inject(this);
         this.presenter.setView(this);
@@ -116,7 +128,17 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         }
     };
 
+    private View.OnClickListener onAddClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            if (getPresenter() != null) {
+                getPresenter().newTravel();
+            }
+        }
+    };
+
     public interface TravelListListener {
         void onTravelClicked(TravelModel model);
+        void onAddTravelClicked();
     }
 }

@@ -1,7 +1,7 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.github.mytravelsapp.presentation.di.HasComponent;
@@ -51,6 +51,10 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
     }
 
     protected <C> C getComponent(Class<C> componentType) {
-        return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+        C result = null;
+        if (getActivity() instanceof HasComponent) {
+            result = componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+        }
+        return result;
     }
 }

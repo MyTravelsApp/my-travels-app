@@ -28,12 +28,6 @@
         </activity>
 
         <activity
-            android:name=".presentation.view.activity.NewTravelActivity"
-            android:label="@string/activity_new_travel_title">
-
-        </activity>
-
-        <activity
             android:name=".presentation.view.activity.TravelDetailsActivity"
             android:label="@string/activity_travel_details_title"
             android:parentActivityName=".presentation.view.activity.TravelListActivity">

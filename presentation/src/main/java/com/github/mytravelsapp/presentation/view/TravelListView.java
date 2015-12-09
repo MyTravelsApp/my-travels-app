@@ -10,4 +10,5 @@ import java.util.List;
 public interface TravelListView extends View {
     void setTravelList(List<TravelModel> list);
     void viewDetail(TravelModel selectedModel);
+    void newTravel();
 }

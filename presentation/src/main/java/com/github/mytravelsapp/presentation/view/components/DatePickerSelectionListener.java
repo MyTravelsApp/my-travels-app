@@ -11,6 +11,7 @@ import org.w3c.dom.Text;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author fjtorres
@@ -21,11 +22,12 @@ public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetLi
     private final TextView printView;
     private final String dateFormat;
 
-    public DatePickerSelectionListener (final Context pContext, final TextView pPrintView, final String pDateFormat) {
+    public DatePickerSelectionListener(final Context pContext, final TextView pPrintView, final String pDateFormat) {
         this.context = pContext;
         this.printView = pPrintView;
         this.dateFormat = pDateFormat;
     }
+
     @Override
     public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
         final Calendar cal = Calendar.getInstance();
@@ -42,10 +44,13 @@ public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetLi
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         final Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(sdf.parse(printView.getText().toString()));
-        } catch (final ParseException e) {
-            e.printStackTrace();// FIXME DATE PARSE ERROR!!!
+        cal.setTime(new Date());
+        if (printView.getText() != null && !"".equals(printView.getText())) {
+            try {
+                cal.setTime(sdf.parse(printView.getText().toString()));
+            } catch (final ParseException e) {
+                e.printStackTrace();// FIXME DATE PARSE ERROR!!!
+            }
         }
         final DatePickerDialog dialog = new DatePickerDialog(context, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.show();

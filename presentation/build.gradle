@@ -26,6 +26,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
     }
 }
 
@@ -35,6 +38,7 @@ dependencies {
     compile rootProject.ext.presentationDependencies.dagger
     compile rootProject.ext.presentationDependencies.butterKnife
     compile rootProject.ext.presentationDependencies.recyclerView
+    compile rootProject.ext.presentationDependencies.design
     provided rootProject.ext.presentationDependencies.javaxAnnotation
 
     compile fileTree(dir: 'libs', include: ['*.jar'])

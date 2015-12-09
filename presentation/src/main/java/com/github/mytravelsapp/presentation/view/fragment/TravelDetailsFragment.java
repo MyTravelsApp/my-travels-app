@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
@@ -34,10 +34,10 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
     private long travelId;
 
     @Bind(R.id.txt_name)
-    TextView txt_name;
+    EditText txt_name;
 
     @Bind(R.id.txt_destination)
-    TextView txt_destination;
+    EditText txt_destination;
 
     @Bind(R.id.btn_start_date)
     Button btn_start_date;
@@ -104,6 +104,10 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
             }
             if (model.getFinishDate() != null) {
                 btn_finish_date.setText(sdf.format(model.getFinishDate()));
+            }
+
+            if (travelId == TravelModel.DEFAULT_ID) {
+                getActivity().setTitle(R.string.activity_travel_new_title);
             }
         }
     }

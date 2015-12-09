@@ -28,24 +28,37 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Layout definition for activity
         setContentView(R.layout.activity_travel_list);
 
+        // Set the support toolbar to show in activity
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         initializeInjector();
     }
 
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_travel_list, menu);
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result = false;
+        boolean result;
         switch (item.getItemId()) {
-            case R.id.action_new_travel:
+            case R.id.action_search_travel:
+                // FIXME Search travel action
                 result = false;
                 break;
             default:
@@ -55,6 +68,9 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
         return result;
     }
 
+    /**
+     *
+     */
     private void initializeInjector () {
         this.component = DaggerTravelComponent.builder()
                 .applicationComponent(getApplicationComponent())
@@ -70,5 +86,10 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     @Override
     public void onTravelClicked(final TravelModel model) {
         navigator.navigateToTravelDetail(this, model);
+    }
+
+    @Override
+    public void onAddTravelClicked() {
+        navigator.navigateToTravelDetail(this, new TravelModel(TravelModel.DEFAULT_ID));
     }
 }

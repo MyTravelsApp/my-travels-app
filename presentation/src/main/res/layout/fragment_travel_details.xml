@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <EditText
         android:id="@+id/txt_name"
+        android:hint="@string/text_name_placeholder"
         style="@style/AppTheme.TextViewHeader" />
 
     <LinearLayout
@@ -19,7 +20,7 @@
             style="@style/AppTheme.TextViewTitle"
             android:text="@string/text_destination" />
 
-        <TextView
+        <EditText
             android:id="@+id/txt_destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -17,7 +17,8 @@ ext {
     // Dependencies version
     daggerVersion = '2.0.2' // Dependency injection
     butterKnifeVersion = '7.0.1' // Bind attributes from android app
-    recyclerViewVersion = '21.0.3'
+    recyclerViewVersion = '23.1.0'
+    designVersion = '23.1.0'
     javaxAnnotationVersion = '1.0'
 
     // Presentation module dependencies
@@ -26,6 +27,7 @@ ext {
             dagger         : "com.google.dagger:dagger:${daggerVersion}",
             butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
             recyclerView   : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            design         : "com.android.support:design:${designVersion}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
     ]
 }
