@@ -33,18 +33,23 @@ android {
 }
 
 dependencies {
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
-    apt rootProject.ext.presentationDependencies.daggerCompiler
-    compile rootProject.ext.presentationDependencies.dagger
-    compile rootProject.ext.presentationDependencies.butterKnife
-    compile rootProject.ext.presentationDependencies.recyclerView
-    compile rootProject.ext.presentationDependencies.design
-    provided rootProject.ext.presentationDependencies.javaxAnnotation
+    apt presentationDependencies.daggerCompiler
+    compile presentationDependencies.dagger
+    compile presentationDependencies.butterKnife
+    compile presentationDependencies.appCompact
+    compile presentationDependencies.recyclerView
+    compile presentationDependencies.design
+    provided presentationDependencies.javaxAnnotation
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // TEST
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    androidTestCompile presentationTestDependencies.mockito
+    androidTestCompile presentationTestDependencies.dexmaker
+    androidTestCompile presentationTestDependencies.dexmakerMockito
+    androidTestCompile presentationTestDependencies.espresso
+    androidTestCompile presentationTestDependencies.testingSupportLib
 }

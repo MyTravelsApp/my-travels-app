@@ -7,7 +7,7 @@
     <include layout="@layout/toolbar" />
 
     <fragment
-        android:id="@+id/fragmentMyTravels"
+        android:id="@+id/fragmentTravelList"
         android:name="com.github.mytravelsapp.presentation.view.fragment.TravelListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

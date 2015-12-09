@@ -17,18 +17,36 @@ ext {
     // Dependencies version
     daggerVersion = '2.0.2' // Dependency injection
     butterKnifeVersion = '7.0.1' // Bind attributes from android app
+    appCompactVersion = '23.1.1'
     recyclerViewVersion = '23.1.0'
     designVersion = '23.1.0'
     javaxAnnotationVersion = '1.0'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.0'
+    testingSupportLibVersion = '0.1'
 
     // Presentation module dependencies
     presentationDependencies = [
             daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger         : "com.google.dagger:dagger:${daggerVersion}",
             butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            appCompact     : "com.android.support:appcompat-v7:${appCompactVersion}",
             recyclerView   : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
             design         : "com.android.support:design:${designVersion}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+    ]
+
+    presentationTestDependencies = [
+            mockito          : "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso         : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            testingSupportLib: "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
     ]
 }
 

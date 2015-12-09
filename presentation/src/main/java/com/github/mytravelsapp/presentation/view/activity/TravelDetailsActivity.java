@@ -44,7 +44,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
 
         if (savedInstanceState == null) {
             travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
-            addFragment(R.id.detail_fragment, TravelDetailsFragment.newInstance(this.travelId));
+            addFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(this.travelId));
         } else {
             travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
         }
