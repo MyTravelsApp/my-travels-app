@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Travels App</string>
+
+    <string name="activity_travel_list_title">My travels</string>
+
+    <string name="activity_new_travel_title">New travel</string>
+
+    <string name="activity_travel_details_title">Travel details</string>
+
+    <string name="text_destination">Destination</string>
+    <string name="text_start_date">Start date</string>
+    <string name="text_finish_date">Finish date</string>
+</resources>

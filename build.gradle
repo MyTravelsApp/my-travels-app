@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+ext {
+    // Dependencies version
+    daggerVersion = '2.0.2' // Dependency injection
+    butterKnifeVersion = '7.0.1' // Bind attributes from android app
+    recyclerViewVersion = '21.0.3'
+    javaxAnnotationVersion = '1.0'
+
+    // Presentation module dependencies
+    presentationDependencies = [
+            daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger         : "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            recyclerView   : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+    ]
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

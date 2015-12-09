@@ -1,0 +1,36 @@
+package com.github.mytravelsapp.presentation.navigation;
+
+import android.content.Context;
+
+import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.view.activity.TravelDetailsActivity;
+import com.github.mytravelsapp.presentation.view.activity.TravelListActivity;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+/**
+ * Class used to provide navigation between activities.
+ *
+ * @author fjtorres
+ */
+@Singleton
+public class Navigator {
+
+    @Inject
+    public Navigator() {
+
+    }
+
+    public void navigateToTravelList(final Context context) {
+        if (context != null) {
+            context.startActivity(TravelListActivity.getCallingIntent(context));
+        }
+    }
+
+    public void navigateToTravelDetail(final Context context, final TravelModel model) {
+        if (context != null) {
+            context.startActivity(TravelDetailsActivity.getCallingIntent(context, model.getId()));
+        }
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_name"
+        style="@style/AppTheme.TextViewHeader" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AppTheme.TextViewTitle"
+            android:text="@string/text_destination" />
+
+        <TextView
+            android:id="@+id/txt_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/AppTheme.TextViewTitle"
+            android:text="@string/text_start_date" />
+
+        <Button
+            android:id="@+id/btn_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner" />
+
+        <TextView
+            style="@style/AppTheme.TextViewTitle"
+            android:text="@string/text_finish_date" />
+
+        <Button
+            android:id="@+id/btn_finish_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.DeviceDefault.Light.Spinner" />
+
+    </LinearLayout>
+
+</LinearLayout>

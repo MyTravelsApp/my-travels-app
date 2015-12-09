@@ -1,0 +1,74 @@
+package com.github.mytravelsapp.presentation.view.activity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.presentation.di.HasComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
+import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
+
+/**
+ * @author fjtorres
+ */
+public class TravelListActivity extends AbstractActivity implements HasComponent<TravelComponent>, TravelListFragment.TravelListListener {
+
+    private TravelComponent component;
+
+    public static Intent getCallingIntent(final Context context) {
+        return new Intent(context, TravelListActivity.class);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_travel_list);
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        initializeInjector();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_travel_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result = false;
+        switch (item.getItemId()) {
+            case R.id.action_new_travel:
+                result = false;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
+    }
+
+    private void initializeInjector () {
+        this.component = DaggerTravelComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
+    }
+
+    @Override
+    public TravelComponent getComponent() {
+        return component;
+    }
+
+    @Override
+    public void onTravelClicked(final TravelModel model) {
+        navigator.navigateToTravelDetail(this, model);
+    }
+}
