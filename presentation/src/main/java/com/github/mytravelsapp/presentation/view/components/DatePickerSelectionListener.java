@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.github.mytravelsapp.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,12 +14,25 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * Datepicker listener that controls {@link DatePickerDialog} selection and open.
+ *
  * @author fjtorres
  */
 public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
+    /**
+     * Source context.
+     */
     private final Context context;
+
+    /**
+     * View to print and load date.
+     */
     private final TextView printView;
+
+    /**
+     * Format to date.
+     */
     private final String dateFormat;
 
     public DatePickerSelectionListener(final Context pContext, final TextView pPrintView, final String pDateFormat) {
@@ -28,6 +41,14 @@ public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetLi
         this.dateFormat = pDateFormat;
     }
 
+    /**
+     * Controls datepicker selection.
+     *
+     * @param view
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
         final Calendar cal = Calendar.getInstance();
@@ -39,6 +60,11 @@ public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetLi
         printView.setText(sdf.format(cal.getTime()));
     }
 
+    /**
+     * Open datepicker dialog.
+     *
+     * @param v associated view.
+     */
     @Override
     public void onClick(View v) {
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -52,7 +78,7 @@ public class DatePickerSelectionListener implements DatePickerDialog.OnDateSetLi
                 e.printStackTrace();// FIXME DATE PARSE ERROR!!!
             }
         }
-        final DatePickerDialog dialog = new DatePickerDialog(context, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        final DatePickerDialog dialog = new DatePickerDialog(context, R.style.AppTheme_DialogTheme, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
 }

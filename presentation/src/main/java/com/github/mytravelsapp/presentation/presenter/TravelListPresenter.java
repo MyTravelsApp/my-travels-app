@@ -4,12 +4,14 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 /**
+ * Presenter that controls communication between views and models associated with travels list.
+ *
  * @author fjtorres
  */
 public class TravelListPresenter extends AbstractPresenter<TravelListView> {
@@ -17,7 +19,7 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
     private static final List<TravelModel> STATIC_DATA = new ArrayList<>();
 
     static {
-        STATIC_DATA.add(new TravelModel(1L, "Viaje a Roma", "Roma"));
+        STATIC_DATA.add(new TravelModel(1L, "Viaje a Roma", "Roma", new Date(), new Date()));
         STATIC_DATA.add(new TravelModel(2L, "Viaje a Londres", "Londres"));
         STATIC_DATA.add(new TravelModel(3L, "Viaje a Paris", "Paris"));
         STATIC_DATA.add(new TravelModel(4L, "Viaje a Riviera maya", "Playa del carmen"));
@@ -46,14 +48,25 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
 
     }
 
+    /**
+     * Load travels and render in view.
+     */
     public void loadTravels() {
-        getView().setTravelList(STATIC_DATA);
+        getView().renderList(STATIC_DATA);
     }
 
+    /**
+     * Navigate to the selected travel detail view.
+     *
+     * @param selectedModel Selected travel.
+     */
     public void viewDetail(final TravelModel selectedModel) {
         getView().viewDetail(selectedModel);
     }
 
+    /**
+     * Navigate to new travel view.
+     */
     public void newTravel() {
         getView().newTravel();
     }

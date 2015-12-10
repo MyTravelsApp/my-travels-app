@@ -15,6 +15,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelListPresenter;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
+import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Fragment that shows a list with "My travels"
+ * Fragment that shows a list of {@link TravelModel}.
  *
  * @author fjtorres
  */
@@ -63,6 +64,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
         // Setup UI
         this.rv_travels.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.rv_travels.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         this.adapter = new TravelAdapter(getActivity(), new ArrayList<TravelModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);
         this.rv_travels.setAdapter(this.adapter);
@@ -90,7 +92,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
     @Override
-    public void setTravelList(final List<TravelModel> list) {
+    public void renderList(final List<TravelModel> list) {
         this.adapter.setList(list);
     }
 
@@ -118,7 +120,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
 
-    private TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener() {
+    private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener() {
         @Override
         public void onTravelItemClicked(final TravelModel model) {
 
@@ -128,7 +130,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         }
     };
 
-    private View.OnClickListener onAddClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
             if (getPresenter() != null) {
@@ -139,6 +141,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
     public interface TravelListListener {
         void onTravelClicked(TravelModel model);
+
         void onAddTravelClicked();
     }
 }

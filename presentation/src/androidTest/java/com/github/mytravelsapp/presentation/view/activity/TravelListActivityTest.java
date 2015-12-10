@@ -39,7 +39,7 @@ public class TravelListActivityTest extends ActivityInstrumentationTestCase2<Tra
 
     public void testContainsProperTitle () {
         final String actualTitle = activity.getTitle().toString().trim();
-        final String expectedTitle = activity.getString(R.string.activity_travel_list_title).toString().trim();
+        final String expectedTitle = activity.getString(R.string.activity_travel_list_title).trim();
         assertThat(actualTitle, is(expectedTitle));
     }
 }

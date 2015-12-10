@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material color palette: https://www.google.com/design/spec/style/color.html#color-color-palette -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="windowBackground">#CCCCCC</color>
+    <color name="colorAccent">#F44336</color>
+    <color name="windowBackground">#E8EAF6</color>
     <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorSecundary">#000000</color>
+    <color name="lineDivider">@android:color/darker_gray</color>
 </resources>

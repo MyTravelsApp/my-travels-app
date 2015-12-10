@@ -3,6 +3,8 @@ package com.github.mytravelsapp.presentation.model;
 import java.util.Date;
 
 /**
+ * Class that represents a travel in the presentation layer.
+ *
  * @author fjtorres
  */
 public class TravelModel {

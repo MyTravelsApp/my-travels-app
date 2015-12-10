@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.AndroidApplication;
 import com.github.mytravelsapp.presentation.di.components.ApplicationComponent;
 import com.github.mytravelsapp.presentation.di.modules.ActivityModule;
@@ -25,8 +26,12 @@ public abstract class AbstractActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        activityOpenTransition();
         this.getApplicationComponent().inject(this);
+    }
+
+    protected void activityOpenTransition () {
+        overridePendingTransition(R.anim.activity_open_to_right, R.anim.activity_close_to_left);
     }
 
     /**
