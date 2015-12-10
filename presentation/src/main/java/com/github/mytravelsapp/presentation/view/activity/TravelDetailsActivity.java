@@ -76,6 +76,12 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         super.onSaveInstanceState(outState);
     }
 
+
+    @Override
+    protected void activityOpenTransition() {
+        overridePendingTransition(R.anim.activity_open_to_left, R.anim.activity_close_to_right);
+    }
+
     /**
      * Load activity menu.
      *
