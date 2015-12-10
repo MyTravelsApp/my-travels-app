@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import com.github.mytravelsapp.presentation.view.View;
 
 /**
- * Interface representing a Presenter in a Movel View Presenter (MVP) pattern.
+ * Interface representing a Presenter in a Model View Presenter (MVP) pattern.
  *
+ * @param <V> Associated view.
  * @author fjtorres
  */
 public interface Presenter<V extends View> {

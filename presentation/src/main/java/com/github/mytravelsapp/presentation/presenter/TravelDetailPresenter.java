@@ -8,6 +8,8 @@ import java.util.Calendar;
 import javax.inject.Inject;
 
 /**
+ * Presenter that controls communication between views and models associated with travel detail.
+ *
  * @author fjtorres
  */
 public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> {
@@ -17,10 +19,15 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
 
     }
 
+    /**
+     * Load model for specific identifier.
+     *
+     * @param travelId Travel identifier.
+     */
     public void loadModel(final long travelId) {
         TravelModel model = null;
-        if (travelId == -1) {
-            model = new TravelModel(-1);
+        if (travelId == TravelModel.DEFAULT_ID) {
+            model = new TravelModel(TravelModel.DEFAULT_ID);
         } else {
             model = new TravelModel(1L);
             model.setName("Tres días a Roma");

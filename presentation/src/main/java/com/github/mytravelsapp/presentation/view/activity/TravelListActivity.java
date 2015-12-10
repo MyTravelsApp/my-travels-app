@@ -15,12 +15,20 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
 
 /**
+ * Activity that shows a list of travels.
+ *
  * @author fjtorres
  */
 public class TravelListActivity extends AbstractActivity implements HasComponent<TravelComponent>, TravelListFragment.TravelListListener {
 
     private TravelComponent component;
 
+    /**
+     * Generate intent to open this activity.
+     *
+     * @param context Source context.
+     * @return Intent.
+     */
     public static Intent getCallingIntent(final Context context) {
         return new Intent(context, TravelListActivity.class);
     }
@@ -38,9 +46,10 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     }
 
     /**
+     * Load activity menu.
      *
-     * @param menu
-     * @return
+     * @param menu Activity menu.
+     * @return true if activity has menu otherwise false.
      */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -49,8 +58,9 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     }
 
     /**
+     * Control menu item selection.
      *
-     * @param item
+     * @param item Selected menu.
      * @return
      */
     @Override
@@ -69,9 +79,9 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     }
 
     /**
-     *
+     * Initialize DI components for this activity.
      */
-    private void initializeInjector () {
+    private void initializeInjector() {
         this.component = DaggerTravelComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())

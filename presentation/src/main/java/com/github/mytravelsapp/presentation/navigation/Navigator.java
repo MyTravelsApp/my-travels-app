@@ -22,12 +22,22 @@ public class Navigator {
 
     }
 
+    /**
+     * Navigate to {@link TravelListActivity}.
+     *
+     * @param context Source context.
+     */
     public void navigateToTravelList(final Context context) {
         if (context != null) {
             context.startActivity(TravelListActivity.getCallingIntent(context));
         }
     }
 
+    /**
+     * Navigate to {@link TravelDetailsActivity}.
+     *
+     * @param context Source context.
+     */
     public void navigateToTravelDetail(final Context context, final TravelModel model) {
         if (context != null) {
             context.startActivity(TravelDetailsActivity.getCallingIntent(context, model.getId()));

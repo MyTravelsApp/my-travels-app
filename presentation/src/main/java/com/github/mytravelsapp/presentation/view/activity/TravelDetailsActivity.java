@@ -15,6 +15,8 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 
 /**
+ * Activity that shows details of certain travel.
+ *
  * @author fjtorres
  */
 public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent> {
@@ -26,6 +28,13 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
 
     private long travelId;
 
+    /**
+     * Generate intent to open this activity.
+     *
+     * @param context  Source context.
+     * @param travelId Travel identifier to view in detail.
+     * @return Intent.
+     */
     public static Intent getCallingIntent(final Context context, final long travelId) {
         final Intent callingIntent = new Intent(context, TravelDetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, travelId);
@@ -37,11 +46,13 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_details);
 
+        // Set the support toolbar to show in activity
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
+        // Active home button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
             addFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(this.travelId));
@@ -52,6 +63,11 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         initializeInjector();
     }
 
+    /**
+     * Save activity state.
+     *
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
@@ -60,12 +76,24 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Load activity menu.
+     *
+     * @param menu Activity menu.
+     * @return true if activity has menu otherwise false.
+     */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_travel_details, menu);
         return true;
     }
 
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
@@ -85,6 +113,9 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         return result;
     }
 
+    /**
+     * Initialize DI components for this activity.
+     */
     private void initializeInjector() {
         this.component = DaggerTravelComponent.builder()
                 .applicationComponent(getApplicationComponent())

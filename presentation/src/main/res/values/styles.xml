@@ -16,31 +16,42 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.Button">
+    <!-- Dialog Theme -->
+    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColorPrimary">@color/textColorSecundary</item>
+    </style>
+
+    <!-- List rows styles -->
+    <style name="AppTheme.RowText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/lv_row_text_size</item>
+        <item name="android:textColor">@color/textColorSecundary</item>
     </style>
 
-    <style name="AppTheme.TextViewHeader">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">@dimen/header_margin</item>
-        <item name="android:textSize">@dimen/header_text_size</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <!--<item name="android:background">@android:color/background_light</item>-->
+    <style name="AppTheme.RowSubtext" parent="AppTheme.RowText">
+        <item name="android:textSize">@dimen/lv_row_subtext_size</item>
     </style>
 
-    <style name="AppTheme.TextViewTitle">
+    <style name="AppTheme.RowSubtextLabel" parent="AppTheme.RowSubtext">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Inputs styles -->
+    <style name="AppTheme.EditText">
+        <item name="android:textColor">@color/textColorSecundary</item>
+    </style>
+
+    <style name="AppTheme.FullEditText" parent="AppTheme.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/header_margin</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

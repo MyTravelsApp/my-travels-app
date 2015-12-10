@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
@@ -22,6 +23,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Fragment that shows details of certain travel.
+ *
  * @author fjtorres
  */
 public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, TravelDetailPresenter> implements TravelDetailsView {
@@ -39,11 +42,17 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
     @Bind(R.id.txt_destination)
     EditText txt_destination;
 
+    @Bind(R.id.txt_start_date)
+    TextView txt_start_date;
+
     @Bind(R.id.btn_start_date)
-    Button btn_start_date;
+    ImageButton btn_start_date;
+
+    @Bind(R.id.txt_finish_date)
+    TextView txt_finish_date;
 
     @Bind(R.id.btn_finish_date)
-    Button btn_finish_date;
+    ImageButton btn_finish_date;
 
     public static TravelDetailsFragment newInstance(final long travelId) {
         final TravelDetailsFragment fragment = new TravelDetailsFragment();
@@ -63,8 +72,8 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
-        btn_start_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), btn_start_date, "dd/MM/yyyy"));
-        btn_finish_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), btn_finish_date, "dd/MM/yyyy"));
+        btn_start_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_start_date, "dd/MM/yyyy"));
+        btn_finish_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_finish_date, "dd/MM/yyyy"));
 
         return fragmentView;
     }
@@ -100,10 +109,10 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
             txt_destination.setText(model.getDestination());
             final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             if (model.getStartDate() != null) {
-                btn_start_date.setText(sdf.format(model.getStartDate()));
+                txt_start_date.setText(sdf.format(model.getStartDate()));
             }
             if (model.getFinishDate() != null) {
-                btn_finish_date.setText(sdf.format(model.getFinishDate()));
+                txt_finish_date.setText(sdf.format(model.getFinishDate()));
             }
 
             if (travelId == TravelModel.DEFAULT_ID) {

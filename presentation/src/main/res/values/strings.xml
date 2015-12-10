@@ -7,8 +7,11 @@
 
     <string name="activity_travel_details_title">Travel details</string>
 
-    <string name="text_name_placeholder">Input the travel name</string>
+    <string name="text_colon">:</string>
+    <string name="text_name">Name</string>
     <string name="text_destination">Destination</string>
     <string name="text_start_date">Start date</string>
+    <string name="text_start_date_short">From</string>
     <string name="text_finish_date">Finish date</string>
+    <string name="text_finish_date_short">To</string>
 </resources>

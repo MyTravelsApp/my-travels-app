@@ -2,48 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/txt_name"
-        android:hint="@string/text_name_placeholder"
-        style="@style/AppTheme.TextViewHeader" />
-
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/AppTheme.TextViewTitle"
-            android:text="@string/text_destination" />
+        <EditText
+            android:id="@+id/txt_name"
+            style="@style/AppTheme.FullEditText"
+            android:hint="@string/text_name" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/txt_destination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            style="@style/AppTheme.FullEditText"
+            android:hint="@string/text_destination" />
 
-        <TextView
-            style="@style/AppTheme.TextViewTitle"
-            android:text="@string/text_start_date" />
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/txt_start_date"
+                style="@style/AppTheme.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_start_date"
+                android:inputType="none"
+                android:minEms="10" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
             android:id="@+id/btn_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner" />
+            android:src="@drawable/ic_today_black_24dp" />
 
-        <TextView
-            style="@style/AppTheme.TextViewTitle"
-            android:text="@string/text_finish_date" />
+    </LinearLayout>
 
-        <Button
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/txt_finish_date"
+                style="@style/AppTheme.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_finish_date"
+                android:inputType="none"
+                android:minEms="10" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
             android:id="@+id/btn_finish_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner" />
+            android:src="@drawable/ic_today_black_24dp" />
 
     </LinearLayout>
 
