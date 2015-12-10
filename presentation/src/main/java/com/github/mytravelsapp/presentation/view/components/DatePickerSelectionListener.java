@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
 
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

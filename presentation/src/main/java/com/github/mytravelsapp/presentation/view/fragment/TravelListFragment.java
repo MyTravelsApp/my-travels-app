@@ -120,7 +120,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
 
-    private TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener() {
+    private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener() {
         @Override
         public void onTravelItemClicked(final TravelModel model) {
 
@@ -130,7 +130,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         }
     };
 
-    private View.OnClickListener onAddClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
             if (getPresenter() != null) {

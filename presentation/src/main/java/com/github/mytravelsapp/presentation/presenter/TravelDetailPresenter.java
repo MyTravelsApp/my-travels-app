@@ -25,7 +25,7 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
      * @param travelId Travel identifier.
      */
     public void loadModel(final long travelId) {
-        TravelModel model = null;
+        TravelModel model;
         if (travelId == TravelModel.DEFAULT_ID) {
             model = new TravelModel(TravelModel.DEFAULT_ID);
         } else {

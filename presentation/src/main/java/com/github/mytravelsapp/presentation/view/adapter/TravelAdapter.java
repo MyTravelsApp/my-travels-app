@@ -86,8 +86,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     @Override
     public TravelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = layoutInflater.inflate(R.layout.row_travel, parent, false);
-        final TravelViewHolder holder = new TravelViewHolder(view);
-        return holder;
+        return new TravelViewHolder(view);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

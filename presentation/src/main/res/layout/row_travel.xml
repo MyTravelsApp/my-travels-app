@@ -23,7 +23,7 @@
         style="@style/AppTheme.RowSubtextLabel"
         android:layout_below="@id/txt_title"
         android:layout_toEndOf="@id/txt_from"
-        android:paddingRight="@dimen/lv_row_subtext_right_padding"
+        android:paddingEnd="@dimen/lv_row_subtext_right_padding"
         android:text="@string/text_colon" />
 
     <TextView
@@ -37,7 +37,7 @@
         style="@style/AppTheme.RowSubtextLabel"
         android:layout_below="@id/txt_title"
         android:layout_toEndOf="@id/txt_start_date"
-        android:paddingLeft="@dimen/lv_row_subtext_left_padding"
+        android:paddingStart="@dimen/lv_row_subtext_left_padding"
         android:text="@string/text_finish_date_short" />
 
     <TextView
@@ -45,7 +45,7 @@
         style="@style/AppTheme.RowSubtextLabel"
         android:layout_below="@id/txt_title"
         android:layout_toEndOf="@id/txt_to"
-        android:paddingRight="@dimen/lv_row_subtext_right_padding"
+        android:paddingEnd="@dimen/lv_row_subtext_right_padding"
         android:text="@string/text_colon" />
 
     <TextView
