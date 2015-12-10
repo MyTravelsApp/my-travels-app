@@ -5,6 +5,7 @@ import android.content.Context;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.activity.TravelDetailsActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelListActivity;
+import com.github.mytravelsapp.presentation.view.activity.TravelPlacesActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,6 +32,15 @@ public class Navigator {
     public void navigateToTravelDetail(final Context context, final TravelModel model) {
         if (context != null) {
             context.startActivity(TravelDetailsActivity.getCallingIntent(context, model.getId()));
+        }
+    }
+
+    /**
+     * Method to defined the navigation to the activity TravelPlaces
+     */
+    public void navigateToTravelPlaces(final Context context){
+        if (context != null) {
+            context.startActivity(TravelPlacesActivity.getCallingIntent(context));
         }
     }
 }
