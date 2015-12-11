@@ -9,6 +9,8 @@
 
     <string name="activity_travel_places_title">Travel Places</string>
 
+    <string name="activity_travel_places_details_title">Travel Places Details</string>
+
     <string name="text_colon">:</string>
     <string name="text_name">Name</string>
     <string name="text_destination">Destination</string>

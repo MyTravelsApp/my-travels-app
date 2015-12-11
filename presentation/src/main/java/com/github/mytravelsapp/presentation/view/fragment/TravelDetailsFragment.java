@@ -91,7 +91,6 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
     }
 
     private void initialize() {
-        getComponent(TravelComponent.class).inject(this);
         this.presenter.setView(this);
         this.travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
         getPresenter().loadModel(this.travelId);

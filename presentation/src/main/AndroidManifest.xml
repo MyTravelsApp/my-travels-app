@@ -38,6 +38,13 @@
             android:label="@string/activity_travel_places_title"
             android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
         </activity>
+
+        <activity
+            android:name=".presentation.view.activity.TravelPlacesDetailsActivity"
+            android:label="@string/activity_travel_places_details_title"
+            android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
+        </activity>
+
     </application>
 
 </manifest>
