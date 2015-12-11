@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.model.TravelModel;
-import com.github.mytravelsapp.presentation.model.TravelPlaceModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 
 import java.util.List;
 
@@ -23,11 +22,11 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
     private final LayoutInflater layoutInflater;
 
-    private List<TravelPlaceModel> list;
+    private List<TravelPlacesModel> list;
 
     private OnItemClickListener onItemClickListener;
 
-    public TravelPlacesAdapter(final Context context, final List<TravelPlaceModel> pList) {
+    public TravelPlacesAdapter(final Context context, final List<TravelPlacesModel> pList) {
         this.list = pList;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -53,7 +52,7 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setList(final List<TravelPlaceModel> pList) {
+    public void setList(final List<TravelPlacesModel> pList) {
         this.list = pList;
     }
 
@@ -69,7 +68,7 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
     }
 
     public interface OnItemClickListener {
-        void onTravelItemClicked(TravelPlaceModel model);
+        void onTravelItemClicked(TravelPlacesModel model);
     }
 
 }

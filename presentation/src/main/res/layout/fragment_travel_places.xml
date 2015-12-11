@@ -16,7 +16,7 @@
         android:text="Esto es una prueba" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_add_travel"
+        android:id="@+id/btn_add_travel_places"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

@@ -3,7 +3,7 @@ package com.github.mytravelsapp.presentation.model;
 /**
  * Created by stefani on 10/12/2015.
  */
-public class TravelPlaceModel {
+public class TravelPlacesModel {
 
     public static final long DEFAULT_ID = -1;
 
@@ -11,7 +11,12 @@ public class TravelPlaceModel {
 
     private String place;
 
-    public TravelPlaceModel(String place, long id) {
+    public TravelPlacesModel(final long pId) {
+
+        this.id=pId;
+    }
+
+    public TravelPlacesModel(String place, long id) {
         this.place = place;
         this.id = id;
     }

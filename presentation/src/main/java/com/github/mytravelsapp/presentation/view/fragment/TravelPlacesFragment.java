@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
-
-import java.util.ArrayList;
-
-import javax.inject.Inject;
+import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,14 +25,15 @@ import butterknife.ButterKnife;
  */
 public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
 
-
     TravelPlacesPresenter presenter;
+
+    private TravelPlacesListener travelPlacesListener;
 
     @Bind(R.id.rv_travels_places)
     RecyclerView rv_travels_places;
 
-    @Bind(R.id.btn_add_travel)
-    FloatingActionButton btn_add_travel;
+    @Bind(R.id.btn_add_travel_places)
+    FloatingActionButton btn_add_travel_places;
 
     private void initialize() {
         presenter = new TravelPlacesPresenter();
@@ -49,7 +48,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         // Setup UI
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //this.btn_add_travel.setOnClickListener(onAddClickListener);
+        this.btn_add_travel_places.setOnClickListener(onAddClickListener);
 
         return fragmentView;
     }
@@ -70,4 +69,51 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     protected TravelPlacesPresenter getPresenter() {
         return presenter;
     }
+
+    @Override
+    public void newTravelPlaces() {
+        if (travelPlacesListener != null) {
+            travelPlacesListener.onAddTravelPlacesClicked();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof TravelPlacesListener) {
+            this.travelPlacesListener = (TravelPlacesListener) context;
+        }
+    }
+
+    @Override
+    public void viewDetail(final TravelPlacesModel selectedModel) {
+        if (travelPlacesListener != null) {
+            travelPlacesListener.onTravelPlacesClicked(selectedModel);
+        }
+    }
+
+    public interface TravelPlacesListener {
+        void onTravelPlacesClicked(TravelPlacesModel model);
+
+        void onAddTravelPlacesClicked();
+    }
+
+    private final TravelPlacesAdapter.OnItemClickListener onItemClickListener = new TravelPlacesAdapter.OnItemClickListener() {
+        @Override
+        public void onTravelItemClicked(final TravelPlacesModel model) {
+
+            if (getPresenter() != null && model != null) {
+                getPresenter().viewDetail(model);
+            }
+        }
+    };
+
+    private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            if (getPresenter() != null) {
+                getPresenter().newTravelPlaces();
+            }
+        }
+    };
 }
