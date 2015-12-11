@@ -1,7 +1,11 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,6 +19,7 @@ import com.github.mytravelsapp.presentation.presenter.TravelDetailPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 import com.github.mytravelsapp.presentation.view.components.DatePickerSelectionListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
@@ -27,12 +32,14 @@ import butterknife.ButterKnife;
  *
  * @author fjtorres
  */
-public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, TravelDetailPresenter> implements TravelDetailsView {
+public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsView, TravelDetailPresenter> implements TravelDetailsView {
 
     private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
 
     @Inject
     TravelDetailPresenter presenter;
+
+    private TravelDetailsListener travelDetailsListener;
 
     private long travelId;
 
@@ -67,13 +74,27 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof TravelDetailsListener) {
+            this.travelDetailsListener = (TravelDetailsListener) context;
+        }
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_details, container, false);
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
-        btn_start_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_start_date, "dd/MM/yyyy"));
-        btn_finish_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_finish_date, "dd/MM/yyyy"));
+        btn_start_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_start_date, getString(R.string.conf_date_format)));
+        btn_finish_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_finish_date, getString(R.string.conf_date_format)));
 
         return fragmentView;
     }
@@ -90,10 +111,47 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
         initialize();
     }
 
+    /**
+     * Load fragment menu.
+     *
+     * @param menu     Fragment menu.
+     * @param inflater Menu inflater.
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_travel_details, menu);
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.action_save_travel:
+                saveAction();
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
+    }
+
     private void initialize() {
-        this.presenter.setView(this);
+        getComponent(TravelComponent.class).inject(this);
         this.travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
+        getPresenter().setView(this);
         getPresenter().loadModel(this.travelId);
+    }
+
+    private void saveAction() {
+        getPresenter().save();
     }
 
     @Override
@@ -106,7 +164,7 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
         if (model != null) {
             txt_name.setText(model.getName());
             txt_destination.setText(model.getDestination());
-            final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            final SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.conf_date_format));
             if (model.getStartDate() != null) {
                 txt_start_date.setText(sdf.format(model.getStartDate()));
             }
@@ -118,5 +176,71 @@ public class TravelDetailsFragment extends AbstractFragment<TravelDetailsView, T
                 getActivity().setTitle(R.string.activity_travel_new_title);
             }
         }
+    }
+
+    @Override
+    public void renderTravelPlaces(final TravelModel model) {
+        if (travelDetailsListener != null) {
+            travelDetailsListener.afterSaveTravel(model);
+        }
+    }
+
+    @Override
+    public TravelModel getCurrentModel() {
+        final TravelModel model = new TravelModel(travelId);
+        final SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.conf_date_format));
+        try {
+            model.setFinishDate(sdf.parse(txt_finish_date.getText().toString()));
+            model.setStartDate(sdf.parse(txt_start_date.getText().toString()));
+        } catch (final ParseException e) {
+            e.printStackTrace();
+            // FIXME Invalid date error???
+        }
+        model.setName(txt_name.getText().toString());
+        model.setDestination(txt_destination.getText().toString());
+        return model;
+    }
+
+    @Override
+    public boolean validate() {
+        boolean result = true;
+
+        View firstError = null;
+
+        if (!validateRequiredField(txt_name)) {
+            result = false;
+            firstError = txt_name;
+        }
+
+        if (!validateRequiredField(txt_destination)) {
+            result = false;
+            if (firstError == null) {
+                firstError = txt_destination;
+            }
+        }
+
+        if (!validateRequiredField(txt_start_date) && !validateDateFormat(txt_start_date)) {
+            result = false;
+            if (firstError == null) {
+                firstError = txt_start_date;
+            }
+        }
+
+        if (!validateRequiredField(txt_finish_date) && !validateDateFormat(txt_finish_date)) {
+            result = false;
+            if (firstError == null) {
+                firstError = txt_finish_date;
+            }
+        }
+
+        if (firstError != null) {
+            firstError.requestFocus();
+        }
+
+        return result;
+    }
+
+    public interface TravelDetailsListener {
+        void afterSaveTravel(TravelModel model);
     }
 }

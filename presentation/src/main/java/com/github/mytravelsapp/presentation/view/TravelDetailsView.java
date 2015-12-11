@@ -10,9 +10,30 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 public interface TravelDetailsView extends View {
 
     /**
-     * Render specific model in the view.
+     * Render specific travel in the view.
      *
-     * @param model Model to render.
+     * @param model Travel to render.
      */
     void renderModel(TravelModel model);
+
+    /**
+     * Return current travel fields in model.
+     *
+     * @return Model with current values.
+     */
+    TravelModel getCurrentModel();
+
+    /**
+     * Validate current model values.
+     *
+     * @return true if all values are correct otherwise false.
+     */
+    boolean validate();
+
+    /**
+     * Render associated travel places in the view
+     *
+     * @param model Travel to render.
+     */
+    void renderTravelPlaces(TravelModel model);
 }

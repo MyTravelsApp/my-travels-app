@@ -9,7 +9,7 @@ import com.github.mytravelsapp.presentation.presenter.Presenter;
 import com.github.mytravelsapp.presentation.view.View;
 
 /**
- * Base {@link android.app.Fragment} class for all activities in this application.
+ * Base {@link android.support.v4.app.Fragment} class for all fragments in this application.
  *
  * @author fjtorres
  */
@@ -35,19 +35,25 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
     @Override
     public void onResume() {
         super.onResume();
-        getPresenter().resume();
+        if (getPresenter() != null) {
+            getPresenter().resume();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getPresenter().destroy();
+        if (getPresenter() != null) {
+            getPresenter().destroy();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getPresenter().pause();
+        if (getPresenter() != null) {
+            getPresenter().pause();
+        }
     }
 
     protected <C> C getComponent(Class<C> componentType) {

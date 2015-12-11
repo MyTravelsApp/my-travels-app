@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
@@ -19,7 +18,7 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
  *
  * @author fjtorres
  */
-public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent> {
+public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent>, TravelDetailsFragment.TravelDetailsListener {
 
     private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
     private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
@@ -83,18 +82,6 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
     }
 
     /**
-     * Load activity menu.
-     *
-     * @param menu Activity menu.
-     * @return true if activity has menu otherwise false.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_travel_details, menu);
-        return true;
-    }
-
-    /**
      * Control menu item selection.
      *
      * @param item Selected menu.
@@ -108,9 +95,6 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
             case android.R.id.home:
                 navigator.navigateToTravelList(this);
                 result = true;
-                break;
-            case R.id.action_save_travel:
-                result = false;
                 break;
             default:
                 result = super.onOptionsItemSelected(item);
@@ -132,5 +116,10 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
     @Override
     public TravelComponent getComponent() {
         return component;
+    }
+
+    @Override
+    public void afterSaveTravel(final TravelModel model) {
+        navigator.navigateToTravelPlaces(this); // FIXME Parameter with travel
     }
 }

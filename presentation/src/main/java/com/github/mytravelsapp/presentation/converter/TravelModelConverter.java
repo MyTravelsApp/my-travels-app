@@ -42,4 +42,30 @@ public class TravelModelConverter {
         }
         return resultList;
     }
+
+    public TravelDto convertToDto(TravelModel source) {
+        if (source == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        final TravelDto target = new TravelDto();
+        target.setDestination(source.getDestination());
+        target.setFinishDate(source.getFinishDate());
+        target.setId(source.getId());
+        target.setName(source.getName());
+        target.setStartDate(source.getStartDate());
+        return target;
+    }
+
+    public List<TravelDto> convertToDto(List<TravelModel> sourceList) {
+        List<TravelDto> resultList;
+        if (sourceList == null || sourceList.isEmpty()) {
+            resultList = Collections.emptyList();
+        } else {
+            resultList = new ArrayList<>();
+            for (final TravelModel source : sourceList) {
+                resultList.add(convertToDto(source));
+            }
+        }
+        return resultList;
+    }
 }

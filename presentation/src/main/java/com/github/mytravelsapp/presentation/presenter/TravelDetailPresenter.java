@@ -41,4 +41,12 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
         }
         getView().renderModel(model);
     }
+
+    public void save() {
+        if (getView().validate()) {
+            final TravelModel model = getView().getCurrentModel();
+            travelService.save(converter.convertToDto(model));
+            getView().renderTravelPlaces(model);
+        }
+    }
 }

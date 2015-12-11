@@ -18,4 +18,7 @@
     <string name="text_start_date_short">From</string>
     <string name="text_finish_date">Finish date</string>
     <string name="text_finish_date_short">To</string>
+
+    <string name="error_required">This field is required.</string>
+    <string name="error_date_format"></string>
 </resources>
