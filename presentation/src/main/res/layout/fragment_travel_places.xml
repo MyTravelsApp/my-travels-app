@@ -11,7 +11,8 @@
         android:scrollbars="vertical" />
 
     <TextView
-        style="@style/AppTheme.TextViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Esto es una prueba" />
 
     <android.support.design.widget.FloatingActionButton
