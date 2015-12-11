@@ -1,5 +1,9 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.service.TravelService;
+import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
+import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 
@@ -14,45 +18,24 @@ import javax.inject.Inject;
  *
  * @author fjtorres
  */
+@PerActivity
 public class TravelListPresenter extends AbstractPresenter<TravelListView> {
 
-    private static final List<TravelModel> STATIC_DATA = new ArrayList<>();
-
-    static {
-        STATIC_DATA.add(new TravelModel(1L, "Viaje a Roma", "Roma", new Date(), new Date()));
-        STATIC_DATA.add(new TravelModel(2L, "Viaje a Londres", "Londres"));
-        STATIC_DATA.add(new TravelModel(3L, "Viaje a Paris", "Paris"));
-        STATIC_DATA.add(new TravelModel(4L, "Viaje a Riviera maya", "Playa del carmen"));
-        STATIC_DATA.add(new TravelModel(5L, "Viaje a Mallorca", "Mallorca"));
-        STATIC_DATA.add(new TravelModel(6L, "Viaje a Lisboa", "Lisboa"));
-        STATIC_DATA.add(new TravelModel(7L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(8L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(9L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(10L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(11L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(12L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(13L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(14L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(15L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(16L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(17L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(18L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(19L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(20L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(21L, "Puente de XX", "XX"));
-        STATIC_DATA.add(new TravelModel(22L, "Puente de XX", "XX"));
-    }
+    private final TravelService travelService;
+    private final TravelModelConverter converter;
 
     @Inject
-    public TravelListPresenter() {
-
+    public TravelListPresenter(final TravelService pTravelService, final TravelModelConverter pConverter) {
+        this.travelService = pTravelService;
+        this.converter = pConverter;
     }
 
     /**
      * Load travels and render in view.
      */
     public void loadTravels() {
-        getView().renderList(STATIC_DATA);
+        final List<TravelDto> result = travelService.find(null);
+        getView().renderList(converter.convert(result));
     }
 
     /**

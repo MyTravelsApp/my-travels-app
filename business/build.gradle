@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    def businessDependencies = rootProject.ext.businessDependencies
+    def businessTestDependencies = rootProject.ext.businessTestDependencies
+
+    provided businessDependencies.daggerCompiler
+    provided businessDependencies.javaxAnnotation
+
+    compile businessDependencies.dagger
+
+    testCompile businessTestDependencies.junit
+    testCompile businessTestDependencies.mockito
+}

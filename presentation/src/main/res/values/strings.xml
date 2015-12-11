@@ -3,7 +3,7 @@
 
     <string name="activity_travel_list_title">My travels</string>
 
-    <string name="activity_travel_new_title">New travel</string>
+    <string name="activity_travel_new_title">New travelEntity</string>
 
     <string name="activity_travel_details_title">Travel details</string>
 

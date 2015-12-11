@@ -13,7 +13,8 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, TravelModule.class})
-public interface TravelComponent {
+public interface TravelComponent extends ActivityComponent {
     void inject(TravelListFragment fragment);
+
     void inject(TravelDetailsFragment fragment);
 }

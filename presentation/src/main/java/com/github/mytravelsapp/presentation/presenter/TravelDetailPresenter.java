@@ -1,5 +1,8 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.service.TravelService;
+import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
+import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 
@@ -12,11 +15,16 @@ import javax.inject.Inject;
  *
  * @author fjtorres
  */
+@PerActivity
 public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> {
 
-    @Inject
-    public TravelDetailPresenter() {
+    private final TravelService travelService;
+    private final TravelModelConverter converter;
 
+    @Inject
+    public TravelDetailPresenter(final TravelService pTravelService, final TravelModelConverter pConverter) {
+        this.travelService = pTravelService;
+        this.converter = pConverter;
     }
 
     /**
@@ -29,14 +37,7 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
         if (travelId == TravelModel.DEFAULT_ID) {
             model = new TravelModel(TravelModel.DEFAULT_ID);
         } else {
-            model = new TravelModel(1L);
-            model.setName("Tres días a Roma");
-            model.setDestination("Roma");
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(2015, 10, 27);
-            model.setStartDate(calendar.getTime());
-            calendar.set(2015, 11, 2);
-            model.setFinishDate(calendar.getTime());
+            model = converter.convert(travelService.findById(travelId));
         }
         getView().renderModel(model);
     }
