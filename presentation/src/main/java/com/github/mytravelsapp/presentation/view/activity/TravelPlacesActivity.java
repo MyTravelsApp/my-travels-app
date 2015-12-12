@@ -26,6 +26,10 @@ public class TravelPlacesActivity extends AbstractActivity implements TravelPlac
         // Set the support toolbar to show in activity
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
+        // Active home button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         //Para activar el dagger, de momento no lo tenemos activo.
         //initializeInjector();
     }

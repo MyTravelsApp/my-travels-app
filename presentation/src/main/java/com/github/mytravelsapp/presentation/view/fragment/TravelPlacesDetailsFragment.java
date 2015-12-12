@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
@@ -39,6 +40,14 @@ public class TravelPlacesDetailsFragment extends AbstractFragment<TravelPlacesDe
 
     private long travelPlacesId;
 
+    @Bind(R.id.txt_name)
+    EditText txt_name;
+
+    @Bind(R.id.txt_observation)
+    EditText txt_observation;
+
+    @Bind(R.id.spinner_category)
+    Spinner spinner_category;
 
     public static TravelPlacesDetailsFragment newInstance(final long travelPlacesId) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
@@ -56,8 +65,10 @@ public class TravelPlacesDetailsFragment extends AbstractFragment<TravelPlacesDe
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_places_details, container, false);
         ButterKnife.bind(this, fragmentView);
+        // Setup UI
         return fragmentView;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -85,12 +96,7 @@ public class TravelPlacesDetailsFragment extends AbstractFragment<TravelPlacesDe
 
     @Override
     public void renderModel(final TravelPlacesModel model) {
-        if (model != null) {
 
-            if (travelPlacesId == TravelPlacesModel.DEFAULT_ID) {
-                getActivity().setTitle(R.string.activity_travel_places_title);
-            }
-        }
     }
 
 }

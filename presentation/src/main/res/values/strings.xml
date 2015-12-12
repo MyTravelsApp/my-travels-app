@@ -18,7 +18,15 @@
     <string name="text_start_date_short">From</string>
     <string name="text_finish_date">Finish date</string>
     <string name="text_finish_date_short">To</string>
+    <string name="text_observation">Observations</string>
+    <string name="text_category">Category</string>
+    <string name="prompt_category">Choose a category</string>
 
     <string name="error_required">This field is required.</string>
     <string name="error_date_format"></string>
+
+    <string-array name="myarray">
+        <item>value1</item>
+        <item>value2</item>
+    </string-array>
 </resources>

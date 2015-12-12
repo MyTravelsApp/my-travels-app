@@ -42,6 +42,8 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity{
         //initializeInjector();
     }
 
+
+
     /**
      * Method necessary for navigation of activity.
      */
