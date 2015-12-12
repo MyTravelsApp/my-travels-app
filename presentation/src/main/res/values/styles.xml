@@ -10,7 +10,9 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/textColorSecundary</item>
+        <!-- Spinner -->
+        <item name="android:spinnerItemStyle">@style/AppTheme.Spinner.Item</item>
+        <item name="android:spinnerDropDownItemStyle">@style/AppTheme.Spinner.DropDownItem</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -55,6 +57,14 @@
     <style name="AppTheme.FullEditText" parent="AppTheme.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.Spinner.Item" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/textColorSecundary</item>
+    </style>
+
+    <style name="AppTheme.Spinner.DropDownItem" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/textColorSecundary</item>
     </style>
 
 </resources>
