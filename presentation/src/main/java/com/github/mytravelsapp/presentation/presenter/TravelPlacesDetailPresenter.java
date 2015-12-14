@@ -1,5 +1,9 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.service.TravelPlacesService;
+import com.github.mytravelsapp.business.service.TravelService;
+import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
+import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
@@ -13,13 +17,17 @@ import javax.inject.Inject;
 /**
  * Presenter that controls communication between views and models associated with travel places detail.
  *
- * @author fjtorres
+ * @author stefani
  */
 public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesDetailsView> {
 
-    @Inject
-    public TravelPlacesDetailPresenter() {
+    private final TravelPlacesService travelPlacesService;
+    private final TravelPlacesModelConverter converter;
 
+    @Inject
+    public TravelPlacesDetailPresenter(TravelPlacesService travelPlacesService, TravelPlacesModelConverter converter) {
+        this.travelPlacesService = travelPlacesService;
+        this.converter = converter;
     }
 
     /**
@@ -33,8 +41,18 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
             model = new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID);
         } else {
             model = new TravelPlacesModel(1L);
-            model.setPlace("Plaza españa");
+            model.setName("Plaza españa");
         }
         getView().renderModel(model);
+    }
+
+    /**
+     * Save model for specific identifier.
+     */
+    public void save() {
+        if (getView().validate()) {
+            final TravelPlacesModel model = getView().getCurrentModel();
+            travelPlacesService.save(converter.convertToDto(model));
+        }
     }
 }

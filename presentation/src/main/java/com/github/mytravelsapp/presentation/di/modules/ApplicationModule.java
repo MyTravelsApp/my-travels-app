@@ -2,8 +2,10 @@ package com.github.mytravelsapp.presentation.di.modules;
 
 import android.content.Context;
 
+import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.persistence.converter.TravelConverter;
+import com.github.mytravelsapp.persistence.repository.DatabaseTravelPlacesRepository;
 import com.github.mytravelsapp.persistence.repository.DatabaseTravelRepository;
 import com.github.mytravelsapp.presentation.AndroidApplication;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
@@ -40,5 +42,11 @@ public class ApplicationModule {
     @Singleton
     TravelRepository provideTravelRepository(final DatabaseTravelRepository travelRepository) {
         return travelRepository;
+    }
+
+    @Provides
+    @Singleton
+    TravelPlacesRepository provideTravelPlacesRepository(final DatabaseTravelPlacesRepository travelPlacesRepository) {
+        return travelPlacesRepository;
     }
 }

@@ -2,6 +2,7 @@ package com.github.mytravelsapp.presentation.di.components;
 
 import android.content.Context;
 
+import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.presentation.di.modules.ApplicationModule;
 import com.github.mytravelsapp.presentation.view.activity.AbstractActivity;
@@ -20,4 +21,5 @@ public interface ApplicationComponent {
 
     Context context();
     TravelRepository travelRepository();
+    TravelPlacesRepository travelPlacesRepository();
 }
