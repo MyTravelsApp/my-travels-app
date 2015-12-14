@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.service.TravelService;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
@@ -33,11 +34,15 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
      * @param travelId Travel identifier.
      */
     public void loadModel(final long travelId) {
-        TravelModel model;
+        TravelModel model = null;
         if (travelId == TravelModel.DEFAULT_ID) {
             model = new TravelModel(TravelModel.DEFAULT_ID);
         } else {
-            model = converter.convert(travelService.findById(travelId));
+            try {
+                model = converter.convert(travelService.findById(travelId));
+            } catch (PersistenceException e) {
+                e.printStackTrace();
+            }
         }
         getView().renderModel(model);
     }
@@ -45,7 +50,11 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
     public void save() {
         if (getView().validate()) {
             final TravelModel model = getView().getCurrentModel();
-            travelService.save(converter.convertToDto(model));
+            try {
+                travelService.save(converter.convertToDto(model));
+            } catch (PersistenceException e) {
+                e.printStackTrace();
+            }
             getView().renderTravelPlaces(model);
         }
     }

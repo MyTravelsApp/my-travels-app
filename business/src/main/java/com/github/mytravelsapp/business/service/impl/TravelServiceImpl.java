@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.business.service.impl;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.business.service.TravelService;
 
@@ -21,17 +22,17 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public void save(final TravelDto dto) {
+    public void save(final TravelDto dto) throws PersistenceException {
         travelRepository.save(dto);
     }
 
     @Override
-    public TravelDto findById(final long identifier) {
+    public TravelDto findById(final long identifier) throws PersistenceException {
         return travelRepository.findById(identifier);
     }
 
     @Override
-    public List<TravelDto> find(final String textFilter) {
+    public List<TravelDto> find(final String textFilter) throws PersistenceException {
         return travelRepository.find(textFilter);
     }
 }

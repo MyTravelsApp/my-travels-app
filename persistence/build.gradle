@@ -33,12 +33,13 @@ android {
 }
 
 dependencies {
-    def persistenteDependencies = rootProject.ext.persistenceDependencies
+    def persistenceDependencies = rootProject.ext.persistenceDependencies
     def persistenceTestDependencies = rootProject.ext.persistenceTestDependencies
 
     compile project(':business')
 
-    apt persistenteDependencies.daggerCompiler
-    compile persistenteDependencies.dagger
-    provided persistenteDependencies.javaxAnnotation
+    apt persistenceDependencies.daggerCompiler
+    compile persistenceDependencies.dagger
+    provided persistenceDependencies.javaxAnnotation
+    compile persistenceDependencies.ormLite
 }

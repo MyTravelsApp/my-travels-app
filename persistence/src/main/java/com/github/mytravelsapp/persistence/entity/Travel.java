@@ -1,5 +1,8 @@
 package com.github.mytravelsapp.persistence.entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,16 +11,28 @@ import java.util.Date;
  *
  * @author fjtorres
  */
+@DatabaseTable(tableName = "TRAVELS")
 public class Travel implements Serializable {
 
+    public static final String FIELD_ID = "_ID";
+    public static final String FIELD_NAME = "NAME";
+    public static final String FIELD_DESTINATION = "DESTINATION";
+    public static final String FIELD_START_DATE = "START_DATE";
+    public static final String FIELD_FINISH_DATE = "FINISH_DATE";
+
+    @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private long id;
 
+    @DatabaseField(columnName = FIELD_NAME)
     private String name;
 
+    @DatabaseField(columnName = FIELD_DESTINATION)
     private String destination;
 
+    @DatabaseField(columnName = FIELD_START_DATE)
     private Date startDate;
 
+    @DatabaseField(columnName = FIELD_FINISH_DATE)
     private Date finishDate;
 
     public Travel() {

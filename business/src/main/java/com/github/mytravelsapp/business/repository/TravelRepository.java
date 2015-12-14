@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.business.repository;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.exception.PersistenceException;
 
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public interface TravelRepository {
 
-    void save(TravelDto dto);
+    void save(TravelDto dto) throws PersistenceException;
 
-    TravelDto findById(long identifier);
+    TravelDto findById(long identifier) throws PersistenceException;
 
-    List<TravelDto> find(String textFilter);
+    List<TravelDto> find(String textFilter) throws PersistenceException;
 }

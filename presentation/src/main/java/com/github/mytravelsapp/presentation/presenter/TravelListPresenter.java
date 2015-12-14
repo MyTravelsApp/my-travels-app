@@ -1,14 +1,14 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.service.TravelService;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +34,12 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
      * Load travels and render in view.
      */
     public void loadTravels() {
-        final List<TravelDto> result = travelService.find(null);
+        List<TravelDto> result = Collections.emptyList();
+        try {
+            result = travelService.find(null);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
         getView().renderList(converter.convert(result));
     }
 
