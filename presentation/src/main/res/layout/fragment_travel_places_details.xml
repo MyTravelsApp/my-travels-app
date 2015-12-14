@@ -52,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_category"
-            android:prompt="@string/prompt_category"
-            android:entries="@array/myarray"/>
+            android:prompt="@string/prompt_category" />
 
     </android.support.design.widget.TextInputLayout>
 

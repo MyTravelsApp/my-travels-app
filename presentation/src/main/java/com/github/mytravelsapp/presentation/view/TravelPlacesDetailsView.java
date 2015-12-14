@@ -16,4 +16,19 @@ public interface TravelPlacesDetailsView extends View {
      * @param model Model to render.
      */
     void renderModel(TravelPlacesModel model);
+
+    /**
+     * Validate current model values.
+     *
+     * @return true if all values are correct otherwise false.
+     */
+    boolean validate();
+
+    /**
+     * Return current travel places fields in model.
+     *
+     * @return Model with current values.
+     */
+    TravelPlacesModel getCurrentModel();
+
 }

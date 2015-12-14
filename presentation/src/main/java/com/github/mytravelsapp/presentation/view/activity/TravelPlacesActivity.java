@@ -7,15 +7,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.di.HasComponent;
+import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 
 /**
  * Created by stefani on 10/12/2015.
  */
-public class TravelPlacesActivity extends AbstractActivity implements TravelPlacesFragment.TravelPlacesListener{
+public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>, TravelPlacesFragment.TravelPlacesListener{
+
+    private TravelPlacesComponent component;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,7 @@ public class TravelPlacesActivity extends AbstractActivity implements TravelPlac
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //Para activar el dagger, de momento no lo tenemos activo.
-        //initializeInjector();
+        initializeInjector();
     }
 
     /**
@@ -61,6 +64,21 @@ public class TravelPlacesActivity extends AbstractActivity implements TravelPlac
     @Override
     public void onAddTravelPlacesClicked() {
         navigator.navigateToTravelPlacesDetail(this, new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID));
+    }
+
+    @Override
+    public TravelPlacesComponent getComponent() {
+        return component;
+    }
+
+    /**
+     * Initialize DI components for this activity.
+     */
+    private void initializeInjector() {
+        this.component = DaggerTravelPlacesComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
     }
 }
 

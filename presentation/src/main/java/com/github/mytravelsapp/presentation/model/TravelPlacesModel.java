@@ -9,7 +9,7 @@ public class TravelPlacesModel {
 
     private final long id;
 
-    private String place;
+    private String name;
 
     public TravelPlacesModel(final long pId) {
 
@@ -17,7 +17,7 @@ public class TravelPlacesModel {
     }
 
     public TravelPlacesModel(String place, long id) {
-        this.place = place;
+        this.name = place;
         this.id = id;
     }
 
@@ -25,12 +25,12 @@ public class TravelPlacesModel {
         return id;
     }
 
-    public String getPlace() {
-        return place;
+    public String getName() {
+        return name;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

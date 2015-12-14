@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.di.HasComponent;
+import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesDetailsFragment;
 
 /**
  * Created by stefani on 11/12/2015.
  */
-public class TravelPlacesDetailsActivity  extends AbstractActivity{
+public class TravelPlacesDetailsActivity  extends AbstractActivity implements HasComponent<TravelPlacesComponent>, TravelPlacesDetailsFragment.TravelPlacesDetailsListener{
+
+    private TravelPlacesComponent component;
 
     private static final String INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID = "INTENT_PARAM_TRAVEL_PLACES_ID";
 
@@ -39,10 +42,13 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity{
             //travelPlacesId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
         }
 
-        //initializeInjector();
+        initializeInjector();
     }
 
-
+    @Override
+    public TravelPlacesComponent getComponent() {
+        return component;
+    }
 
     /**
      * Method necessary for navigation of activity.
@@ -62,5 +68,15 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity{
         final Intent callingIntent = new Intent(context, TravelPlacesDetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID, travelPlacesId);
         return callingIntent;
+    }
+
+    /**
+     * Initialize DI components for this activity.
+     */
+    private void initializeInjector() {
+        this.component = DaggerTravelPlacesComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
     }
 }
