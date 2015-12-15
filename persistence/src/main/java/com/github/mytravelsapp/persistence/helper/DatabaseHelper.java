@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.mytravelsapp.persistence.entity.Travel;
+import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -26,6 +27,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, Travel.class);
+            TableUtils.createTable(connectionSource, TravelPlaces.class);
         } catch (final SQLException e) {
            throw new RuntimeException(e);// FIXME Exception!!!!
         }

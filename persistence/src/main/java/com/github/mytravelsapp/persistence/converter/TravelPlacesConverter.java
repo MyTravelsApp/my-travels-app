@@ -2,6 +2,7 @@ package com.github.mytravelsapp.persistence.converter;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
+import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 
 import java.util.ArrayList;
@@ -24,7 +25,11 @@ public class TravelPlacesConverter {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
         final TravelPlaces target = new TravelPlaces();
+        target.setId(source.getId());
         target.setName(source.getName());
+        target.setObservations(source.getObservations());
+        target.setCategory(source.getCategory());
+        target.setTravel(new Travel(source.getTravelId()));
         return target;
     }
 
@@ -47,6 +52,9 @@ public class TravelPlacesConverter {
         }
         final TravelPlacesDto target = new TravelPlacesDto();
         target.setName(source.getName());
+        target.setObservations(source.getObservations());
+        target.setCategory(source.getCategory());
+        target.setTravelId(source.getTravel().getId());
         target.setId(source.getId());
         return target;
     }

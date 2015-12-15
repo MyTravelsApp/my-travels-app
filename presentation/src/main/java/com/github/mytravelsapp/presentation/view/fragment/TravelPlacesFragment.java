@@ -10,12 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,9 +31,17 @@ import butterknife.ButterKnife;
  */
 public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
 
+    //Travel associated of places
+    private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
+
+    private long travelId;
+
+    @Inject
     TravelPlacesPresenter presenter;
 
     private TravelPlacesListener travelPlacesListener;
+
+    private TravelPlacesAdapter adapter;
 
     @Bind(R.id.rv_travels_places)
     RecyclerView rv_travels_places;
@@ -35,28 +49,54 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Bind(R.id.btn_add_travel_places)
     FloatingActionButton btn_add_travel_places;
 
-    private void initialize() {
-        presenter = new TravelPlacesPresenter();
-        this.presenter.setView(this);
+
+
+    public static TravelPlacesFragment newInstance(final long travelId) {
+        final TravelPlacesFragment fragment = new TravelPlacesFragment();
+        final Bundle arguments = new Bundle();
+        arguments.putLong(ARGUMENT_TRAVEL_ID, travelId);
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
+    /**
+     * Se ejecuta cada vez que se renderiza la vista
+     */
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View fragmentView = inflater.inflate(R.layout.fragment_travel_places, container, true);
+        final View fragmentView = inflater.inflate(R.layout.fragment_travel_places, container, false);
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
+        this.adapter.setOnItemClickListener(onItemClickListener);
+        this.rv_travels_places.setAdapter(this.adapter);
 
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
 
         return fragmentView;
     }
 
+    /**
+     * Se ejecuta cuando se ha creado la actividad
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+        loadTravelsPlaces();
+    }
+
+    private void initialize() {
+        getComponent(TravelPlacesComponent.class).inject(this);
+        travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
+        this.presenter.setView(this);
+    }
+
+    private void loadTravelsPlaces() {
+        getPresenter().loadTravelsPlaces();
     }
 
     @Override
@@ -73,9 +113,10 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Override
     public void newTravelPlaces() {
         if (travelPlacesListener != null) {
-            travelPlacesListener.onAddTravelPlacesClicked();
+            travelPlacesListener.onAddTravelPlacesClicked(new TravelModel(travelId));
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -83,6 +124,11 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         if (context instanceof TravelPlacesListener) {
             this.travelPlacesListener = (TravelPlacesListener) context;
         }
+    }
+
+    @Override
+    public void renderList(final List<TravelPlacesModel> list) {
+        this.adapter.setList(list);
     }
 
     @Override
@@ -95,12 +141,12 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     public interface TravelPlacesListener {
         void onTravelPlacesClicked(TravelPlacesModel model);
 
-        void onAddTravelPlacesClicked();
+        void onAddTravelPlacesClicked(TravelModel model);
     }
 
     private final TravelPlacesAdapter.OnItemClickListener onItemClickListener = new TravelPlacesAdapter.OnItemClickListener() {
         @Override
-        public void onTravelItemClicked(final TravelPlacesModel model) {
+        public void onTravelPlacesItemClicked(final TravelPlacesModel model) {
 
             if (getPresenter() != null && model != null) {
                 getPresenter().viewDetail(model);
@@ -116,4 +162,5 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
             }
         }
     };
+
 }

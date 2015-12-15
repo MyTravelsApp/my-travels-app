@@ -10,11 +10,6 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Esto es una prueba" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_add_travel_places"
         android:layout_width="wrap_content"

@@ -2,13 +2,18 @@ package com.github.mytravelsapp.persistence.repository;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
+import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.persistence.converter.TravelConverter;
 import com.github.mytravelsapp.persistence.converter.TravelPlacesConverter;
 import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.entity.TravelPlaces;
+import com.github.mytravelsapp.persistence.helper.DatabaseHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,51 +29,54 @@ import javax.inject.Singleton;
 @Named("databaseTravelPlacesRepository")
 public class DatabaseTravelPlacesRepository implements TravelPlacesRepository {
 
-    private static final List<TravelPlaces> STATIC_DATA = new ArrayList<>();
-
-    static {
-        STATIC_DATA.add(new TravelPlaces(1L, "Foro romano"));
-        STATIC_DATA.add(new TravelPlaces(2L, "Panteon"));
-        STATIC_DATA.add(new TravelPlaces(3L, "Basilica san pedro"));
-        STATIC_DATA.add(new TravelPlaces(4L, "Coliseo"));
-        STATIC_DATA.add(new TravelPlaces(5L, "Termas de Caracalla"));
-        STATIC_DATA.add(new TravelPlaces(6L, "Catacumbas San Calixto"));
-        STATIC_DATA.add(new TravelPlaces(7L, "Basilica santa maria la mayor"));
-        STATIC_DATA.add(new TravelPlaces(8L, "Museos Capitolinos"));
-        STATIC_DATA.add(new TravelPlaces(9L, "Monumento Victor Manuel"));
-        STATIC_DATA.add(new TravelPlaces(10L, "Fontana di trevi"));
-    }
-
     private final TravelPlacesConverter converter;
+    private final DatabaseHelper dbHelper;
 
     @Inject
-    public DatabaseTravelPlacesRepository(final TravelPlacesConverter pConverter) {
-        this.converter = pConverter;
+    public DatabaseTravelPlacesRepository(TravelPlacesConverter converter, DatabaseHelper dbHelper) {
+        this.converter = converter;
+        this.dbHelper = dbHelper;
     }
 
     @Override
-    public void save(final TravelPlacesDto dto) {
-        // FIXME Development!!
-        if (dto.getId() == -1) {
-            dto.setId(STATIC_DATA.size());
-            STATIC_DATA.add(converter.convert(dto));
+    public void save(final TravelPlacesDto dto) throws PersistenceException {
+        TravelPlaces entity = converter.convert(dto);
+        try {
+            if (entity.getId() == -1) {
+                getDao().create(entity);
+            } else {
+                getDao().update(entity);
+            }
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error when try to save travel places", e);
         }
     }
 
     @Override
-    public TravelPlacesDto findById(final long identifier) {
-        // FIXME Development!!
-        TravelPlacesDto result = null;
-        if (identifier <= 0 && identifier > STATIC_DATA.size()) {
-            result = converter.convertToDto(STATIC_DATA.get(new Long(identifier).intValue()));
+    public TravelPlacesDto findById(final long identifier) throws PersistenceException {
+        try {
+            return converter.convertToDto(getDao().queryForId(identifier));
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error find travel places by identifier", e);
         }
-
-        return result;
     }
 
     @Override
-    public List<TravelPlacesDto> find(final String textFilter) {
-        // FIXME Development!!
-        return converter.convertToDto(STATIC_DATA);
+    public List<TravelPlacesDto> find(final String textFilter) throws PersistenceException {
+        // FIXME Add filters
+        try {
+            final QueryBuilder<TravelPlaces, Long> builder = getDao().queryBuilder();
+            if (textFilter != null && textFilter.trim().length() > 0) {
+                builder.where().like(TravelPlaces.FIELD_NAME, textFilter).or().like(TravelPlaces.FIELD_CATEGORY, textFilter);
+            }
+
+            return converter.convertToDto(getDao().query(builder.prepare()));
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error find travels", e);
+        }
+    }
+
+    private Dao<TravelPlaces, Long> getDao() throws SQLException {
+        return dbHelper.getDao(TravelPlaces.class);
     }
 }

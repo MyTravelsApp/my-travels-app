@@ -10,7 +10,9 @@ import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
+import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 
 /**
@@ -19,6 +21,10 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>, TravelPlacesFragment.TravelPlacesListener{
 
     private TravelPlacesComponent component;
+    private long travelId;
+
+    private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
+    private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,14 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Load travel identifier from parameters or saved state.
+        if (savedInstanceState == null) {
+            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
+            addFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelId));
+        } else {
+            travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
+        }
+
         //Para activar el dagger, de momento no lo tenemos activo.
         initializeInjector();
     }
@@ -40,9 +54,13 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
     /**
      * Method necessary for navigation of activity.
      */
-    public static Intent getCallingIntent(final Context context) {
-        return new Intent(context, TravelPlacesActivity.class);
+    public static Intent getCallingIntent(final Context context, final long travelId) {
+        final Intent callingIntent = new Intent(context, TravelPlacesActivity.class);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, travelId);
+        return callingIntent;
     }
+
+
 
     /**
      * Load activity menu.
@@ -62,8 +80,8 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
     }
 
     @Override
-    public void onAddTravelPlacesClicked() {
-        navigator.navigateToTravelPlacesDetail(this, new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID));
+    public void onAddTravelPlacesClicked(final TravelModel model) {
+        navigator.navigateToTravelPlacesDetail(this, new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID, model.getId()));
     }
 
     @Override

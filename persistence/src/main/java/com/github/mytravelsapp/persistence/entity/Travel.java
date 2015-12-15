@@ -39,6 +39,10 @@ public class Travel implements Serializable {
 
     }
 
+    public Travel(long id) {
+        this.id = id;
+    }
+
     public Travel(final long pId, final String pName, final String pDestination, final Date pStartDate, final Date pFinishDate) {
         this.id = pId;
         this.destination = pDestination;

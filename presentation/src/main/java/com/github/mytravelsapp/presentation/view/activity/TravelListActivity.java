@@ -95,7 +95,7 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
 
     @Override
     public void onTravelClicked(final TravelModel model) {
-        navigator.navigateToTravelPlaces(this);
+        navigator.navigateToTravelPlaces(this, model);
     }
 
     @Override

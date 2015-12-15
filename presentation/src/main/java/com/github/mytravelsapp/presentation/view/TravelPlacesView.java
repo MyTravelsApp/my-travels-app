@@ -5,11 +5,20 @@ import android.view.*;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 
+import java.util.List;
+
 /**
  * Definition of the travel list view methods.
  * Created by stefani on 10/12/2015.
  */
 public interface TravelPlacesView extends View {
+
+    /**
+     * Render travels in the view.
+     *
+     * @param list Travels to render.
+     */
+    void renderList(List<TravelPlacesModel> list);
 
     /**
      * Navigate to new travel places view.

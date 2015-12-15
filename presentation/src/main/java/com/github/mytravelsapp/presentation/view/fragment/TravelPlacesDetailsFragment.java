@@ -2,6 +2,9 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -42,12 +45,15 @@ import butterknife.ButterKnife;
  */
 public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlacesDetailsView, TravelPlacesDetailPresenter> implements TravelPlacesDetailsView {
 
+    private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
     private static final String ARGUMENT_TRAVEL_PLACES_ID = "ARGUMENT_TRAVEL_PLACES_ID";
 
     @Inject
     TravelPlacesDetailPresenter presenter;
 
     private TravelPlacesDetailsListener travelPlacesDetailsListener;
+
+    private long travelId;
 
     private long travelPlacesId;
 
@@ -60,9 +66,10 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Bind(R.id.spinner_category)
     Spinner spinner_category;
 
-    public static TravelPlacesDetailsFragment newInstance(final long travelPlacesId) {
+    public static TravelPlacesDetailsFragment newInstance(final long travelPlacesId, final long travelId) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
         final Bundle arguments = new Bundle();
+        arguments.putLong(ARGUMENT_TRAVEL_ID, travelId);
         arguments.putLong(ARGUMENT_TRAVEL_PLACES_ID, travelPlacesId);
         fragment.setArguments(arguments);
         return fragment;
@@ -77,8 +84,45 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_places_details, container, false);
         ButterKnife.bind(this, fragmentView);
         addItemsSpinnerCategories();
+        setHasOptionsMenu(true);
         // Setup UI
         return fragmentView;
+    }
+
+    /**
+     * Load fragment menu.
+     *
+     * @param menu     Fragment menu.
+     * @param inflater Menu inflater.
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_travel_details, menu);
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.action_save_travel:
+                saveAction();
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
+    }
+
+    private void saveAction() {
+        getPresenter().save();
     }
 
     /**
@@ -111,6 +155,7 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     private void initialize() {
         getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
+        this.travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
         this.travelPlacesId = getArguments().getLong(ARGUMENT_TRAVEL_PLACES_ID);
         getPresenter().loadModel(this.travelPlacesId);
     }
@@ -144,8 +189,10 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     @Override
     public TravelPlacesModel getCurrentModel() {
-        final TravelPlacesModel model = new TravelPlacesModel(travelPlacesId);
+        final TravelPlacesModel model = new TravelPlacesModel(travelPlacesId,travelId);
         model.setName(txt_name.getText().toString());
+        model.setObservations(txt_observation.getText().toString());
+        model.setCategory(spinner_category.getSelectedItem().toString());
         return model;
     }
 

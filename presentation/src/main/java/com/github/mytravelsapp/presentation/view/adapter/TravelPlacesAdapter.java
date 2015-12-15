@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
@@ -38,12 +39,21 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
     @Override
     public void onBindViewHolder(TravelPlacesViewHolder holder, int position) {
-
+        final TravelPlacesModel model = list.get(position);
+        holder.lv_row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TravelPlacesAdapter.this.onItemClickListener != null) {
+                    TravelPlacesAdapter.this.onItemClickListener.onTravelPlacesItemClicked(model);
+                }
+            }
+        });
+        holder.txtTitle.setText(model.getName());
     }
 
     @Override
     public TravelPlacesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = layoutInflater.inflate(R.layout.row_travel, parent, false);
+        final View view = layoutInflater.inflate(R.layout.row_travel_places, parent, false);
         final TravelPlacesViewHolder holder = new TravelPlacesViewHolder(view);
         return holder;
     }
@@ -58,7 +68,10 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
     static class TravelPlacesViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.title)
+        @Bind(R.id.lv_row_places)
+        RelativeLayout lv_row;
+
+        @Bind(R.id.txt_title)
         TextView txtTitle;
 
         public TravelPlacesViewHolder(final View itemView) {
@@ -68,7 +81,7 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
     }
 
     public interface OnItemClickListener {
-        void onTravelItemClicked(TravelPlacesModel model);
+        void onTravelPlacesItemClicked(TravelPlacesModel model);
     }
 
 }

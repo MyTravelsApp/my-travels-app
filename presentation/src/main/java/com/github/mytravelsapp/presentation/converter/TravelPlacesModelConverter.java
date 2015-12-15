@@ -25,8 +25,10 @@ public class TravelPlacesModelConverter {
         if (source == null) {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
-        final TravelPlacesModel target = new TravelPlacesModel(source.getId());
+        final TravelPlacesModel target = new TravelPlacesModel(source.getId(),source.getTravelId());
         target.setName(source.getName());
+        target.setObservations(source.getObservations());
+        target.setCategory(source.getCategory());
         return target;
     }
 
@@ -50,6 +52,9 @@ public class TravelPlacesModelConverter {
         final TravelPlacesDto target = new TravelPlacesDto();
         target.setId(source.getId());
         target.setName(source.getName());
+        target.setObservations(source.getObservations());
+        target.setCategory(source.getCategory());
+        target.setTravelId(source.getTravelId());
         return target;
     }
 

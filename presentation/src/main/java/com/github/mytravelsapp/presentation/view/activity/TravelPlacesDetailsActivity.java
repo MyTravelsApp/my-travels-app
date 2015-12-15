@@ -9,6 +9,7 @@ import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
+import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesDetailsFragment;
 
@@ -20,8 +21,14 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
     private TravelPlacesComponent component;
 
     private static final String INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID = "INTENT_PARAM_TRAVEL_PLACES_ID";
+    private static final String STATE_PARAM_TRAVEL_PLACES_ID = "STATE_PARAM_TRAVEL_PLACES_ID";
+
+    private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
+    private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
 
     private long travelPlacesId;
+
+    private long travelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +44,11 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelPlacesId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID, TravelPlacesModel.DEFAULT_ID);
-            addFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesId));
+            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
+            addFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesId, this.travelId));
         } else {
-            //travelPlacesId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
+            travelPlacesId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_PLACES_ID);
+            travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
         }
 
         initializeInjector();
@@ -50,12 +59,7 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
         return component;
     }
 
-    /**
-     * Method necessary for navigation of activity.
-     */
-    public static Intent getCallingIntent(final Context context) {
-        return new Intent(context, TravelDetailsActivity.class);
-    }
+
 
     /**
      * Generate intent to open this activity.
@@ -64,9 +68,10 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
      * @param travelPlacesId Travel identifier to view in detail.
      * @return Intent.
      */
-    public static Intent getCallingIntent(final Context context, final long travelPlacesId) {
+    public static Intent getCallingIntent(final Context context, final long travelPlacesId,final long travelId) {
         final Intent callingIntent = new Intent(context, TravelPlacesDetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID, travelPlacesId);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, travelId);
         return callingIntent;
     }
 

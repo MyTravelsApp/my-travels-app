@@ -6,9 +6,8 @@
 
     <include layout="@layout/toolbar" />
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragmentTravelPlaces"
-        android:name="com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

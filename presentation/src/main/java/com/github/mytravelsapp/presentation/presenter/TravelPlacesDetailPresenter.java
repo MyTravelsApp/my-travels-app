@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.service.TravelPlacesService;
 import com.github.mytravelsapp.business.service.TravelService;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
@@ -38,9 +39,9 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
     public void loadModel(final long travelId) {
         TravelPlacesModel model;
         if (travelId == TravelPlacesModel.DEFAULT_ID) {
-            model = new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID);
+            model = new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID,travelId);
         } else {
-            model = new TravelPlacesModel(1L);
+            model = new TravelPlacesModel(1L,travelId);
             model.setName("Plaza españa");
         }
         getView().renderModel(model);
@@ -52,7 +53,11 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
     public void save() {
         if (getView().validate()) {
             final TravelPlacesModel model = getView().getCurrentModel();
-            travelPlacesService.save(converter.convertToDto(model));
+            try {
+                travelPlacesService.save(converter.convertToDto(model));
+            } catch (PersistenceException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -8,6 +8,10 @@ import java.util.Date;
 public class TravelPlacesDto {
 
     private long id;
+    private String name;
+    private String category;
+    private String observations;
+    private long travelId;
 
     public String getName() {
         return name;
@@ -16,9 +20,6 @@ public class TravelPlacesDto {
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
-
 
     public TravelPlacesDto() {
 
@@ -30,5 +31,29 @@ public class TravelPlacesDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public long getTravelId() {
+        return travelId;
+    }
+
+    public void setTravelId(long travelId) {
+        this.travelId = travelId;
     }
 }

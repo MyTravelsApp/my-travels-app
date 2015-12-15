@@ -120,6 +120,6 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
 
     @Override
     public void afterSaveTravel(final TravelModel model) {
-        navigator.navigateToTravelPlaces(this); // FIXME Parameter with travel
+        navigator.navigateToTravelPlaces(this,model); // FIXME Parameter with travel
     }
 }
