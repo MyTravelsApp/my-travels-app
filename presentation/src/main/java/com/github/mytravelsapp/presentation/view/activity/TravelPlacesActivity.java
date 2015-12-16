@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
@@ -60,7 +61,18 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         return callingIntent;
     }
 
-
+    /**
+     * Save activity state.
+     *
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (outState != null) {
+            outState.putLong(STATE_PARAM_TRAVEL_ID, travelId);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     /**
      * Load activity menu.
@@ -97,6 +109,28 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build();
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                navigator.navigateToTravelList(this);
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
     }
 }
 

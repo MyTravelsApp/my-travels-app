@@ -60,7 +60,6 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
     }
 
 
-
     /**
      * Generate intent to open this activity.
      *

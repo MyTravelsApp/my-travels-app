@@ -76,6 +76,16 @@ public class DatabaseTravelPlacesRepository implements TravelPlacesRepository {
         }
     }
 
+    @Override
+    public List<TravelPlacesDto> findByTravel(long travelId) throws PersistenceException {
+        try {
+            final QueryBuilder<TravelPlaces, Long> builder = getDao().queryBuilder();
+            builder.where().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
+            return converter.convertToDto(getDao().query(builder.prepare()));
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error find travels", e);
+        }    }
+
     private Dao<TravelPlaces, Long> getDao() throws SQLException {
         return dbHelper.getDao(TravelPlaces.class);
     }

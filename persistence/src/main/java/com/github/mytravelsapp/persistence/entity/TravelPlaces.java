@@ -19,13 +19,13 @@ public class TravelPlaces implements Serializable {
 
     @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private long id;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = FIELD_NAME)
     private String name;
-    @DatabaseField
+    @DatabaseField(columnName = FIELD_OBERVATIONS)
     private String observations;
-    @DatabaseField(foreign=true, canBeNull = false)
+    @DatabaseField(foreign=true, canBeNull = false, columnName = FIELD_ID_TRAVEL)
     private Travel travel;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = FIELD_CATEGORY)
     private String category;
 
     public TravelPlaces() {

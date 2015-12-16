@@ -96,7 +96,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     }
 
     private void loadTravelsPlaces() {
-        getPresenter().loadTravelsPlaces();
+        getPresenter().loadTravelsPlaces(travelId);
     }
 
     @Override
