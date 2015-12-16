@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
@@ -42,6 +43,6 @@ public abstract class AbstractFormFragment<V extends View, P extends Presenter<V
 
     private boolean isEmpty(final TextView textView) {
         return textView != null && textView.getText() != null &&
-                textView.getText().toString().trim().length() == 0;
+                TextUtils.isEmpty(textView.getText().toString().trim());
     }
 }

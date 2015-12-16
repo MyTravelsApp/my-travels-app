@@ -31,6 +31,7 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     private OnItemClickListener onItemClickListener;
 
     public TravelAdapter(final Context context, final List<TravelModel> pList) {
+        validateData(pList);
         this.list = pList;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -94,7 +95,15 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
     }
 
     public void setList(final List<TravelModel> pList) {
+        validateData(pList);
         this.list = pList;
+        this.notifyDataSetChanged();
+    }
+
+    private void validateData (final List<TravelModel> data) {
+        if (data == null) {
+            throw new IllegalArgumentException("The list cannot be null");
+        }
     }
 
     /**

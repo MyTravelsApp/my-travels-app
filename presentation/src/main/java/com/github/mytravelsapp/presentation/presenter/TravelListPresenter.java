@@ -33,10 +33,12 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
 
     /**
      * Load travels and render in view.
+     *
+     * @param filter Text to filter.
      */
-    public void loadTravels() {
+    public void loadTravels(final String filter) {
         getView().showLoading();
-        getTravelListInteractor.setFilter(null);
+        getTravelListInteractor.setFilter(filter);
         getTravelListInteractor.execute(new Callback<List<TravelDto>>() {
             @Override
             public void onSuccess(List<TravelDto> result) {

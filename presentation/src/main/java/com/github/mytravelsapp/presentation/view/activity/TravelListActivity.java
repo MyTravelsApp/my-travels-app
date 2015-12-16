@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
-import com.github.mytravelsapp.presentation.model.TravelModel;
-import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
+import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 
 /**
  * Activity that shows a list of travels.
@@ -43,18 +40,6 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         initializeInjector();
-    }
-
-    /**
-     * Load activity menu.
-     *
-     * @param menu Activity menu.
-     * @return true if activity has menu otherwise false.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_travel_list, menu);
-        return true;
     }
 
     /**

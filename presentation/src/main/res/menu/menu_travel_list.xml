@@ -3,6 +3,7 @@
     <item
         android:id="@+id/action_search_travel"
         android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="always"
-        android:title="" />
+        app:showAsAction="always|collapseActionView"
+        android:title=""
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
 </menu>

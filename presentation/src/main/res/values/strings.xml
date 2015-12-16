@@ -11,6 +11,7 @@
 
     <string name="activity_travel_places_details_title">Travel Places Details</string>
 
+    <string name="text_search_box">Search&#8230;</string>
     <string name="text_colon">:</string>
     <string name="text_name">Name</string>
     <string name="text_destination">Destination</string>
