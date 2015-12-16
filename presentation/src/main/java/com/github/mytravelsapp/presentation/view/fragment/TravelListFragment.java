@@ -137,7 +137,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         public void onTravelItemClicked(final TravelModel model) {
 
             if (getPresenter() != null && model != null) {
-                getPresenter().viewDetail(model);
+                getPresenter().viewTravelPlaces(model);
             }
         }
     };

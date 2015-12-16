@@ -57,6 +57,7 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
             final TravelPlacesModel model = getView().getCurrentModel();
             try {
                 travelPlacesService.save(converter.convertToDto(model));
+                getNavigator().navigateToTravelPlaces(getView().getViewContext(),new TravelModel(model.getTravelId()));
             } catch (PersistenceException e) {
                 e.printStackTrace();
             }

@@ -50,10 +50,10 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
     /**
      * Load travels and render in view.
      */
-    public void loadTravelsPlaces() {
+    public void loadTravelsPlaces(final long travelId) {
         List<TravelPlacesDto> result = Collections.emptyList();
         try {
-            result = travelPlacesService.find(null);
+            result = travelPlacesService.findByTravel(travelId);
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
