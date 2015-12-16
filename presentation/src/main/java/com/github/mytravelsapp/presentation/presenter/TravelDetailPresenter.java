@@ -1,13 +1,14 @@
 package com.github.mytravelsapp.presentation.presenter;
 
-import com.github.mytravelsapp.business.exception.PersistenceException;
-import com.github.mytravelsapp.business.service.TravelService;
+import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.interactor.Callback;
+import com.github.mytravelsapp.business.interactor.GetTravelInteractor;
+import com.github.mytravelsapp.business.interactor.SaveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -19,12 +20,16 @@ import javax.inject.Inject;
 @PerActivity
 public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> {
 
-    private final TravelService travelService;
+    private final SaveTravelInteractor saveTravelInteractor;
+    private final GetTravelInteractor getTravelInteractor;
     private final TravelModelConverter converter;
 
     @Inject
-    public TravelDetailPresenter(final TravelService pTravelService, final TravelModelConverter pConverter) {
-        this.travelService = pTravelService;
+    public TravelDetailPresenter(final Navigator pNavigator, final SaveTravelInteractor pSaveTravelInteractor,
+                                 final GetTravelInteractor pGetTravelInteractor, final TravelModelConverter pConverter) {
+        super(pNavigator);
+        this.saveTravelInteractor = pSaveTravelInteractor;
+        this.getTravelInteractor = pGetTravelInteractor;
         this.converter = pConverter;
     }
 
@@ -34,28 +39,44 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
      * @param travelId Travel identifier.
      */
     public void loadModel(final long travelId) {
-        TravelModel model = null;
-        if (travelId == TravelModel.DEFAULT_ID) {
-            model = new TravelModel(TravelModel.DEFAULT_ID);
-        } else {
-            try {
-                model = converter.convert(travelService.findById(travelId));
-            } catch (PersistenceException e) {
-                e.printStackTrace();
+        getView().showLoading();
+        getTravelInteractor.setTravelId(travelId);
+        getTravelInteractor.execute(new Callback<TravelDto>() {
+            @Override
+            public void onSuccess(TravelDto result) {
+                getView().hideLoading();
+                getView().renderModel(converter.convert(result));
             }
-        }
-        getView().renderModel(model);
+
+            @Override
+            public void onError(Throwable cause) {
+                getView().hideLoading();
+                // FIXME SHOW ERROR!!!!
+            }
+        });
     }
 
     public void save() {
         if (getView().validate()) {
-            final TravelModel model = getView().getCurrentModel();
-            try {
-                travelService.save(converter.convertToDto(model));
-            } catch (PersistenceException e) {
-                e.printStackTrace();
-            }
-            getView().renderTravelPlaces(model);
+
+            getView().showLoading();
+            final TravelModel currentModel = getView().getCurrentModel();
+            saveTravelInteractor.setData(converter.convertToDto(currentModel));
+            saveTravelInteractor.execute(new Callback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    if (Boolean.TRUE.equals(result)) {
+                        getView().hideLoading();
+                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel); // FIXME Parameter with travel
+                    }
+                }
+
+                @Override
+                public void onError(Throwable cause) {
+                    getView().hideLoading();
+                    // FIXME SHOW ERROR!!!!
+                }
+            });
         }
     }
 }

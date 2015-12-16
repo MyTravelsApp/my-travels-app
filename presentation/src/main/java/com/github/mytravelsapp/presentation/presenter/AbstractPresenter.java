@@ -2,6 +2,7 @@ package com.github.mytravelsapp.presentation.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.View;
 
 /**
@@ -13,6 +14,12 @@ public abstract class AbstractPresenter<V extends View> implements Presenter<V> 
 
     private V view;
 
+    private Navigator navigator;
+
+    public AbstractPresenter (final Navigator pNavigator) {
+        this.navigator = pNavigator;
+    }
+
     @Override
     public void setView(@NonNull final V pView) {
         this.view = pView;
@@ -21,6 +28,10 @@ public abstract class AbstractPresenter<V extends View> implements Presenter<V> 
     @Override
     public V getView() {
         return view;
+    }
+
+    public Navigator getNavigator() {
+        return navigator;
     }
 
     @Override

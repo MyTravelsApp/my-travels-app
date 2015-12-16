@@ -19,7 +19,7 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
  *
  * @author fjtorres
  */
-public class TravelListActivity extends AbstractActivity implements HasComponent<TravelComponent>, TravelListFragment.TravelListListener {
+public class TravelListActivity extends AbstractActivity implements HasComponent<TravelComponent> {
 
     private TravelComponent component;
 
@@ -93,13 +93,4 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
         return component;
     }
 
-    @Override
-    public void onTravelClicked(final TravelModel model) {
-        navigator.navigateToTravelPlaces(this, model);
-    }
-
-    @Override
-    public void onAddTravelClicked() {
-        navigator.navigateToTravelDetail(this, new TravelModel(TravelModel.DEFAULT_ID));
-    }
 }

@@ -6,7 +6,6 @@ import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.persistence.converter.TravelConverter;
 import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.helper.DatabaseHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
@@ -21,15 +20,14 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Named("databaseTravelRepository")
-public class DatabaseTravelRepository implements TravelRepository {
+public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> implements TravelRepository {
 
     private final TravelConverter converter;
-    private final DatabaseHelper dbHelper;
 
     @Inject
     public DatabaseTravelRepository(final TravelConverter pConverter, final DatabaseHelper pDbHelper) {
+        super(pDbHelper, Travel.class);
         this.converter = pConverter;
-        this.dbHelper = pDbHelper;
     }
 
     @Override
@@ -47,7 +45,10 @@ public class DatabaseTravelRepository implements TravelRepository {
     }
 
     @Override
-    public TravelDto findById(final long identifier) throws PersistenceException {
+    public TravelDto findById(final Long identifier) throws PersistenceException {
+        if (identifier == null) {
+            throw new IllegalArgumentException("identifier cannot be null");
+        }
         try {
             return converter.convertToDto(getDao().queryForId(identifier));
         } catch (final SQLException e) {
@@ -68,9 +69,5 @@ public class DatabaseTravelRepository implements TravelRepository {
         } catch (final SQLException e) {
             throw new PersistenceException("Error find travels", e);
         }
-    }
-
-    private Dao<Travel, Long> getDao() throws SQLException {
-        return dbHelper.getDao(Travel.class);
     }
 }

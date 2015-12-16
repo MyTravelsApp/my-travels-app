@@ -18,7 +18,7 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
  *
  * @author fjtorres
  */
-public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent>, TravelDetailsFragment.TravelDetailsListener {
+public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent> {
 
     private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
     private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
@@ -118,8 +118,4 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         return component;
     }
 
-    @Override
-    public void afterSaveTravel(final TravelModel model) {
-        navigator.navigateToTravelPlaces(this,model); // FIXME Parameter with travel
-    }
 }

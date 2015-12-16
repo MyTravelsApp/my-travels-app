@@ -49,6 +49,7 @@ ext {
     ]
 
     presentationTestDependencies = [
+            junit            : "junit:junit:${jUnitVersion}",
             mockito          : "org.mockito:mockito-core:${mockitoVersion}",
             dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
             dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
@@ -60,7 +61,7 @@ ext {
             daggerCompiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger         : "com.google.dagger:dagger:${daggerVersion}",
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            ormLite : "com.j256.ormlite:ormlite-android:${ormLiteVersion}",
+            ormLite        : "com.j256.ormlite:ormlite-android:${ormLiteVersion}",
     ]
 
     persistenceTestDependencies = [

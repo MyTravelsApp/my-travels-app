@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -150,6 +151,11 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return getActivity();
     }
 
     private void initialize() {

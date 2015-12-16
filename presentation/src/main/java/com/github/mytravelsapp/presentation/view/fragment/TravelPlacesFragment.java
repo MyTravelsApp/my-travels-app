@@ -106,6 +106,11 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     }
 
     @Override
+    public Context getViewContext() {
+        return getActivity();
+    }
+
+    @Override
     protected TravelPlacesPresenter getPresenter() {
         return presenter;
     }

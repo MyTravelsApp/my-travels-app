@@ -30,10 +30,7 @@ public interface TravelDetailsView extends View {
      */
     boolean validate();
 
-    /**
-     * Render associated travel places in the view
-     *
-     * @param model Travel to render.
-     */
-    void renderTravelPlaces(TravelModel model);
+    void showLoading();
+
+    void hideLoading();
 }

@@ -7,6 +7,7 @@ import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
@@ -26,7 +27,8 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
     private final TravelPlacesModelConverter converter;
 
     @Inject
-    public TravelPlacesDetailPresenter(TravelPlacesService travelPlacesService, TravelPlacesModelConverter converter) {
+    public TravelPlacesDetailPresenter(final Navigator pNavigator, TravelPlacesService travelPlacesService, TravelPlacesModelConverter converter) {
+        super(pNavigator);
         this.travelPlacesService = travelPlacesService;
         this.converter = converter;
     }

@@ -33,6 +33,15 @@
         <item name="android:textColorPrimary">@color/textColorSecundary</item>
     </style>
 
+    <!--Progress Bar -->
+    <style name="AppTheme.ProgressBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
     <!-- List rows styles -->
     <style name="AppTheme.RowText">
         <item name="android:layout_width">wrap_content</item>

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
@@ -41,21 +42,15 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     @Bind(R.id.btn_add_travel)
     FloatingActionButton btn_add_travel;
 
-    private TravelAdapter adapter;
+    @Bind(R.id.rl_progress)
+    RelativeLayout rl_progress;
 
-    private TravelListListener travelListListener;
+    private TravelAdapter adapter;
 
     public TravelListFragment() {
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof TravelListListener) {
-            this.travelListListener = (TravelListListener) context;
-        }
-    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -87,6 +82,11 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
     @Override
+    public Context getViewContext() {
+        return getActivity();
+    }
+
+    @Override
     public TravelListPresenter getPresenter() {
         return presenter;
     }
@@ -96,7 +96,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         this.adapter.setList(list);
     }
 
-    @Override
+/*    @Override
     public void viewDetail(final TravelModel selectedModel) {
         if (travelListListener != null) {
             travelListListener.onTravelClicked(selectedModel);
@@ -108,6 +108,18 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         if (travelListListener != null) {
             travelListListener.onAddTravelClicked();
         }
+    }*/
+
+    @Override
+    public void showLoading() {
+        rl_progress.setVisibility(View.VISIBLE);
+        getActivity().setProgressBarIndeterminate(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        rl_progress.setVisibility(View.GONE);
+        getActivity().setProgressBarIndeterminate(false);
     }
 
     private void initialize() {
@@ -138,10 +150,4 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
             }
         }
     };
-
-    public interface TravelListListener {
-        void onTravelClicked(TravelModel model);
-
-        void onAddTravelClicked();
-    }
 }

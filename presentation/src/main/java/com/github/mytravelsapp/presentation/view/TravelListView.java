@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author fjtorres
  */
-public interface TravelListView extends View {
+public interface TravelListView extends LoadDataView {
 
     /**
      * Render travels in the view.
@@ -17,16 +17,4 @@ public interface TravelListView extends View {
      * @param list Travels to render.
      */
     void renderList(List<TravelModel> list);
-
-    /**
-     * Navigate to the selected travel detail view.
-     *
-     * @param selectedModel Selected travel.
-     */
-    void viewDetail(TravelModel selectedModel);
-
-    /**
-     * Navigate to new travel view.
-     */
-    void newTravel();
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
@@ -39,8 +40,6 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     @Inject
     TravelDetailPresenter presenter;
 
-    private TravelDetailsListener travelDetailsListener;
-
     private long travelId;
 
     @Bind(R.id.txt_name)
@@ -61,6 +60,9 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     @Bind(R.id.btn_finish_date)
     ImageButton btn_finish_date;
 
+    @Bind(R.id.rl_progress)
+    RelativeLayout rl_progress;
+
     public static TravelDetailsFragment newInstance(final long travelId) {
         final TravelDetailsFragment fragment = new TravelDetailsFragment();
         final Bundle arguments = new Bundle();
@@ -77,14 +79,6 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof TravelDetailsListener) {
-            this.travelDetailsListener = (TravelDetailsListener) context;
-        }
     }
 
     @Override
@@ -126,7 +120,7 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
      * Control menu item selection.
      *
      * @param item Selected menu.
-     * @return
+     * @return boolean result.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -175,13 +169,6 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
             if (travelId == TravelModel.DEFAULT_ID) {
                 getActivity().setTitle(R.string.activity_travel_new_title);
             }
-        }
-    }
-
-    @Override
-    public void renderTravelPlaces(final TravelModel model) {
-        if (travelDetailsListener != null) {
-            travelDetailsListener.afterSaveTravel(model);
         }
     }
 
@@ -240,7 +227,21 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
         return result;
     }
 
-    public interface TravelDetailsListener {
-        void afterSaveTravel(TravelModel model);
+    @Override
+    public Context getViewContext() {
+        return getActivity();
     }
+
+    @Override
+    public void showLoading() {
+        rl_progress.setVisibility(View.VISIBLE);
+        getActivity().setProgressBarIndeterminate(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        rl_progress.setVisibility(View.GONE);
+        getActivity().setProgressBarIndeterminate(false);
+    }
+
 }

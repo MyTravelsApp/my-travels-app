@@ -2,12 +2,16 @@ package com.github.mytravelsapp.presentation.di.modules;
 
 import android.content.Context;
 
+import com.github.mytravelsapp.business.executor.JobExecutor;
+import com.github.mytravelsapp.business.executor.PostExecutionThread;
+import com.github.mytravelsapp.business.executor.ThreadExecutor;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.persistence.helper.DatabaseHelper;
 import com.github.mytravelsapp.persistence.repository.DatabaseTravelPlacesRepository;
 import com.github.mytravelsapp.persistence.repository.DatabaseTravelRepository;
 import com.github.mytravelsapp.presentation.AndroidApplication;
+import com.github.mytravelsapp.presentation.UiThread;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 
 import javax.inject.Singleton;
@@ -30,6 +34,18 @@ public class ApplicationModule {
     @Singleton
     Context provideApplicationContext() {
         return this.androidApplication;
+    }
+
+    @Provides
+    @Singleton
+    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+        return jobExecutor;
+    }
+
+    @Provides
+    @Singleton
+    PostExecutionThread providePostExecutionThread(UiThread uiThread){
+        return uiThread;
     }
 
     @Provides

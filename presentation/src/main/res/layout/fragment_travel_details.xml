@@ -81,4 +81,6 @@
         android:layout_toEndOf="@id/label_finish_date"
         android:src="@drawable/ic_today_black_24dp" />
 
+    <include layout="@layout/view_progress" />
+
 </RelativeLayout>

@@ -12,7 +12,7 @@ public interface TravelRepository {
 
     void save(TravelDto dto) throws PersistenceException;
 
-    TravelDto findById(long identifier) throws PersistenceException;
+    TravelDto findById(Long identifier) throws PersistenceException;
 
     List<TravelDto> find(String textFilter) throws PersistenceException;
 }

@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.NewTravelPointView;
 
 import javax.inject.Inject;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 public class NewTravelPointPresenter extends AbstractPresenter<NewTravelPointView> {
 
     @Inject
-    public NewTravelPointPresenter () {
-
+    public NewTravelPointPresenter (final Navigator pNavigator) {
+        super(pNavigator);
     }
 }
