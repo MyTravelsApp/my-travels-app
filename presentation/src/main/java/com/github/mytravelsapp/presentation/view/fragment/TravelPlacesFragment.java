@@ -15,8 +15,8 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
-import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
+import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +70,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
         // Setup UI
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.rv_travels_places.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
         this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);

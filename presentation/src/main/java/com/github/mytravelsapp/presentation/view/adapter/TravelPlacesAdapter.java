@@ -49,6 +49,7 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
             }
         });
         holder.txtTitle.setText(model.getName());
+        holder.txtCategory.setText(model.getCategory());
     }
 
     @Override
@@ -73,6 +74,9 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
         @Bind(R.id.txt_title)
         TextView txtTitle;
+
+        @Bind(R.id.txt_category_target)
+        TextView txtCategory;
 
         public TravelPlacesViewHolder(final View itemView) {
             super(itemView);
