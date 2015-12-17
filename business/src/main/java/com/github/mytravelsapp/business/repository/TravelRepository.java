@@ -15,4 +15,6 @@ public interface TravelRepository {
     TravelDto findById(Long identifier) throws PersistenceException;
 
     List<TravelDto> find(String textFilter) throws PersistenceException;
+
+    void remove(Long identifier) throws PersistenceException;
 }

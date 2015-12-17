@@ -3,6 +3,7 @@ package com.github.mytravelsapp.presentation.presenter;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetTravelListInteractor;
+import com.github.mytravelsapp.business.interactor.RemoveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
@@ -22,12 +23,14 @@ import javax.inject.Inject;
 public class TravelListPresenter extends AbstractPresenter<TravelListView> {
 
     private final GetTravelListInteractor getTravelListInteractor;
+    private final RemoveTravelInteractor removeTravelInteractor;
     private final TravelModelConverter converter;
 
     @Inject
-    public TravelListPresenter(final Navigator pNavigator, final GetTravelListInteractor pGetTravelListInteractor, final TravelModelConverter pConverter) {
+    public TravelListPresenter(final Navigator pNavigator, final GetTravelListInteractor pGetTravelListInteractor, final RemoveTravelInteractor pRemoveTravelInteractor, final TravelModelConverter pConverter) {
         super(pNavigator);
         this.getTravelListInteractor = pGetTravelListInteractor;
+        this.removeTravelInteractor = pRemoveTravelInteractor;
         this.converter = pConverter;
     }
 
@@ -69,5 +72,23 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
      */
     public void newTravel() {
         getNavigator().navigateToTravelDetail(getView().getViewContext(), new TravelModel(TravelModel.DEFAULT_ID));
+    }
+
+    /**
+     * Remove travel
+     */
+    public void removeTravel(final long travelId) {
+        removeTravelInteractor.setTravelId(travelId);
+        removeTravelInteractor.execute(new Callback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+
+            }
+
+            @Override
+            public void onError(Throwable cause) {
+                // FIXME SHOW ERROR!!!!
+            }
+        });
     }
 }

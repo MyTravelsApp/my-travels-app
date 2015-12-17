@@ -2,6 +2,7 @@ package com.github.mytravelsapp.persistence.repository;
 
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.exception.PersistenceException;
+import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.persistence.converter.TravelConverter;
 import com.github.mytravelsapp.persistence.entity.Travel;
@@ -22,12 +23,15 @@ import javax.inject.Singleton;
 @Named("databaseTravelRepository")
 public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> implements TravelRepository {
 
+    private final TravelPlacesRepository travelPlacesRepository;
+
     private final TravelConverter converter;
 
     @Inject
-    public DatabaseTravelRepository(final TravelConverter pConverter, final DatabaseHelper pDbHelper) {
+    public DatabaseTravelRepository(final TravelPlacesRepository pTravelPlacesRepository, final TravelConverter pConverter, final DatabaseHelper pDbHelper) {
         super(pDbHelper, Travel.class);
         this.converter = pConverter;
+        this.travelPlacesRepository = pTravelPlacesRepository;
     }
 
     @Override
@@ -52,7 +56,7 @@ public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> i
         try {
             return converter.convertToDto(getDao().queryForId(identifier));
         } catch (final SQLException e) {
-            throw new PersistenceException("Error find travel by identifier", e);
+            throw new PersistenceException("Error find travel with id: " + identifier, e);
         }
     }
 
@@ -69,6 +73,19 @@ public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> i
             return converter.convertToDto(getDao().query(builder.prepare()));
         } catch (final SQLException e) {
             throw new PersistenceException("Error find travels", e);
+        }
+    }
+
+    @Override
+    public void remove(final Long identifier) throws PersistenceException {
+        if (identifier == null) {
+            throw new IllegalArgumentException("identifier cannot be null");
+        }
+        try {
+            travelPlacesRepository.removeByTravel(identifier);
+            getDao().deleteById(identifier);
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error delete travel with id: " + identifier, e);
         }
     }
 }

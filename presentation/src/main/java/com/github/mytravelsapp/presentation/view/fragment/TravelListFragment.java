@@ -7,6 +7,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import com.github.mytravelsapp.presentation.presenter.TravelListPresenter;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
 import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
+import com.github.mytravelsapp.presentation.view.components.TravelTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +78,12 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         this.rv_travels.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         this.adapter = new TravelAdapter(getActivity(), new ArrayList<TravelModel>());
         this.adapter.setOnItemClickListener(onItemClickListener);
+        this.adapter.setOnRemoveListener(onRemoveListener);
         this.rv_travels.setAdapter(this.adapter);
         this.btn_add_travel.setOnClickListener(onAddClickListener);
 
+        final ItemTouchHelper helper = new ItemTouchHelper(new TravelTouchHelperCallback(this.adapter));
+        helper.attachToRecyclerView(rv_travels);
         return fragmentView;
     }
 
@@ -226,6 +231,15 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         public void onClick(final View v) {
             if (getPresenter() != null) {
                 getPresenter().newTravel();
+            }
+        }
+    };
+
+    private final TravelAdapter.OnRemoveListener onRemoveListener = new TravelAdapter.OnRemoveListener() {
+        @Override
+        public void onRemove(long identifier) {
+            if (getPresenter() != null) {
+                getPresenter().removeTravel(identifier);
             }
         }
     };

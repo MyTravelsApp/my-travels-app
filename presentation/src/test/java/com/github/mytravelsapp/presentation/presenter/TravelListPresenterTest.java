@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetTravelListInteractor;
+import com.github.mytravelsapp.business.interactor.RemoveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
@@ -33,6 +34,9 @@ public class TravelListPresenterTest {
     private GetTravelListInteractor mockGetTravelListInteractor;
 
     @Mock
+    private RemoveTravelInteractor mockRemoveTravelInteractor;
+
+    @Mock
     private TravelModelConverter mockTravelModelConverter;
 
     @Mock
@@ -41,7 +45,7 @@ public class TravelListPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.presenter = new TravelListPresenter(mockNavigator, mockGetTravelListInteractor, mockTravelModelConverter);
+        this.presenter = new TravelListPresenter(mockNavigator, mockGetTravelListInteractor, mockRemoveTravelInteractor, mockTravelModelConverter);
         this.presenter.setView(mockTravelListView);
     }
 
@@ -63,5 +67,11 @@ public class TravelListPresenterTest {
     public void testTravelPlaces() {
         this.presenter.viewTravelPlaces(null);
         verify(mockNavigator).navigateToTravelPlaces(any(Context.class), any(TravelModel.class));
+    }
+
+    @Test
+    public void testRemoveTravel () {
+        this.presenter.removeTravel(0L);
+        verify(mockRemoveTravelInteractor).execute(any(Callback.class));
     }
 }
