@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">My Travels App</string>
+
+    <!-- Activities title -->
+    <string name="activity_travel_list_title">Mis viajes</string>
+    <string name="activity_travel_new_title">New travelEntity</string>
+    <string name="activity_travel_details_title">Detalles del viaje</string>
+    <string name="activity_travel_places_title">Travel Places</string>
+    <string name="activity_travel_places_details_title">Travel Places Details</string>
+
+    <!-- Toolbar actions -->
+    <string name="action_edit">Editar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_search">Buscar</string>
+
+    <!-- Generic text -->
+    <string name="text_search_box">Buscar&#8230;</string>
+    <string name="text_colon">:</string>
+    <string name="text_name">Nombre</string>
+    <string name="text_destination">Destino</string>
+    <string name="text_start_date">Fecha de inicio</string>
+    <string name="text_start_date_short">Desde</string>
+    <string name="text_finish_date">Fecha de finalización</string>
+    <string name="text_finish_date_short">Hasta</string>
+    <string name="text_observation">Observaciones</string>
+    <string name="text_category">Categoría</string>
+    <string name="prompt_category">Selecciona una categoría</string>
+
+    <!-- Error messages -->
+    <string name="error_required">Este campo es requerido.</string>
+    <string name="error_date_format">El formato de fecha es invalido.</string>
+
+    <!-- Image content description -->
+    <string name="img_logo_description">Logo de la aplicación</string>
+</resources>
