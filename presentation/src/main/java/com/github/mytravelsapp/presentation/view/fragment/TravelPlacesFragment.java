@@ -32,9 +32,10 @@ import butterknife.ButterKnife;
 public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
 
     //Travel associated of places
-    private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
+    private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
 
-    private long travelId;
+
+    private TravelModel travelModel;
 
     @Inject
     TravelPlacesPresenter presenter;
@@ -51,10 +52,10 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
 
 
-    public static TravelPlacesFragment newInstance(final long travelId) {
+    public static TravelPlacesFragment newInstance(final TravelModel pTravelModel) {
         final TravelPlacesFragment fragment = new TravelPlacesFragment();
         final Bundle arguments = new Bundle();
-        arguments.putLong(ARGUMENT_TRAVEL_ID, travelId);
+        arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -91,12 +92,13 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
     private void initialize() {
         getComponent(TravelPlacesComponent.class).inject(this);
-        travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
+
+        travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         this.presenter.setView(this);
     }
 
     private void loadTravelsPlaces() {
-        getPresenter().loadTravelsPlaces(travelId);
+        getPresenter().loadTravelsPlaces(travelModel.getId());
     }
 
     @Override
@@ -118,7 +120,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Override
     public void newTravelPlaces() {
         if (travelPlacesListener != null) {
-            travelPlacesListener.onAddTravelPlacesClicked(new TravelModel(travelId));
+            travelPlacesListener.onAddTravelPlacesClicked(travelModel);
         }
     }
 

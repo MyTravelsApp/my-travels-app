@@ -17,15 +17,20 @@ import javax.inject.Inject;
  */
 public class TravelPlacesModelConverter {
 
+    private final TravelModelConverter converterTravel;
+
     @Inject
-    public TravelPlacesModelConverter() {
+    public TravelPlacesModelConverter(TravelModelConverter pConverterTravel) {
+        this.converterTravel = pConverterTravel;
     }
 
     public TravelPlacesModel convert(TravelPlacesDto source) {
         if (source == null) {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
-        final TravelPlacesModel target = new TravelPlacesModel(source.getId(),source.getTravelId());
+        final TravelPlacesModel target = new TravelPlacesModel();
+        target.setId(source.getId());
+        target.setTravelModel(this.converterTravel.convert(source.getTravelDto()));
         target.setName(source.getName());
         target.setObservations(source.getObservations());
         target.setCategory(source.getCategory());
@@ -54,7 +59,7 @@ public class TravelPlacesModelConverter {
         target.setName(source.getName());
         target.setObservations(source.getObservations());
         target.setCategory(source.getCategory());
-        target.setTravelId(source.getTravelId());
+        target.setTravelDto(converterTravel.convertToDto(source.getTravelModel()));
         return target;
     }
 

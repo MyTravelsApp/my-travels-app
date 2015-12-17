@@ -11,7 +11,7 @@ public class TravelPlacesDto {
     private String name;
     private String category;
     private String observations;
-    private long travelId;
+    private TravelDto travelDto;
 
     public String getName() {
         return name;
@@ -49,11 +49,11 @@ public class TravelPlacesDto {
         this.observations = observations;
     }
 
-    public long getTravelId() {
-        return travelId;
+    public TravelDto getTravelDto() {
+        return travelDto;
     }
 
-    public void setTravelId(long travelId) {
-        this.travelId = travelId;
+    public void setTravelDto(TravelDto travelDto) {
+        this.travelDto = travelDto;
     }
 }

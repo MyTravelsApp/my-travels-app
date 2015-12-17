@@ -52,7 +52,7 @@ public class Navigator {
      */
     public void navigateToTravelPlaces(final Context context, TravelModel model){
         if (context != null) {
-            context.startActivity(TravelPlacesActivity.getCallingIntent(context, model.getId()));
+            context.startActivity(TravelPlacesActivity.getCallingIntent(context, model));
         }
     }
 
@@ -63,7 +63,7 @@ public class Navigator {
      */
     public void navigateToTravelPlacesDetail(final Context context, final TravelPlacesModel model) {
         if (context != null) {
-            context.startActivity(TravelPlacesDetailsActivity.getCallingIntent(context, model.getId(), model.getTravelId()));
+            context.startActivity(TravelPlacesDetailsActivity.getCallingIntent(context, model));
         }
     }
 }

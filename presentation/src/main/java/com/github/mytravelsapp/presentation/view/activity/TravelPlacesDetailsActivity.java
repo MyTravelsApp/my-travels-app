@@ -20,15 +20,12 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
 
     private TravelPlacesComponent component;
 
-    private static final String INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID = "INTENT_PARAM_TRAVEL_PLACES_ID";
-    private static final String STATE_PARAM_TRAVEL_PLACES_ID = "STATE_PARAM_TRAVEL_PLACES_ID";
+    private static final String INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL = "INTENT_PARAM_TRAVEL_PLACES_MODEL";
+    private static final String STATE_PARAM_TRAVEL_PLACES_MODEL = "STATE_PARAM_TRAVEL_PLACES_MODEL";
 
-    private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
-    private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
 
-    private long travelPlacesId;
+    private TravelPlacesModel travelPlacesModel;
 
-    private long travelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +40,13 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
 
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
-            travelPlacesId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID, TravelPlacesModel.DEFAULT_ID);
-            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
-            addFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesId, this.travelId));
+            travelPlacesModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL);
+            addFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesModel));
         } else {
-            travelPlacesId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_PLACES_ID);
-            travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
+            travelPlacesModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_PLACES_MODEL);
         }
+
+        setTitle(travelPlacesModel.getTravelModel().getName());
 
         initializeInjector();
     }
@@ -64,13 +61,12 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
      * Generate intent to open this activity.
      *
      * @param context  Source context.
-     * @param travelPlacesId Travel identifier to view in detail.
+     * @param travelPlacesModel Travel identifier to view in detail.
      * @return Intent.
      */
-    public static Intent getCallingIntent(final Context context, final long travelPlacesId,final long travelId) {
+    public static Intent getCallingIntent(final Context context, final TravelPlacesModel travelPlacesModel) {
         final Intent callingIntent = new Intent(context, TravelPlacesDetailsActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_ID, travelPlacesId);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, travelId);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL, travelPlacesModel);
         return callingIntent;
     }
 

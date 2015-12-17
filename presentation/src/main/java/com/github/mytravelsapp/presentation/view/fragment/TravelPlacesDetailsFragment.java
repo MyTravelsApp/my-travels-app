@@ -46,17 +46,14 @@ import butterknife.ButterKnife;
  */
 public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlacesDetailsView, TravelPlacesDetailPresenter> implements TravelPlacesDetailsView {
 
-    private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
-    private static final String ARGUMENT_TRAVEL_PLACES_ID = "ARGUMENT_TRAVEL_PLACES_ID";
+    private static final String ARGUMENT_TRAVEL_PLACES_MODEL = "ARGUMENT_TRAVEL_PLACES_MODEL";
 
     @Inject
     TravelPlacesDetailPresenter presenter;
 
     private TravelPlacesDetailsListener travelPlacesDetailsListener;
 
-    private long travelId;
-
-    private long travelPlacesId;
+    private TravelPlacesModel travelPlacesModel;
 
     @Bind(R.id.txt_name)
     EditText txt_name;
@@ -67,11 +64,10 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Bind(R.id.spinner_category)
     Spinner spinner_category;
 
-    public static TravelPlacesDetailsFragment newInstance(final long travelPlacesId, final long travelId) {
+    public static TravelPlacesDetailsFragment newInstance(final TravelPlacesModel travelPlacesModel) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
         final Bundle arguments = new Bundle();
-        arguments.putLong(ARGUMENT_TRAVEL_ID, travelId);
-        arguments.putLong(ARGUMENT_TRAVEL_PLACES_ID, travelPlacesId);
+        arguments.putParcelable(ARGUMENT_TRAVEL_PLACES_MODEL,travelPlacesModel);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -161,9 +157,8 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     private void initialize() {
         getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
-        this.travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
-        this.travelPlacesId = getArguments().getLong(ARGUMENT_TRAVEL_PLACES_ID);
-        getPresenter().loadModel(this.travelPlacesId);
+        this.travelPlacesModel = getArguments().getParcelable(ARGUMENT_TRAVEL_PLACES_MODEL);
+        getPresenter().loadModel(this.travelPlacesModel.getTravelModel().getId());
     }
 
     @Override
@@ -195,7 +190,9 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     @Override
     public TravelPlacesModel getCurrentModel() {
-        final TravelPlacesModel model = new TravelPlacesModel(travelPlacesId,travelId);
+        final TravelPlacesModel model = new TravelPlacesModel();
+        model.setTravelModel(travelPlacesModel.getTravelModel());
+        model.setId(travelPlacesModel.getId());
         model.setName(txt_name.getText().toString());
         model.setObservations(txt_observation.getText().toString());
         model.setCategory(spinner_category.getSelectedItem().toString());

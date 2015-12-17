@@ -1,5 +1,8 @@
 package com.github.mytravelsapp.presentation.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
@@ -7,11 +10,10 @@ import java.util.Date;
  *
  * @author fjtorres
  */
-public class TravelModel {
-
+public class TravelModel implements Parcelable{
     public static final long DEFAULT_ID = -1;
 
-    private final long id;
+    private long id;
 
     private String name;
 
@@ -22,6 +24,7 @@ public class TravelModel {
     private Date finishDate;
 
     public TravelModel(final long pId) {
+
         this(pId, null, null);
     }
 
@@ -71,5 +74,54 @@ public class TravelModel {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Class constructor. Read from {@link android.os.Parcel} object.
+     *
+     * @param in
+     *            Input data object.
+     */
+    public TravelModel(final Parcel in) {
+        readFromParcel(in);
+    }
+
+    public static final Creator<TravelModel> CREATOR = new Creator<TravelModel>() {
+        public TravelModel createFromParcel(Parcel in) {
+            return new TravelModel(in);
+        }
+
+        public TravelModel[] newArray(int size) {
+            return new TravelModel[size];
+        }
+    };
+
+    /**
+     * Write this object to {@link android.os.Parcel} destination object.
+     */
+    @Override
+    public void writeToParcel(final Parcel out, final int flags) {
+        out.writeLong(getId());
+        out.writeString(getName());
+    }
+
+    /**
+     * Read from {@link android.os.Parcel} object to this object.
+     *
+     * @param in
+     *            Input data.
+     */
+    private void readFromParcel(Parcel in) {
+        this.setId(in.readLong());
+        this.setName(in.readString());
     }
 }

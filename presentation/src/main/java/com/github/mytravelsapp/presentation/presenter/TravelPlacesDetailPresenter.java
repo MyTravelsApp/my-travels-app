@@ -41,10 +41,10 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
     public void loadModel(final long travelId) {
         TravelPlacesModel model;
         if (travelId == TravelPlacesModel.DEFAULT_ID) {
-            model = new TravelPlacesModel(TravelPlacesModel.DEFAULT_ID,travelId);
+            model = new TravelPlacesModel();
         } else {
-            model = new TravelPlacesModel(1L,travelId);
-            model.setName("Plaza españa");
+            model = new TravelPlacesModel();
+            model.setTravelModel(new TravelModel(travelId));
         }
         getView().renderModel(model);
     }
@@ -57,7 +57,7 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
             final TravelPlacesModel model = getView().getCurrentModel();
             try {
                 travelPlacesService.save(converter.convertToDto(model));
-                getNavigator().navigateToTravelPlaces(getView().getViewContext(),new TravelModel(model.getTravelId()));
+                getNavigator().navigateToTravelPlaces(getView().getViewContext(),model.getTravelModel());
             } catch (PersistenceException e) {
                 e.printStackTrace();
             }
