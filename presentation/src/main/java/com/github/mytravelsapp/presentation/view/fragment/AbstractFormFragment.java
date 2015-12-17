@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ public abstract class AbstractFormFragment<V extends View, P extends Presenter<V
     protected boolean validateRequiredField(final TextView textView) {
         boolean isValid = true;
         if (isEmpty(textView)) {
-            textView.setError(getString(R.string.error_required));
+            setError(textView, getString(R.string.error_required));
             isValid = false;
         }
         return isValid;
@@ -33,12 +34,20 @@ public abstract class AbstractFormFragment<V extends View, P extends Presenter<V
             try {
                 sdf.parse(textView.getText().toString());
             } catch (final ParseException e) {
-                textView.setError(getString(R.string.error_date_format));
+                setError(textView, getString(R.string.error_date_format));
                 isValid = false;
             }
         }
 
         return isValid;
+    }
+
+    private void setError(final TextView textView, final String message) {
+        if (textView.getParent() instanceof TextInputLayout && ((TextInputLayout) textView.getParent()).isErrorEnabled()) {
+            ((TextInputLayout) textView.getParent()).setError(message);
+        } else {
+            textView.setError(message);
+        }
     }
 
     private boolean isEmpty(final TextView textView) {

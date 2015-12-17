@@ -13,6 +13,8 @@
         <!-- Spinner -->
         <item name="android:spinnerItemStyle">@style/AppTheme.Spinner.Item</item>
         <item name="android:spinnerDropDownItemStyle">@style/AppTheme.Spinner.DropDownItem</item>
+        <!-- Search View -->
+        <item name="android:textColorHint">@color/textColorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -23,6 +25,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Toolbar -->
+    <style name="AppTheme.ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
 
     <!-- Dialog Theme -->
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -42,6 +49,15 @@
         <item name="android:visibility">visible</item>
     </style>
 
+    <!-- Floating buttons -->
+    <style name="AppTheme.FloatingButtonBottomEnd">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/floating_button_layout_margin</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
     <!-- List rows styles -->
     <style name="AppTheme.RowText">
         <item name="android:layout_width">wrap_content</item>
@@ -58,9 +74,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Label styles -->
+    <style name="AppTheme.Label">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/textColorHint</item>
+    </style>
+
     <!-- Inputs styles -->
     <style name="AppTheme.EditText">
         <item name="android:textColor">@color/textColorSecundary</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
     </style>
 
     <style name="AppTheme.FullEditText" parent="AppTheme.EditText">

@@ -74,7 +74,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         // Setup UI
         this.rv_travels.setLayoutManager(new LinearLayoutManager(getActivity()));
         this.rv_travels.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        this.adapter = new TravelAdapter(getActivity(), new ArrayList<TravelModel>());// FIXME List to load
+        this.adapter = new TravelAdapter(getActivity(), new ArrayList<TravelModel>());
         this.adapter.setOnItemClickListener(onItemClickListener);
         this.rv_travels.setAdapter(this.adapter);
         this.btn_add_travel.setOnClickListener(onAddClickListener);

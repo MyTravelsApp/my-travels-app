@@ -4,8 +4,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#F44336</color>
+    <color name="colorAccentTransparent">#FFCDD2</color>
     <color name="windowBackground">#E8EAF6</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecundary">#000000</color>
+    <color name="textColorHint">@android:color/darker_gray</color>
     <color name="lineDivider">@android:color/darker_gray</color>
 </resources>
