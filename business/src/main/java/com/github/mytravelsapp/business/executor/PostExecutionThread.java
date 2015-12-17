@@ -1,7 +1,7 @@
 package com.github.mytravelsapp.business.executor;
 
 /**
- * Created by kisco on 15/12/2015.
+ * Thread abstraction to change the execution context for the callback of background task.
  */
 public interface PostExecutionThread {
     void executeOnUiThread(Runnable runnable);

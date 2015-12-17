@@ -4,6 +4,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Splash -->
+    <dimen name="splash_text">35sp</dimen>
+
     <!-- Floating buttons -->
     <dimen name="floating_button_layout_margin">16dp</dimen>
 

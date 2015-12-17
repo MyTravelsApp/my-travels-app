@@ -4,9 +4,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_splash">
 
+    <ImageView
+        android:id="@+id/app_icon"
+        style="@style/AppTheme.SplashImage"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/img_logo_description"/>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/AppTheme.SplashLabel"
+        android:layout_below="@id/app_icon"
         android:text="@string/app_name" />
 
 </RelativeLayout>

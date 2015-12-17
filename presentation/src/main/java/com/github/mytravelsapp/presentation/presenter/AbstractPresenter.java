@@ -14,7 +14,7 @@ public abstract class AbstractPresenter<V extends View> implements Presenter<V> 
 
     private V view;
 
-    private Navigator navigator;
+    private final Navigator navigator;
 
     public AbstractPresenter (final Navigator pNavigator) {
         this.navigator = pNavigator;

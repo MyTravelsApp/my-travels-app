@@ -4,5 +4,5 @@
         android:id="@+id/action_save_travel"
         android:icon="@drawable/ic_done_white_24dp"
         app:showAsAction="ifRoom"
-        android:title="" />
+        android:title="@string/action_save" />
 </menu>

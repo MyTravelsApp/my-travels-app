@@ -43,27 +43,6 @@ public class TravelListActivity extends AbstractActivity implements HasComponent
     }
 
     /**
-     * Control menu item selection.
-     *
-     * @param item Selected menu.
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result;
-        switch (item.getItemId()) {
-            case R.id.action_search_travel:
-                // FIXME Search travel action
-                result = false;
-                break;
-            default:
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-        return result;
-    }
-
-    /**
      * Initialize DI components for this activity.
      */
     private void initializeInjector() {

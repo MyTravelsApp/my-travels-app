@@ -93,7 +93,11 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                navigator.navigateToTravelList(this);
+                if (travelId == TravelModel.DEFAULT_ID) {
+                    navigator.navigateToTravelList(this);
+                } else {
+                    navigator.navigateToTravelPlaces(this, new TravelModel(travelId));
+                }
                 result = true;
                 break;
             default:

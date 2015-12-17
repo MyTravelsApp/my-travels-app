@@ -24,10 +24,10 @@ ext {
     daggerVersion = '2.0.2' // Dependency injection
     butterKnifeVersion = '7.0.1' // Bind attributes from android app
     appCompactVersion = '23.1.1'
-    recyclerViewVersion = '23.1.0'
-    designVersion = '23.1.0'
+    recyclerViewVersion = '23.1.1'
+    designVersion = '23.1.1'
     javaxAnnotationVersion = '1.0'
-    ormLiteVersion = '4.48'
+    ormLiteVersion = '4.48' // Database ORM
 
     //Testing
     robolectricVersion = '3.0'

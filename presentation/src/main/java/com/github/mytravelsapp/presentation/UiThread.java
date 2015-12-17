@@ -9,18 +9,18 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Created by kisco on 15/12/2015.
+ * MainThread (UI Thread) implementation based on {@link android.os.Handler}.
  */
 @Singleton
 public class UiThread implements PostExecutionThread {
 
     @Inject
-    public UiThread () {
+    public UiThread() {
 
     }
 
     @Override
-    public  void executeOnUiThread(final Runnable runnable) {
+    public void executeOnUiThread(final Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);
     }
 }

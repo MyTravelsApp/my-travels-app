@@ -4,7 +4,9 @@ import com.github.mytravelsapp.business.executor.PostExecutionThread;
 import com.github.mytravelsapp.business.executor.ThreadExecutor;
 
 /**
- * Created by kisco on 15/12/2015.
+ * Base class for background interactor tasks.
+ *
+ * @param <R> Result type.
  */
 public abstract class AbstractBackgroundInteractor<R> {
 
