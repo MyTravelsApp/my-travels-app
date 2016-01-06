@@ -60,4 +60,19 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
         getView().renderList(converter.convert(result));
     }
 
+    /**
+     * Load travels and render in view.
+     *
+     * @param filter Text to filter.
+     */
+    public void searchTravelsPlaces(final String filter, final long travelId) {
+        List<TravelPlacesDto> result = Collections.emptyList();
+        try {
+            result = travelPlacesService.find(filter, travelId);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        getView().renderList(converter.convert(result));
+    }
+
 }

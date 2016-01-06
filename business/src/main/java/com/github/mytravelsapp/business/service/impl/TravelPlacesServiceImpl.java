@@ -35,8 +35,8 @@ public class TravelPlacesServiceImpl implements TravelPlacesService {
     }
 
     @Override
-    public List<TravelPlacesDto> find(final String textFilter) throws PersistenceException{
-        return travelPlacesRepository.find(textFilter);
+    public List<TravelPlacesDto> find(final String textFilter, final long travelId) throws PersistenceException{
+        return travelPlacesRepository.find(textFilter, travelId);
     }
 
     @Override

@@ -1,21 +1,16 @@
 package com.github.mytravelsapp.persistence.repository;
 
-import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
-import com.github.mytravelsapp.business.repository.TravelRepository;
-import com.github.mytravelsapp.persistence.converter.TravelConverter;
 import com.github.mytravelsapp.persistence.converter.TravelPlacesConverter;
-import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 import com.github.mytravelsapp.persistence.helper.DatabaseHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,13 +57,16 @@ public class DatabaseTravelPlacesRepository implements TravelPlacesRepository {
     }
 
     @Override
-    public List<TravelPlacesDto> find(final String textFilter) throws PersistenceException {
+    public List<TravelPlacesDto> find(final String textFilter, final long travelId) throws PersistenceException {
         // FIXME Add filters
         try {
             final QueryBuilder<TravelPlaces, Long> builder = getDao().queryBuilder();
+            final Where<TravelPlaces, Long> where = builder.where();
             if (textFilter != null && textFilter.trim().length() > 0) {
-                builder.where().like(TravelPlaces.FIELD_NAME, textFilter).or().like(TravelPlaces.FIELD_CATEGORY, textFilter);
+                final String likeFilter = "%" + textFilter + "%";
+               where.like(TravelPlaces.FIELD_NAME, likeFilter).or().like(TravelPlaces.FIELD_CATEGORY, likeFilter);
             }
+            where.and().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
 
             return converter.convertToDto(getDao().query(builder.prepare()));
         } catch (final SQLException e) {

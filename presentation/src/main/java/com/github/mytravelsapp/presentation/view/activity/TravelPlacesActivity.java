@@ -76,17 +76,6 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         super.onSaveInstanceState(outState);
     }
 
-    /**
-     * Load activity menu.
-     *
-     * @param menu Activity menu.
-     * @return true if activity has menu otherwise false.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_travel_list, menu);
-        return true;
-    }
 
     @Override
     public void onTravelPlacesClicked(TravelPlacesModel model) {

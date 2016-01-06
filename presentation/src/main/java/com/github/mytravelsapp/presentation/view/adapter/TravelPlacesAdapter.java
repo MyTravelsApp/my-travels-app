@@ -64,7 +64,15 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
     }
 
     public void setList(final List<TravelPlacesModel> pList) {
+        validateData(pList);
         this.list = pList;
+        this.notifyDataSetChanged();
+    }
+
+    private void validateData (final List<TravelPlacesModel> data) {
+        if (data == null) {
+            throw new IllegalArgumentException("The list cannot be null");
+        }
     }
 
     static class TravelPlacesViewHolder extends RecyclerView.ViewHolder {

@@ -3,9 +3,14 @@ package com.github.mytravelsapp.presentation.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,6 +55,9 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Bind(R.id.btn_add_travel_places)
     FloatingActionButton btn_add_travel_places;
 
+    private SearchView searchView;
+
+    private String currentFilter;
 
 
     public static TravelPlacesFragment newInstance(final TravelModel pTravelModel) {
@@ -75,10 +83,84 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);
         this.rv_travels_places.setAdapter(this.adapter);
-
+        setHasOptionsMenu(true);
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
 
         return fragmentView;
+    }
+
+    /**
+     * Load fragment menu.
+     *
+     * @param menu     Fragment menu.
+     * @param inflater Menu inflater.
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_travel_places, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search_travel);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getString(R.string.text_search_box));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String filter) {
+                currentFilter = filter;
+                filterTravelsPlaces();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String filter) {
+                return true;
+            }
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean queryTextFocused) {
+                if (!queryTextFocused) {
+                    MenuItemCompat.collapseActionView(searchItem);
+                    searchView.setQuery("", false);
+                }
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (currentFilter != null) {
+                    currentFilter = null;
+                    filterTravelsPlaces();
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return boolean result.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.action_edit_travel:
+                presenter.getNavigator().navigateToTravelDetail(getContext(),travelModel);
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
     }
 
     /**
@@ -102,6 +184,10 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         getPresenter().loadTravelsPlaces(travelModel.getId());
     }
 
+    private void filterTravelsPlaces (){
+        getPresenter().searchTravelsPlaces(currentFilter, travelModel.getId());
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -118,13 +204,13 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         return presenter;
     }
 
+
     @Override
     public void newTravelPlaces() {
         if (travelPlacesListener != null) {
             travelPlacesListener.onAddTravelPlacesClicked(travelModel);
         }
     }
-
 
     @Override
     public void onAttach(Context context) {
