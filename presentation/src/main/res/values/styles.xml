@@ -71,6 +71,14 @@
     </style>
 
     <!-- List rows styles -->
+
+    <style name="AppTheme.Row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/lv_row_padding</item>
+        <item name="android:background">@color/rowBackground</item>
+    </style>
+
     <style name="AppTheme.RowText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

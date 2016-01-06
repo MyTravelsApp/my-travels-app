@@ -6,7 +6,7 @@ import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.persistence.converter.TravelPlacesConverter;
 import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 import com.github.mytravelsapp.persistence.helper.DatabaseHelper;
-import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
@@ -22,15 +22,14 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Named("databaseTravelPlacesRepository")
-public class DatabaseTravelPlacesRepository implements TravelPlacesRepository {
+public class DatabaseTravelPlacesRepository extends DatabaseRepository<TravelPlaces, Long> implements TravelPlacesRepository {
 
     private final TravelPlacesConverter converter;
-    private final DatabaseHelper dbHelper;
 
     @Inject
     public DatabaseTravelPlacesRepository(TravelPlacesConverter converter, DatabaseHelper dbHelper) {
+        super(dbHelper, TravelPlaces.class);
         this.converter = converter;
-        this.dbHelper = dbHelper;
     }
 
     @Override
@@ -82,9 +81,32 @@ public class DatabaseTravelPlacesRepository implements TravelPlacesRepository {
             return converter.convertToDto(getDao().query(builder.prepare()));
         } catch (final SQLException e) {
             throw new PersistenceException("Error find travels", e);
-        }    }
+        }
+    }
 
-    private Dao<TravelPlaces, Long> getDao() throws SQLException {
-        return dbHelper.getDao(TravelPlaces.class);
+    @Override
+    public void remove(final Long identifier) throws PersistenceException {
+        if (identifier == null) {
+            throw new IllegalArgumentException("identifier cannot be null");
+        }
+        try {
+            getDao().deleteById(identifier);
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error delete travel places with id: " + identifier, e);
+        }
+    }
+
+    @Override
+    public void removeByTravel(final Long travelId) throws PersistenceException {
+        if (travelId == null) {
+            throw new IllegalArgumentException("travelId cannot be null");
+        }
+        try {
+            final DeleteBuilder<TravelPlaces, Long> deleteBuilder = getDao().deleteBuilder();
+            deleteBuilder.where().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
+            getDao().delete(deleteBuilder.prepare());
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error delete travel places associated with travel: " + travelId, e);
+        }
     }
 }
