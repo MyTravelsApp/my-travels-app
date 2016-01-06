@@ -2,10 +2,11 @@ package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.exception.PersistenceException;
+import com.github.mytravelsapp.business.interactor.Callback;
+import com.github.mytravelsapp.business.interactor.RemoveTravelPlacesInteractor;
 import com.github.mytravelsapp.business.service.TravelPlacesService;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
-import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
@@ -23,11 +24,13 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
 
     private final TravelPlacesService travelPlacesService;
     private final TravelPlacesModelConverter converter;
+    private final RemoveTravelPlacesInteractor removeTravelPlacesInteractor;
 
     @Inject
-    public TravelPlacesPresenter(final Navigator pNavigator, TravelPlacesService travelPlacesService, TravelPlacesModelConverter converter) {
+    public TravelPlacesPresenter(final Navigator pNavigator,final TravelPlacesService travelPlacesService, final RemoveTravelPlacesInteractor pRemoveTravelPlacesInteractor, final TravelPlacesModelConverter converter) {
         super(pNavigator);
         this.travelPlacesService = travelPlacesService;
+        this.removeTravelPlacesInteractor = pRemoveTravelPlacesInteractor;
         this.converter = converter;
     }
 
@@ -73,6 +76,24 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
             e.printStackTrace();
         }
         getView().renderList(converter.convert(result));
+    }
+
+    /**
+     * Remove travel
+     */
+    public void removeTravelPlaces(final long travelPlacesId) {
+        removeTravelPlacesInteractor.setTravelPlacesId(travelPlacesId);
+        removeTravelPlacesInteractor.execute(new Callback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+
+            }
+
+            @Override
+            public void onError(Throwable cause) {
+                // FIXME SHOW ERROR!!!!
+            }
+        });
     }
 
 }

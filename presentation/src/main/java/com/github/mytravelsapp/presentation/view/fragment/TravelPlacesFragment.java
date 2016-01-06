@@ -7,6 +7,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
+import com.github.mytravelsapp.presentation.view.components.TravelPlacesTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +84,13 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
         this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);
+        this.adapter.setOnRemoveListener(onRemoveListener);
         this.rv_travels_places.setAdapter(this.adapter);
         setHasOptionsMenu(true);
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
-
+        //Add event delete touch
+        final ItemTouchHelper helper = new ItemTouchHelper(new TravelPlacesTouchHelperCallback(this.adapter));
+        helper.attachToRecyclerView(rv_travels_places);
         return fragmentView;
     }
 
@@ -253,6 +258,15 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         public void onClick(final View v) {
             if (getPresenter() != null) {
                 getPresenter().newTravelPlaces();
+            }
+        }
+    };
+
+    private final TravelPlacesAdapter.OnRemoveListener onRemoveListener = new TravelPlacesAdapter.OnRemoveListener() {
+        @Override
+        public void onRemove(long identifier) {
+            if (getPresenter() != null) {
+                getPresenter().removeTravelPlaces(identifier);
             }
         }
     };

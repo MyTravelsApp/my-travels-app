@@ -25,7 +25,7 @@ public class TravelDetailsActivityTest extends ActivityInstrumentationTestCase2<
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.setActivityIntent(TravelDetailsActivity.getCallingIntent(getInstrumentation().getContext(), FAKE_ID));
+        //this.setActivityIntent(TravelDetailsActivity.getCallingIntent(getInstrumentation().getContext(), FAKE_ID));
         activity = getActivity();
     }
 

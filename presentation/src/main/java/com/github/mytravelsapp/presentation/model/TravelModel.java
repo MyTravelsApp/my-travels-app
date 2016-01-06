@@ -13,7 +13,7 @@ import java.util.Date;
 public class TravelModel implements Parcelable{
     public static final long DEFAULT_ID = -1;
 
-    private long id;
+    private long id = DEFAULT_ID;
 
     private String name;
 

@@ -43,7 +43,7 @@ public class Navigator {
      */
     public void navigateToTravelDetail(final Context context, final TravelModel model) {
         if (context != null) {
-            context.startActivity(TravelDetailsActivity.getCallingIntent(context, model.getId()));
+            context.startActivity(TravelDetailsActivity.getCallingIntent(context, model));
         }
     }
 
