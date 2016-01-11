@@ -1,17 +1,15 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
-import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.interactor.Callback;
+import com.github.mytravelsapp.business.interactor.GetTravelPlacesListInteractor;
 import com.github.mytravelsapp.business.interactor.RemoveTravelPlacesInteractor;
-import com.github.mytravelsapp.business.service.TravelPlacesService;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,15 +20,15 @@ import javax.inject.Inject;
 @PerActivity
 public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
 
-    private final TravelPlacesService travelPlacesService;
     private final TravelPlacesModelConverter converter;
     private final RemoveTravelPlacesInteractor removeTravelPlacesInteractor;
+    private final GetTravelPlacesListInteractor getTravelPlacesListInteractor;
 
     @Inject
-    public TravelPlacesPresenter(final Navigator pNavigator,final TravelPlacesService travelPlacesService, final RemoveTravelPlacesInteractor pRemoveTravelPlacesInteractor, final TravelPlacesModelConverter converter) {
+    public TravelPlacesPresenter(final Navigator pNavigator, final RemoveTravelPlacesInteractor pRemoveTravelPlacesInteractor, final GetTravelPlacesListInteractor pGetTravelPlacesListInteractor, final TravelPlacesModelConverter converter) {
         super(pNavigator);
-        this.travelPlacesService = travelPlacesService;
         this.removeTravelPlacesInteractor = pRemoveTravelPlacesInteractor;
+        this.getTravelPlacesListInteractor = pGetTravelPlacesListInteractor;
         this.converter = converter;
     }
 
@@ -52,30 +50,26 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
 
     /**
      * Load travels and render in view.
-     */
-    public void loadTravelsPlaces(final long travelId) {
-        List<TravelPlacesDto> result = Collections.emptyList();
-        try {
-            result = travelPlacesService.findByTravel(travelId);
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }
-        getView().renderList(converter.convert(result));
-    }
-
-    /**
-     * Load travels and render in view.
      *
      * @param filter Text to filter.
      */
     public void searchTravelsPlaces(final String filter, final long travelId) {
-        List<TravelPlacesDto> result = Collections.emptyList();
-        try {
-            result = travelPlacesService.find(filter, travelId);
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }
-        getView().renderList(converter.convert(result));
+        getView().showLoading();
+        getTravelPlacesListInteractor.setFilter(filter);
+        getTravelPlacesListInteractor.setTravelId(travelId);
+        getTravelPlacesListInteractor.execute(new Callback<List<TravelPlacesDto>>() {
+            @Override
+            public void onSuccess(List<TravelPlacesDto> result) {
+                getView().hideLoading();
+                getView().renderList(converter.convert(result));
+            }
+
+            @Override
+            public void onError(final Throwable cause) {
+                getView().hideLoading();
+                // FIXME SHOW ERROR!!!!
+            }
+        });
     }
 
     /**

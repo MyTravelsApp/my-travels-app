@@ -21,4 +21,6 @@
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/floating_button_layout_margin" />
 
+    <include layout="@layout/view_progress" />
+
 </android.support.design.widget.CoordinatorLayout>

@@ -7,7 +7,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
  *
  * @author fjtorres
  */
-public interface TravelDetailsView extends View {
+public interface TravelDetailsView extends LoadDataView {
 
     /**
      * Render specific travel in the view.
@@ -30,7 +30,4 @@ public interface TravelDetailsView extends View {
      */
     boolean validate();
 
-    void showLoading();
-
-    void hideLoading();
 }

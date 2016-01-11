@@ -9,7 +9,6 @@ import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
-import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesDetailsFragment;
 

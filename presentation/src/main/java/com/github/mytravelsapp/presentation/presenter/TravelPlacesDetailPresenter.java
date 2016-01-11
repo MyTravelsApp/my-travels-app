@@ -1,18 +1,14 @@
 package com.github.mytravelsapp.presentation.presenter;
 
-import com.github.mytravelsapp.business.exception.PersistenceException;
-import com.github.mytravelsapp.business.service.TravelPlacesService;
-import com.github.mytravelsapp.business.service.TravelService;
-import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
+import com.github.mytravelsapp.business.dto.TravelPlacesDto;
+import com.github.mytravelsapp.business.interactor.Callback;
+import com.github.mytravelsapp.business.interactor.GetTravelPlacesInteractor;
+import com.github.mytravelsapp.business.interactor.SaveTravelPlacesInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
-import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
-import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
-import com.github.mytravelsapp.presentation.view.TravelPlacesView;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -21,15 +17,18 @@ import javax.inject.Inject;
  *
  * @author stefani
  */
+@PerActivity
 public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesDetailsView> {
 
-    private final TravelPlacesService travelPlacesService;
     private final TravelPlacesModelConverter converter;
+    private final SaveTravelPlacesInteractor saveTravelPlacesInteractor;
+    private final GetTravelPlacesInteractor getTravelPlacesInteractor;
 
     @Inject
-    public TravelPlacesDetailPresenter(final Navigator pNavigator, TravelPlacesService travelPlacesService, TravelPlacesModelConverter converter) {
+    public TravelPlacesDetailPresenter(final Navigator pNavigator, final SaveTravelPlacesInteractor pSaveTravelPlacesInteractor, final GetTravelPlacesInteractor pGetTravelPlacesInteractor, final TravelPlacesModelConverter converter) {
         super(pNavigator);
-        this.travelPlacesService = travelPlacesService;
+        this.saveTravelPlacesInteractor = pSaveTravelPlacesInteractor;
+        this.getTravelPlacesInteractor = pGetTravelPlacesInteractor;
         this.converter = converter;
     }
 
@@ -39,14 +38,21 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
      * @param travelId Travel identifier.
      */
     public void loadModel(final long travelId) {
-        TravelPlacesModel model;
-        if (travelId == TravelPlacesModel.DEFAULT_ID) {
-            model = new TravelPlacesModel();
-        } else {
-            model = new TravelPlacesModel();
-            model.setTravelModel(new TravelModel(travelId));
-        }
-        getView().renderModel(model);
+        getView().showLoading();
+        getTravelPlacesInteractor.setTravelPlacesId(travelId);
+        getTravelPlacesInteractor.execute(new Callback<TravelPlacesDto>() {
+            @Override
+            public void onSuccess(TravelPlacesDto result) {
+                getView().hideLoading();
+                getView().renderModel(converter.convert(result));
+            }
+
+            @Override
+            public void onError(Throwable cause) {
+                getView().hideLoading();
+                // FIXME SHOW ERROR!!!!
+            }
+        });
     }
 
     /**
@@ -54,13 +60,24 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
      */
     public void save() {
         if (getView().validate()) {
-            final TravelPlacesModel model = getView().getCurrentModel();
-            try {
-                travelPlacesService.save(converter.convertToDto(model));
-                getNavigator().navigateToTravelPlaces(getView().getViewContext(),model.getTravelModel());
-            } catch (PersistenceException e) {
-                e.printStackTrace();
-            }
+            getView().showLoading();
+            final TravelPlacesModel currentModel = getView().getCurrentModel();
+            saveTravelPlacesInteractor.setData(converter.convertToDto(currentModel));
+            saveTravelPlacesInteractor.execute(new Callback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    if (Boolean.TRUE.equals(result)) {
+                        getView().hideLoading();
+                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel.getTravelModel()); // FIXME Parameter with travel
+                    }
+                }
+
+                @Override
+                public void onError(Throwable cause) {
+                    getView().hideLoading();
+                    // FIXME SHOW ERROR!!!!
+                }
+            });
         }
     }
 }

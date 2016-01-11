@@ -8,7 +8,7 @@ import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
  *
  * @author stefani
  */
-public interface TravelPlacesDetailsView extends View {
+public interface TravelPlacesDetailsView extends LoadDataView {
 
     /**
      * Render specific model in the view.

@@ -56,4 +56,6 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <include layout="@layout/view_progress" />
+
 </RelativeLayout>

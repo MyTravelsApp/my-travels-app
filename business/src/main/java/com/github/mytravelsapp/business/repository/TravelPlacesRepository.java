@@ -17,8 +17,6 @@ public interface TravelPlacesRepository {
 
     List<TravelPlacesDto> find(String textFilter,long travelId) throws PersistenceException;
 
-    List<TravelPlacesDto> findByTravel(long travelId) throws PersistenceException;
-
     void remove(Long identifier) throws PersistenceException;
 
     void removeByTravel(Long travelId) throws PersistenceException;

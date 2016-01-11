@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
@@ -13,7 +12,6 @@ import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComp
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 
 /**

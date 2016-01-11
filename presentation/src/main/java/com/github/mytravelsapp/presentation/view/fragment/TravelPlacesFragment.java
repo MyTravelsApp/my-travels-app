@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
@@ -56,6 +57,9 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
     @Bind(R.id.btn_add_travel_places)
     FloatingActionButton btn_add_travel_places;
+
+    @Bind(R.id.rl_progress)
+    RelativeLayout rl_progress;
 
     private SearchView searchView;
 
@@ -175,7 +179,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
-        loadTravelsPlaces();
+        filterTravelsPlaces();
     }
 
     private void initialize() {
@@ -183,10 +187,6 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
         travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         this.presenter.setView(this);
-    }
-
-    private void loadTravelsPlaces() {
-        getPresenter().loadTravelsPlaces(travelModel.getId());
     }
 
     private void filterTravelsPlaces (){
@@ -270,5 +270,17 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
             }
         }
     };
+
+    @Override
+    public void showLoading() {
+        rl_progress.setVisibility(View.VISIBLE);
+        getActivity().setProgressBarIndeterminate(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        rl_progress.setVisibility(View.GONE);
+        getActivity().setProgressBarIndeterminate(false);
+    }
 
 }

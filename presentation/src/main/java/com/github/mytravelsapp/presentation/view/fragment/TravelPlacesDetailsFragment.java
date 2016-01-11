@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,8 +52,6 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Inject
     TravelPlacesDetailPresenter presenter;
 
-    private TravelPlacesDetailsListener travelPlacesDetailsListener;
-
     private TravelPlacesModel travelPlacesModel;
 
     @Bind(R.id.txt_name)
@@ -63,6 +62,9 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     @Bind(R.id.spinner_category)
     Spinner spinner_category;
+
+    @Bind(R.id.rl_progress)
+    RelativeLayout rl_progress;
 
     public static TravelPlacesDetailsFragment newInstance(final TravelPlacesModel travelPlacesModel) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
@@ -197,6 +199,18 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         model.setObservations(txt_observation.getText().toString());
         model.setCategory(spinner_category.getSelectedItem().toString());
         return model;
+    }
+
+    @Override
+    public void showLoading() {
+        rl_progress.setVisibility(View.VISIBLE);
+        getActivity().setProgressBarIndeterminate(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        rl_progress.setVisibility(View.GONE);
+        getActivity().setProgressBarIndeterminate(false);
     }
 
     public interface TravelPlacesDetailsListener {
