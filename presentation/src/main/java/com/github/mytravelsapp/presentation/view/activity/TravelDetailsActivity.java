@@ -20,23 +20,22 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
  */
 public class TravelDetailsActivity extends AbstractActivity implements HasComponent<TravelComponent> {
 
-    private static final String INTENT_EXTRA_PARAM_TRAVEL_ID = "INTENT_PARAM_TRAVEL_ID";
-    private static final String STATE_PARAM_TRAVEL_ID = "STATE_PARAM_TRAVEL_ID";
+    private static final String INTENT_EXTRA_PARAM_TRAVEL_MODEL = "INTENT_PARAM_TRAVEL_MODEL";
+    private static final String STATE_PARAM_TRAVEL_MODEL = "STATE_PARAM_TRAVEL_MODEL";
 
     private TravelComponent component;
-
-    private long travelId;
+    private TravelModel travelModel;
 
     /**
      * Generate intent to open this activity.
      *
      * @param context  Source context.
-     * @param travelId Travel identifier to view in detail.
+     * @param pTravelModel Travel identifier to view in detail.
      * @return Intent.
      */
-    public static Intent getCallingIntent(final Context context, final long travelId) {
+    public static Intent getCallingIntent(final Context context, final TravelModel pTravelModel) {
         final Intent callingIntent = new Intent(context, TravelDetailsActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, travelId);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL, pTravelModel);
         return callingIntent;
     }
 
@@ -53,10 +52,10 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
 
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
-            travelId = getIntent().getLongExtra(INTENT_EXTRA_PARAM_TRAVEL_ID, TravelModel.DEFAULT_ID);
-            addFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(this.travelId));
+            travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
+            addFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(travelModel));
         } else {
-            travelId = savedInstanceState.getLong(STATE_PARAM_TRAVEL_ID);
+            travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }
 
         initializeInjector();
@@ -70,7 +69,8 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putLong(STATE_PARAM_TRAVEL_ID, travelId);
+            //outState.putLong(STATE_PARAM_TRAVEL_ID, travelId);
+            outState.putParcelable(STATE_PARAM_TRAVEL_MODEL, travelModel);
         }
         super.onSaveInstanceState(outState);
     }
@@ -93,10 +93,10 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                if (travelId == TravelModel.DEFAULT_ID) {
+                if (travelModel.getId() == TravelModel.DEFAULT_ID) {
                     navigator.navigateToTravelList(this);
                 } else {
-                    navigator.navigateToTravelPlaces(this, new TravelModel(travelId));
+                    navigator.navigateToTravelPlaces(this, travelModel);
                 }
                 result = true;
                 break;

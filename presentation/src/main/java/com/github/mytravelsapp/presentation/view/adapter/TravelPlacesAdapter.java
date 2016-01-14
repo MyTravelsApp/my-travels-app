@@ -27,6 +27,8 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
     private OnItemClickListener onItemClickListener;
 
+    private OnRemoveListener onRemoveListener;
+
     public TravelPlacesAdapter(final Context context, final List<TravelPlacesModel> pList) {
         this.list = pList;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,8 +65,25 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void remove(final int position) {
+        final TravelPlacesModel removed = list.remove(position);
+        notifyItemRemoved(position);
+
+        if (onRemoveListener != null) {
+            onRemoveListener.onRemove(removed.getId());
+        }
+    }
+
     public void setList(final List<TravelPlacesModel> pList) {
+        validateData(pList);
         this.list = pList;
+        this.notifyDataSetChanged();
+    }
+
+    private void validateData (final List<TravelPlacesModel> data) {
+        if (data == null) {
+            throw new IllegalArgumentException("The list cannot be null");
+        }
     }
 
     static class TravelPlacesViewHolder extends RecyclerView.ViewHolder {
@@ -87,5 +106,11 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
     public interface OnItemClickListener {
         void onTravelPlacesItemClicked(TravelPlacesModel model);
     }
+    public interface OnRemoveListener {
+        void onRemove(long identifier);
+    }
 
+    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
+        this.onRemoveListener = onRemoveListener;
+    }
 }

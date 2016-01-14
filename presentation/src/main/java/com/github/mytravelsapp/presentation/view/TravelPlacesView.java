@@ -11,7 +11,7 @@ import java.util.List;
  * Definition of the travel list view methods.
  * Created by stefani on 10/12/2015.
  */
-public interface TravelPlacesView extends View {
+public interface TravelPlacesView extends LoadDataView {
 
     /**
      * Render travels in the view.

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
@@ -13,7 +12,6 @@ import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComp
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 
 /**
@@ -76,17 +74,6 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         super.onSaveInstanceState(outState);
     }
 
-    /**
-     * Load activity menu.
-     *
-     * @param menu Activity menu.
-     * @return true if activity has menu otherwise false.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_travel_list, menu);
-        return true;
-    }
 
     @Override
     public void onTravelPlacesClicked(TravelPlacesModel model) {

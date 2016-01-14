@@ -35,12 +35,12 @@ import butterknife.ButterKnife;
  */
 public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsView, TravelDetailPresenter> implements TravelDetailsView {
 
-    private static final String ARGUMENT_TRAVEL_ID = "ARGUMENT_TRAVEL_ID";
+    private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
 
     @Inject
     TravelDetailPresenter presenter;
 
-    private long travelId;
+    private TravelModel travelModel;
 
     @Bind(R.id.txt_name)
     EditText txt_name;
@@ -63,10 +63,10 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
 
-    public static TravelDetailsFragment newInstance(final long travelId) {
+    public static TravelDetailsFragment newInstance(final TravelModel pTravelModel) {
         final TravelDetailsFragment fragment = new TravelDetailsFragment();
         final Bundle arguments = new Bundle();
-        arguments.putLong(ARGUMENT_TRAVEL_ID, travelId);
+        arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -139,9 +139,9 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
 
     private void initialize() {
         getComponent(TravelComponent.class).inject(this);
-        this.travelId = getArguments().getLong(ARGUMENT_TRAVEL_ID);
+        this.travelModel= getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         getPresenter().setView(this);
-        getPresenter().loadModel(this.travelId);
+        getPresenter().loadModel(travelModel.getId());
     }
 
     private void saveAction() {
@@ -166,15 +166,17 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
                 txt_finish_date.setText(sdf.format(model.getFinishDate()));
             }
 
-            if (travelId == TravelModel.DEFAULT_ID) {
+            if (travelModel.getId() == TravelModel.DEFAULT_ID) {
                 getActivity().setTitle(R.string.activity_travel_new_title);
+            }else{
+                getActivity().setTitle(travelModel.getName());
             }
         }
     }
 
     @Override
     public TravelModel getCurrentModel() {
-        final TravelModel model = new TravelModel(travelId);
+        final TravelModel model = new TravelModel(travelModel.getId());
         final SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.conf_date_format));
         try {
             model.setFinishDate(sdf.parse(txt_finish_date.getText().toString()));
