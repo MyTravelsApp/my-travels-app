@@ -56,10 +56,12 @@ dependencies {
     testCompile presentationTestDependencies.junit
     testCompile presentationTestDependencies.mockito
 
-    androidTestCompile presentationTestDependencies.junit
-    androidTestCompile presentationTestDependencies.mockito
-    androidTestCompile presentationTestDependencies.dexmaker
-    androidTestCompile presentationTestDependencies.dexmakerMockito
+    //androidTestCompile presentationTestDependencies.mockito
+    //androidTestCompile presentationTestDependencies.dexmaker
+    //androidTestCompile presentationTestDependencies.dexmakerMockito
+    androidTestCompile presentationTestDependencies.supportAnnotations
+    androidTestCompile presentationTestDependencies.testRunner
+    androidTestCompile presentationTestDependencies.testRules
     androidTestCompile presentationTestDependencies.espresso
-    androidTestCompile presentationTestDependencies.testingSupportLib
+    androidTestCompile presentationTestDependencies.hamcrest
 }
