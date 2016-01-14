@@ -1,11 +1,11 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.interactor.Callback;
-import com.github.mytravelsapp.business.interactor.GetTravelInteractor;
-import com.github.mytravelsapp.business.interactor.SaveTravelInteractor;
-import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
+import com.github.mytravelsapp.business.interactor.GetTravelPlacesInteractor;
+import com.github.mytravelsapp.business.interactor.SaveTravelPlacesInteractor;
+import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
-import com.github.mytravelsapp.presentation.view.TravelDetailsView;
+import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
 
 import org.junit.Before;
 import org.junit.Test;
