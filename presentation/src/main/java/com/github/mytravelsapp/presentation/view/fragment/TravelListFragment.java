@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.presenter.TravelListPresenter;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
@@ -124,6 +125,10 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         switch (item.getItemId()) {
             case R.id.action_search_travel:
 
+                result = true;
+                break;
+            case R.id.action_configure_travel:
+                presenter.getNavigator().navigateToCategory(getContext());
                 result = true;
                 break;
             default:

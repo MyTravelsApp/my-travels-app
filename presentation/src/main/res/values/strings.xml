@@ -12,6 +12,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_save">Save</string>
     <string name="action_search">Search</string>
+    <string name="action_configure">Configure</string>
 
     <!-- Generic text -->
     <string name="text_search_box">Search&#8230;</string>
@@ -32,5 +33,11 @@
 
     <!-- Image content description -->
     <string name="img_logo_description">The logo of application</string>
+
+    <!-- Categories by default -->
+    <string name="category_parks">Parks</string>
+    <string name="category_museums">Museums</string>
+    <string name="category_squares">Squares</string>
+    <string name="category_monuments">Monuments</string>
 
 </resources>

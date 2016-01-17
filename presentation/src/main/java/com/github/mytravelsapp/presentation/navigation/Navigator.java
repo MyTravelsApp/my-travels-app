@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+import com.github.mytravelsapp.presentation.view.activity.CategoryActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelDetailsActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelListActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelPlacesActivity;
@@ -66,4 +67,15 @@ public class Navigator {
             context.startActivity(TravelPlacesDetailsActivity.getCallingIntent(context, model));
         }
     }
+    /**
+     * Navigate to {@link TravelPlacesDetailsActivity}.
+     *
+     * @param context Source context.
+     */
+    public void navigateToCategory(final Context context) {
+        if (context != null) {
+            context.startActivity(CategoryActivity.getCallingIntent(context));
+        }
+    }
+
 }
