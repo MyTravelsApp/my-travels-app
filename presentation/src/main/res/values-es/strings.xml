@@ -24,6 +24,7 @@
     <string name="text_finish_date_short">Hasta</string>
     <string name="text_observation">Observaciones</string>
     <string name="text_category">Categoría</string>
+    <string name="text_undo">Deshacer</string>
     <string name="prompt_category">Selecciona una categoría</string>
 
     <!-- Error messages -->
@@ -32,4 +33,8 @@
 
     <!-- Image content description -->
     <string name="img_logo_description">Logo de la aplicación</string>
+
+    <!-- Travel specific text -->
+    <string name="travel_delete">El viaje se ha eliminado</string>
+
 </resources>

@@ -25,6 +25,7 @@
     <string name="text_finish_date_short">To</string>
     <string name="text_observation">Observations</string>
     <string name="text_category">Category</string>
+    <string name="text_undo">Undo</string>
     <string name="prompt_category">Choose a category</string>
 
     <!-- Error messages -->
@@ -39,5 +40,8 @@
     <string name="category_museums">Museums</string>
     <string name="category_squares">Squares</string>
     <string name="category_monuments">Monuments</string>
+
+    <!-- Travel specific text -->
+    <string name="travel_delete">The travel has been removed</string>
 
 </resources>
