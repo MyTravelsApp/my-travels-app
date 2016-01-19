@@ -38,14 +38,14 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
      * @param selectedModel Selected travel.
      */
     public void viewDetail(final TravelPlacesModel selectedModel) {
-        getView().viewDetail(selectedModel);
+        getNavigator().navigateToTravelPlacesDetail(getView().getViewContext(), selectedModel);
     }
 
     /**
      * Navigate to new travel view.
      */
     public void newTravelPlaces() {
-        getView().newTravelPlaces();
+        getNavigator().navigateToTravelPlacesDetail(getView().getViewContext(), new TravelPlacesModel(getView().getCurrentTravel()));
     }
 
     /**

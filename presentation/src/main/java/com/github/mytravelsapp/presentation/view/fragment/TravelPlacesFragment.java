@@ -48,8 +48,6 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Inject
     TravelPlacesPresenter presenter;
 
-    private TravelPlacesListener travelPlacesListener;
-
     private TravelPlacesAdapter adapter;
 
     @Bind(R.id.rv_travels_places)
@@ -211,37 +209,16 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
 
     @Override
-    public void newTravelPlaces() {
-        if (travelPlacesListener != null) {
-            travelPlacesListener.onAddTravelPlacesClicked(travelModel);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof TravelPlacesListener) {
-            this.travelPlacesListener = (TravelPlacesListener) context;
-        }
-    }
-
-    @Override
     public void renderList(final List<TravelPlacesModel> list) {
         this.adapter.setList(list);
     }
 
+
     @Override
-    public void viewDetail(final TravelPlacesModel selectedModel) {
-        if (travelPlacesListener != null) {
-            travelPlacesListener.onTravelPlacesClicked(selectedModel);
-        }
+    public TravelModel getCurrentTravel() {
+        return this.travelModel;
     }
 
-    public interface TravelPlacesListener {
-        void onTravelPlacesClicked(TravelPlacesModel model);
-
-        void onAddTravelPlacesClicked(TravelModel model);
-    }
 
     private final TravelPlacesAdapter.OnItemClickListener onItemClickListener = new TravelPlacesAdapter.OnItemClickListener() {
         @Override
@@ -282,5 +259,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         rl_progress.setVisibility(View.GONE);
         getActivity().setProgressBarIndeterminate(false);
     }
+
+
 
 }

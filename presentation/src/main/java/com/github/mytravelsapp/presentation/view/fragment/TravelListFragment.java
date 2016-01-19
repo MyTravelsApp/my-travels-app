@@ -248,7 +248,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         @Override
         public void onRemove(final int position, final TravelModel model) {
 
-            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_LONG);
+            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
             undo.setAction(R.string.text_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

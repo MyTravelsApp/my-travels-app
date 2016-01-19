@@ -17,7 +17,7 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 /**
  * Created by stefani on 10/12/2015.
  */
-public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>, TravelPlacesFragment.TravelPlacesListener{
+public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>{
 
     private TravelPlacesComponent component;
     private TravelModel travelModel;
@@ -74,16 +74,6 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         super.onSaveInstanceState(outState);
     }
 
-
-    @Override
-    public void onTravelPlacesClicked(TravelPlacesModel model) {
-        navigator.navigateToTravelPlacesDetail(this,model);
-    }
-
-    @Override
-    public void onAddTravelPlacesClicked(final TravelModel model) {
-        navigator.navigateToTravelPlacesDetail(this, new TravelPlacesModel(model));
-    }
 
     @Override
     public TravelPlacesComponent getComponent() {

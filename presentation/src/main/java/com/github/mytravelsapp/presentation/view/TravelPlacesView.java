@@ -21,14 +21,8 @@ public interface TravelPlacesView extends LoadDataView {
     void renderList(List<TravelPlacesModel> list);
 
     /**
-     * Navigate to new travel places view.
-     */
-    void newTravelPlaces();
-
-    /**
-     * Navigate to the selected travel places detail view.
+     * Return the current travel.
      *
-     * @param selectedModel Selected travel places.
      */
-    void viewDetail(TravelPlacesModel selectedModel);
+    TravelModel getCurrentTravel();
 }

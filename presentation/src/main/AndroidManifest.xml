@@ -48,7 +48,7 @@
         <activity
             android:name=".presentation.view.activity.CategoryActivity"
             android:label="@string/activity_categories_title"
-            android:parentActivityName=".presentation.view.activity.CategoryActivity">
+            android:parentActivityName=".presentation.view.activity.TravelListActivity">
         </activity>
 
     </application>
