@@ -7,6 +7,8 @@ import com.github.mytravelsapp.business.repository.CategoryRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @author stefani
  */
@@ -16,6 +18,7 @@ public class GetCategoryListInteractor extends AbstractBackgroundInteractor<List
 
     private String filter;
 
+    @Inject
     public GetCategoryListInteractor(final ThreadExecutor pThreadExecutor, final PostExecutionThread pPostExecutionThread, final CategoryRepository pCategoryRepository) {
         super(pThreadExecutor, pPostExecutionThread);
         this.categoryRepository = pCategoryRepository;

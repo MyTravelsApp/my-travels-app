@@ -77,7 +77,7 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
 
     @Override
     public void onTravelPlacesClicked(TravelPlacesModel model) {
-
+        navigator.navigateToTravelPlacesDetail(this,model);
     }
 
     @Override

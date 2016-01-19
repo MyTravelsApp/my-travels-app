@@ -52,4 +52,11 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    public boolean isSystem() {
+        return isSystem;
+    }
+
+    public void setIsSystem(boolean isSystem) {
+        this.isSystem = isSystem;
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.github.mytravelsapp.business.executor.PostExecutionThread;
 import com.github.mytravelsapp.business.executor.ThreadExecutor;
+import com.github.mytravelsapp.business.repository.CategoryRepository;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.repository.TravelRepository;
 import com.github.mytravelsapp.presentation.di.modules.ApplicationModule;
@@ -28,4 +29,5 @@ public interface ApplicationComponent {
     PostExecutionThread postExecutionThread();
     TravelRepository travelRepository();
     TravelPlacesRepository travelPlacesRepository();
+    CategoryRepository categoryRepository();
 }

@@ -44,6 +44,13 @@
             android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
         </activity>
 
+
+        <activity
+            android:name=".presentation.view.activity.CategoryActivity"
+            android:label="@string/activity_categories_title"
+            android:parentActivityName=".presentation.view.activity.CategoryActivity">
+        </activity>
+
     </application>
 
 </manifest>
