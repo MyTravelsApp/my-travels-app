@@ -2,7 +2,9 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +21,11 @@ import android.widget.RelativeLayout;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
-import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.presenter.TravelListPresenter;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelAdapter;
+import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
-import com.github.mytravelsapp.presentation.view.components.TravelTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
     @Inject
     TravelListPresenter presenter;
+
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     @Bind(R.id.rv_travels)
     RecyclerView rv_travels;
@@ -83,7 +87,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         this.rv_travels.setAdapter(this.adapter);
         this.btn_add_travel.setOnClickListener(onAddClickListener);
 
-        final ItemTouchHelper helper = new ItemTouchHelper(new TravelTouchHelperCallback(this.adapter));
+        final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<TravelModel>(this.adapter));
         helper.attachToRecyclerView(rv_travels);
         return fragmentView;
     }
@@ -221,7 +225,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
 
-    private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener() {
+    private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener<TravelModel>() {
         @Override
         public void onTravelItemClicked(final TravelModel model) {
 
@@ -240,12 +244,32 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         }
     };
 
-    private final TravelAdapter.OnRemoveListener onRemoveListener = new TravelAdapter.OnRemoveListener() {
+    private final TravelAdapter.OnRemoveListener onRemoveListener = new TravelAdapter.OnRemoveListener<TravelModel>() {
         @Override
-        public void onRemove(long identifier) {
-            if (getPresenter() != null) {
-                getPresenter().removeTravel(identifier);
-            }
+        public void onRemove(final int position, final TravelModel model) {
+
+            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_LONG);
+            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TravelListFragment.this.adapter.undoRemove(position, model);
+                }
+            });
+
+            undo.setCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    super.onDismissed(snackbar, event);
+
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        if (getPresenter() != null) {
+                            getPresenter().removeTravel(model.getId());
+                        }
+                    }
+                }
+            });
+
+            undo.show();
         }
     };
 }

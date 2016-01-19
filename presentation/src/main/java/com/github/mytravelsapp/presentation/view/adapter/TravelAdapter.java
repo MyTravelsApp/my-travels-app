@@ -2,7 +2,6 @@ package com.github.mytravelsapp.presentation.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -22,30 +21,10 @@ import butterknife.ButterKnife;
  *
  * @author fjtorres
  */
-public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelViewHolder> {
-
-    private final LayoutInflater layoutInflater;
-
-    private List<TravelModel> list;
-
-    private OnItemClickListener onItemClickListener;
-
-    private OnRemoveListener onRemoveListener;
+public class TravelAdapter extends AbstractAdapter<TravelModel, TravelAdapter.TravelViewHolder> {
 
     public TravelAdapter(final Context context, final List<TravelModel> pList) {
-        validateData(pList);
-        this.list = pList;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    /**
-     * Return the number of elements in adapter.
-     *
-     * @return Number of elements.
-     */
-    @Override
-    public int getItemCount() {
-        return list == null ? 0 : list.size();
+        super(context, pList);
     }
 
     /**
@@ -56,12 +35,12 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
      */
     @Override
     public void onBindViewHolder(TravelViewHolder holder, int position) {
-        final TravelModel model = list.get(position);
+        final TravelModel model = getList().get(position);
         holder.lv_row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TravelAdapter.this.onItemClickListener != null) {
-                    TravelAdapter.this.onItemClickListener.onTravelItemClicked(model);
+                if (getOnItemClickListener() != null) {
+                    getOnItemClickListener().onTravelItemClicked(model);
                 }
             }
         });
@@ -88,37 +67,8 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
      */
     @Override
     public TravelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = layoutInflater.inflate(R.layout.row_travel, parent, false);
+        final View view = getLayoutInflater().inflate(R.layout.row_travel, parent, false);
         return new TravelViewHolder(view);
-    }
-
-    public void remove(final int position) {
-        final TravelModel removed = list.remove(position);
-        notifyItemRemoved(position);
-
-        if (onRemoveListener != null) {
-            onRemoveListener.onRemove(removed.getId());
-        }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
-        this.onRemoveListener = onRemoveListener;
-    }
-
-    public void setList(final List<TravelModel> pList) {
-        validateData(pList);
-        this.list = pList;
-        this.notifyDataSetChanged();
-    }
-
-    private void validateData(final List<TravelModel> data) {
-        if (data == null) {
-            throw new IllegalArgumentException("The list cannot be null");
-        }
     }
 
     /**
@@ -144,11 +94,4 @@ public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.TravelView
         }
     }
 
-    public interface OnItemClickListener {
-        void onTravelItemClicked(TravelModel model);
-    }
-
-    public interface OnRemoveListener {
-        void onRemove(long identifier);
-    }
 }
