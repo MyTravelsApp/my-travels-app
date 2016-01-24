@@ -5,6 +5,7 @@
     <string name="activity_travel_list_title">Mis viajes</string>
     <string name="activity_travel_new_title">New travelEntity</string>
     <string name="activity_travel_details_title">Detalles del viaje</string>
+    <string name="activity_travel_planning_title">Organizador del viaje</string>
     <string name="activity_travel_places_title">Travel Places</string>
     <string name="activity_travel_places_details_title">Travel Places Details</string>
 
@@ -12,6 +13,7 @@
     <string name="action_edit">Editar</string>
     <string name="action_save">Guardar</string>
     <string name="action_search">Buscar</string>
+    <string name="action_planning">Planificar</string>
 
     <!-- Generic text -->
     <string name="text_search_box">Buscar&#8230;</string>

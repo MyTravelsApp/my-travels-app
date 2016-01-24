@@ -5,6 +5,7 @@
     <string name="activity_travel_list_title">My travels</string>
     <string name="activity_travel_new_title">New travelEntity</string>
     <string name="activity_travel_details_title">Travel details</string>
+    <string name="activity_travel_planning_title">Planning</string>
     <string name="activity_travel_places_title">Travel Places</string>
     <string name="activity_travel_places_details_title">Travel Places Details</string>
     <string name="activity_categories_title">My categories</string>
@@ -14,6 +15,7 @@
     <string name="action_save">Save</string>
     <string name="action_search">Search</string>
     <string name="action_configure">Configure</string>
+    <string name="action_planning">Planning</string>
 
     <!-- Generic text -->
     <string name="text_search_box">Search&#8230;</string>
