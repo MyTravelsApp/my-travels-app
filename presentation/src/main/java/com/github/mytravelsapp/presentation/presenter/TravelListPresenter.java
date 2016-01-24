@@ -7,6 +7,7 @@ import com.github.mytravelsapp.business.interactor.RemoveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 
@@ -64,7 +65,7 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
      * @param selectedModel Selected travel.
      */
     public void viewTravelPlaces(final TravelModel selectedModel) {
-        getNavigator().navigateToTravelPlaces(getView().getViewContext(), selectedModel);
+        getNavigator().navigateToTravelPlaces(getView().getViewContext(), new TravelPlacesModel(selectedModel));
     }
 
     /**

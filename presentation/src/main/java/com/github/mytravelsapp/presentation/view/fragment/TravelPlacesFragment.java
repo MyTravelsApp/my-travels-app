@@ -40,10 +40,10 @@ import butterknife.ButterKnife;
 public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
 
     //Travel associated of places
-    private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
+    private static final String ARGUMENT_TRAVEL_PLACES_MODEL = "ARGUMENT_TRAVEL_PLACES_MODEL";
 
 
-    private TravelModel travelModel;
+    private TravelPlacesModel travelPlacesModel;
 
     @Inject
     TravelPlacesPresenter presenter;
@@ -64,10 +64,10 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     private String currentFilter;
 
 
-    public static TravelPlacesFragment newInstance(final TravelModel pTravelModel) {
+    public static TravelPlacesFragment newInstance(final TravelPlacesModel pTravelModel) {
         final TravelPlacesFragment fragment = new TravelPlacesFragment();
         final Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
+        arguments.putParcelable(ARGUMENT_TRAVEL_PLACES_MODEL, pTravelModel);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -160,7 +160,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         boolean result;
         switch (item.getItemId()) {
             case R.id.action_edit_travel:
-                presenter.getNavigator().navigateToTravelDetail(getContext(),travelModel);
+                presenter.getNavigator().navigateToTravelDetail(getContext(),travelPlacesModel.getTravelModel());
                 result = true;
                 break;
             default:
@@ -183,12 +183,12 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     private void initialize() {
         getComponent(TravelPlacesComponent.class).inject(this);
 
-        travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
+        travelPlacesModel = getArguments().getParcelable(ARGUMENT_TRAVEL_PLACES_MODEL);
         this.presenter.setView(this);
     }
 
     private void filterTravelsPlaces (){
-        getPresenter().searchTravelsPlaces(currentFilter, travelModel.getId());
+        getPresenter().searchTravelsPlaces(currentFilter, travelPlacesModel.getTravelModel().getId());
     }
 
     @Override
@@ -215,8 +215,8 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
 
     @Override
-    public TravelModel getCurrentTravel() {
-        return this.travelModel;
+    public TravelPlacesModel getCurrentTravelPlaces() {
+        return this.travelPlacesModel;
     }
 
 

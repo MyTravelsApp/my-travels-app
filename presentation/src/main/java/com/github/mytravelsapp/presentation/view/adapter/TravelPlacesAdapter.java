@@ -51,7 +51,7 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
             }
         });
         holder.txtTitle.setText(model.getName());
-        holder.txtCategory.setText(model.getCategory());
+        holder.txtCategory.setText(model.getCategoryModel().getName());
     }
 
     @Override

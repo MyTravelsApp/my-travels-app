@@ -20,10 +20,10 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>{
 
     private TravelPlacesComponent component;
-    private TravelModel travelModel;
+    private TravelPlacesModel travelPlacesModel;
 
-    private static final String INTENT_EXTRA_PARAM_TRAVEL_MODEL = "INTENT_PARAM_TRAVEL_MODEL";
-    private static final String STATE_PARAM_TRAVEL_MODEL = "STATE_PARAM_TRAVEL_MODEL";
+    private static final String INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL = "INTENT_PARAM_TRAVEL_PLACES_MODEL";
+    private static final String STATE_PARAM_TRAVEL_PLACES_MODEL = "STATE_PARAM_TRAVEL_PLACES_MODEL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +40,13 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
 
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
-            travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            addFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
+            travelPlacesModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL);
+            addFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelPlacesModel));
         } else {
-            travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
+            travelPlacesModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_PLACES_MODEL);
         }
 
-        setTitle(travelModel.getName());
+        setTitle(travelPlacesModel.getName());
 
         //Para activar el dagger, de momento no lo tenemos activo.
         initializeInjector();
@@ -55,9 +55,9 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
     /**
      * Method necessary for navigation of activity.
      */
-    public static Intent getCallingIntent(final Context context, final TravelModel travelModel) {
+    public static Intent getCallingIntent(final Context context, final TravelPlacesModel travelPlacesModel) {
         final Intent callingIntent = new Intent(context, TravelPlacesActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL, travelModel);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL, travelPlacesModel);
         return callingIntent;
     }
 
@@ -69,7 +69,7 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putParcelable(STATE_PARAM_TRAVEL_MODEL, travelModel);
+            outState.putParcelable(STATE_PARAM_TRAVEL_PLACES_MODEL, travelPlacesModel);
         }
         super.onSaveInstanceState(outState);
     }

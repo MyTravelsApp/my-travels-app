@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.business.dto;
 
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author stefani
@@ -9,7 +10,7 @@ public class TravelPlacesDto {
 
     private long id;
     private String name;
-    private String category;
+    private CategoryDto categoryDto;
     private String observations;
     private TravelDto travelDto;
 
@@ -33,12 +34,12 @@ public class TravelPlacesDto {
         this.id = id;
     }
 
-    public String getCategory() {
-        return category;
+    public CategoryDto getCategoryDto() {
+        return categoryDto;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryDto(CategoryDto categoryDto) {
+        this.categoryDto = categoryDto;
     }
 
     public String getObservations() {
