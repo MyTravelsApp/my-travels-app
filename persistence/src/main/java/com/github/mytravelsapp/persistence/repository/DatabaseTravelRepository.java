@@ -40,6 +40,7 @@ public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> i
         try {
             if (entity.getId() == -1) {
                 getDao().create(entity);
+                dto.setId(entity.getId());
             } else {
                 getDao().update(entity);
             }

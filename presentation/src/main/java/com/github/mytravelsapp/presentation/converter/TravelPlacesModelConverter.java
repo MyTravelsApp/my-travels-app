@@ -18,10 +18,12 @@ import javax.inject.Inject;
 public class TravelPlacesModelConverter {
 
     private final TravelModelConverter converterTravel;
+    private final CategoryModelConverter converterCategory;
 
     @Inject
-    public TravelPlacesModelConverter(TravelModelConverter pConverterTravel) {
+    public TravelPlacesModelConverter(TravelModelConverter pConverterTravel, CategoryModelConverter pConverterCategory) {
         this.converterTravel = pConverterTravel;
+        this.converterCategory = pConverterCategory;
     }
 
     public TravelPlacesModel convert(TravelPlacesDto source) {
@@ -33,7 +35,7 @@ public class TravelPlacesModelConverter {
         target.setTravelModel(this.converterTravel.convert(source.getTravelDto()));
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        target.setCategory(source.getCategory());
+        target.setCategoryModel(this.converterCategory.convert(source.getCategoryDto()));
         return target;
     }
 
@@ -58,7 +60,7 @@ public class TravelPlacesModelConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        target.setCategory(source.getCategory());
+        target.setCategoryDto(converterCategory.convertToDto(source.getCategoryModel()));
         target.setTravelDto(converterTravel.convertToDto(source.getTravelModel()));
         return target;
     }

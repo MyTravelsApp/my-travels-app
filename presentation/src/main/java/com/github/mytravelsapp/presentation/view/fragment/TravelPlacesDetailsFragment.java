@@ -16,18 +16,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.dto.CategoryDto;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
 import com.github.mytravelsapp.business.service.TravelPlacesService;
 import com.github.mytravelsapp.business.service.impl.TravelPlacesServiceImpl;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
+import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDetailPresenter;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesDetailPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
+import com.github.mytravelsapp.presentation.view.adapter.SpinCategoryAdapter;
 import com.github.mytravelsapp.presentation.view.components.DatePickerSelectionListener;
 
 import java.text.ParseException;
@@ -54,6 +57,8 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     private TravelPlacesModel travelPlacesModel;
 
+    private SpinCategoryAdapter dataAdapter;
+
     @Bind(R.id.txt_name)
     EditText txt_name;
 
@@ -65,6 +70,8 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
+
+    public List<CategoryModel> categories = new ArrayList<CategoryModel>();
 
     public static TravelPlacesDetailsFragment newInstance(final TravelPlacesModel travelPlacesModel) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
@@ -82,9 +89,10 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_places_details, container, false);
         ButterKnife.bind(this, fragmentView);
-        addItemsSpinnerCategories();
         setHasOptionsMenu(true);
+        dataAdapter = new SpinCategoryAdapter(getViewContext(), categories);
         // Setup UI
+        spinner_category.setAdapter(dataAdapter);
         return fragmentView;
     }
 
@@ -124,20 +132,6 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         getPresenter().save();
     }
 
-    /**
-     * Add items to spinner categories
-     *
-     */
-    public void addItemsSpinnerCategories() {
-        List<String> list = new ArrayList<String>();
-        list.add("Parques");
-        list.add("Plazas");
-        list.add("Monumentos");
-        list.add("Museos");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_category.setAdapter(dataAdapter);
-    }
 
     @Override
     public void onDestroyView() {
@@ -160,7 +154,8 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
         this.travelPlacesModel = getArguments().getParcelable(ARGUMENT_TRAVEL_PLACES_MODEL);
-        getPresenter().loadModel(this.travelPlacesModel.getTravelModel().getId());
+        getPresenter().loadModel(this.travelPlacesModel.getId());
+        getPresenter().loadCategories();
     }
 
     @Override
@@ -187,7 +182,23 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     @Override
     public void renderModel(final TravelPlacesModel model) {
+        if (model != null) {
+            txt_name.setText(model.getName());
+            txt_observation.setText(model.getObservations());
+            spinner_category.setSelection(dataAdapter.getPosition(model.getCategoryModel()));
+            if (travelPlacesModel.getId() == TravelPlacesModel.DEFAULT_ID) {
+                getActivity().setTitle(R.string.activity_travel_places_title);
+            }else{
+                getActivity().setTitle(travelPlacesModel.getName());
+            }
+        }
+    }
 
+    @Override
+    public void renderCategories(List<CategoryModel> pCategories) {
+        if (pCategories != null) {
+           dataAdapter.setList(pCategories);
+        }
     }
 
     @Override
@@ -197,7 +208,7 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         model.setId(travelPlacesModel.getId());
         model.setName(txt_name.getText().toString());
         model.setObservations(txt_observation.getText().toString());
-        model.setCategory(spinner_category.getSelectedItem().toString());
+        model.setCategoryModel((CategoryModel) spinner_category.getSelectedItem());
         return model;
     }
 

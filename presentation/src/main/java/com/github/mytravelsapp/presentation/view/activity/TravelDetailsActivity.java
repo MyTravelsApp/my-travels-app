@@ -11,6 +11,7 @@ import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 
 /**
@@ -96,7 +97,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
                 if (travelModel.getId() == TravelModel.DEFAULT_ID) {
                     navigator.navigateToTravelList(this);
                 } else {
-                    navigator.navigateToTravelPlaces(this, travelModel);
+                    navigator.navigateToTravelPlaces(this, new TravelPlacesModel(travelModel));
                 }
                 result = true;
                 break;

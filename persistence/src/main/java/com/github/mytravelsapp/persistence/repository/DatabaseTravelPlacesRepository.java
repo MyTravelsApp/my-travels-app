@@ -63,7 +63,7 @@ public class DatabaseTravelPlacesRepository extends DatabaseRepository<TravelPla
             final Where<TravelPlaces, Long> where = builder.where();
             if (textFilter != null && textFilter.trim().length() > 0) {
                 final String likeFilter = "%" + textFilter + "%";
-               where.like(TravelPlaces.FIELD_NAME, likeFilter).or().like(TravelPlaces.FIELD_CATEGORY, likeFilter);
+               where.like(TravelPlaces.FIELD_NAME, likeFilter).or().like(TravelPlaces.FIELD_ID_CATEGORY, likeFilter);
                where.and().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
             } else {
                where.eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);

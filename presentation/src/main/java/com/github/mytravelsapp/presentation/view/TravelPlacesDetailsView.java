@@ -1,7 +1,10 @@
 package com.github.mytravelsapp.presentation.view;
 
+import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+
+import java.util.List;
 
 /**
  * Definition of the travel detail view methods.
@@ -16,6 +19,13 @@ public interface TravelPlacesDetailsView extends LoadDataView {
      * @param model Model to render.
      */
     void renderModel(TravelPlacesModel model);
+
+    /**
+     * Render specific model in the view.
+     *
+     * @param categories List to render.
+     */
+    void renderCategories(List<CategoryModel> categories);
 
     /**
      * Validate current model values.

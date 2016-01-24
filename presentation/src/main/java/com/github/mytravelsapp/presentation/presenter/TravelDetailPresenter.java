@@ -7,6 +7,7 @@ import com.github.mytravelsapp.business.interactor.SaveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 
@@ -67,7 +68,9 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
                 public void onSuccess(Boolean result) {
                     if (Boolean.TRUE.equals(result)) {
                         getView().hideLoading();
-                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel); // FIXME Parameter with travel
+                        //FIXME saveTravelInteractor should be return the object
+                        currentModel.setId(saveTravelInteractor.getData().getId());
+                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), new TravelPlacesModel(currentModel));
                     }
                 }
 

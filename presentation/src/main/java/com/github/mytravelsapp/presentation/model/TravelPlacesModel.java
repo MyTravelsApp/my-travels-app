@@ -3,6 +3,7 @@ package com.github.mytravelsapp.presentation.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.github.mytravelsapp.persistence.entity.Category;
 import com.github.mytravelsapp.persistence.entity.Travel;
 
 /**
@@ -13,7 +14,7 @@ public class TravelPlacesModel implements Parcelable{
     public static final long DEFAULT_ID = -1;
     private long id = DEFAULT_ID;
     private String name;
-    private String category;
+    private CategoryModel categoryModel;
     private String observations;
     private TravelModel travelModel;
 
@@ -24,11 +25,11 @@ public class TravelPlacesModel implements Parcelable{
         this.travelModel = pTravelModel;
     }
 
-    public TravelPlacesModel(long id, String name, TravelModel pTravelModel, String category) {
+    public TravelPlacesModel(long id, String name, TravelModel pTravelModel, CategoryModel pCategoryModel) {
         this.id = id;
         this.name = name;
         this.travelModel = pTravelModel;
-        this.category = category;
+        this.categoryModel = pCategoryModel;
     }
 
     public long getId() {
@@ -63,12 +64,13 @@ public class TravelPlacesModel implements Parcelable{
         this.observations = observations;
     }
 
-    public String getCategory() {
-        return category;
+
+    public CategoryModel getCategoryModel() {
+        return categoryModel;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryModel(CategoryModel categoryModel) {
+        this.categoryModel = categoryModel;
     }
 
     @Override
@@ -102,6 +104,7 @@ public class TravelPlacesModel implements Parcelable{
     @Override
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeString(getName());
+        out.writeLong(getId());
         out.writeParcelable(getTravelModel(), flags);
     }
 
@@ -113,11 +116,14 @@ public class TravelPlacesModel implements Parcelable{
      */
     private void readFromParcel(Parcel in) {
         this.setName(in.readString());
-        this.setTravelModel((TravelModel) readParcelable(in));
+        this.setId(in.readLong());
+        this.setTravelModel(readParcelable(in, TravelModel.class));
+        this.setCategoryModel(readParcelable(in, CategoryModel.class));
     }
 
 
-    private TravelModel readParcelable(final Parcel in) {
-        return (TravelModel) in.readParcelable(getClass().getClassLoader());
+    private <T> T readParcelable(final Parcel in, Class<T> clazz) {
+        return (T) in.readParcelable(getClass().getClassLoader());
     }
+
 }

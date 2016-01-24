@@ -15,7 +15,7 @@ public class TravelPlaces implements Serializable {
     public static final String FIELD_NAME = "NAME";
     public static final String FIELD_OBERVATIONS = "OBSERVATIONS";
     public static final String FIELD_ID_TRAVEL = "ID_TRAVEL";
-    public static final String FIELD_CATEGORY = "CATEGORY";
+    public static final String FIELD_ID_CATEGORY = "CATEGORY_ID";
 
     @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private long id;
@@ -25,14 +25,14 @@ public class TravelPlaces implements Serializable {
     private String observations;
     @DatabaseField(foreign=true, canBeNull = false, columnName = FIELD_ID_TRAVEL)
     private Travel travel;
-    @DatabaseField(canBeNull = false, columnName = FIELD_CATEGORY)
-    private String category;
+    @DatabaseField(foreign=true, canBeNull = false, foreignAutoRefresh = true, columnName = FIELD_ID_CATEGORY)
+    private Category category;
 
     public TravelPlaces() {
 
     }
 
-    public TravelPlaces(long id, String name, Travel travel, String category) {
+    public TravelPlaces(long id, String name, Travel travel, Category category) {
         this.id = id;
         this.name = name;
         this.travel = travel;
@@ -71,11 +71,11 @@ public class TravelPlaces implements Serializable {
         this.travel = travel;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }
