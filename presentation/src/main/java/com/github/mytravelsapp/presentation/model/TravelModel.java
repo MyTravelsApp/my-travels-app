@@ -112,6 +112,8 @@ public class TravelModel implements Parcelable{
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeLong(getId());
         out.writeString(getName());
+        out.writeLong(getFinishDate().getTime());
+        out.writeLong(getStartDate().getTime());
     }
 
     /**
@@ -123,5 +125,7 @@ public class TravelModel implements Parcelable{
     private void readFromParcel(Parcel in) {
         this.setId(in.readLong());
         this.setName(in.readString());
+        this.setFinishDate(new Date(in.readLong()));
+        this.setStartDate(new Date(in.readLong()));
     }
 }

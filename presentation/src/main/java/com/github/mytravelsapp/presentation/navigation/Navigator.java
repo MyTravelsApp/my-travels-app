@@ -7,6 +7,7 @@ import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.view.activity.CategoryActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelDetailsActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelListActivity;
+import com.github.mytravelsapp.presentation.view.activity.TravelPlanningActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelPlacesActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelPlacesDetailsActivity;
 
@@ -45,6 +46,17 @@ public class Navigator {
     public void navigateToTravelDetail(final Context context, final TravelModel model) {
         if (context != null) {
             context.startActivity(TravelDetailsActivity.getCallingIntent(context, model));
+        }
+    }
+
+    /**
+     * Navigate to {@link TravelPlanningActivity}.
+     *
+     * @param context Source context.
+     */
+    public void navigateToTravelPlanning(final Context context, final TravelModel model) {
+        if (context != null) {
+            context.startActivity(TravelPlanningActivity.getCallingIntent(context, model));
         }
     }
 

@@ -124,11 +124,13 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result;
+        boolean result = true;
         switch (item.getItemId()) {
             case R.id.action_save_travel:
-                saveAction();
-                result = true;
+                getPresenter().save();
+                break;
+            case R.id.action_planning_travel:
+                getPresenter().planning();
                 break;
             default:
                 result = super.onOptionsItemSelected(item);
@@ -142,10 +144,6 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
         this.travelModel= getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         getPresenter().setView(this);
         getPresenter().loadModel(travelModel.getId());
-    }
-
-    private void saveAction() {
-        getPresenter().save();
     }
 
     @Override

@@ -82,4 +82,8 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
             });
         }
     }
+
+    public void planning() {
+        getNavigator().navigateToTravelPlanning(getView().getViewContext(), getView().getCurrentModel());
+    }
 }
