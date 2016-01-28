@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
@@ -67,6 +68,41 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
         final Intent callingIntent = new Intent(context, TravelPlacesDetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL, travelPlacesModel);
         return callingIntent;
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                navigator.navigateToTravelPlaces(this, travelPlacesModel.getTravelModel());
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * Save activity state. Execute when you minimize this activity.
+     *
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (outState != null) {
+            outState.putParcelable(STATE_PARAM_TRAVEL_PLACES_MODEL, travelPlacesModel);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     /**

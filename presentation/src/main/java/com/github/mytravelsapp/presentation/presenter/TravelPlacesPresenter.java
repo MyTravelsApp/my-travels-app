@@ -45,7 +45,7 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
      * Navigate to new travel view.
      */
     public void newTravelPlaces() {
-        getNavigator().navigateToTravelPlacesDetail(getView().getViewContext(), getView().getCurrentTravelPlaces());
+        getNavigator().navigateToTravelPlacesDetail(getView().getViewContext(), new TravelPlacesModel(getView().getCurrentTravel()));
     }
 
     /**

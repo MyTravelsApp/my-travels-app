@@ -70,7 +70,7 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
                         getView().hideLoading();
                         //FIXME saveTravelInteractor should be return the object
                         currentModel.setId(saveTravelInteractor.getData().getId());
-                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), new TravelPlacesModel(currentModel));
+                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel);
                     }
                 }
 

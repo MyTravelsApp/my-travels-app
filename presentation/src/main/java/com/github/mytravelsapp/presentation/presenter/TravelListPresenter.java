@@ -65,7 +65,7 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
      * @param selectedModel Selected travel.
      */
     public void viewTravelPlaces(final TravelModel selectedModel) {
-        getNavigator().navigateToTravelPlaces(getView().getViewContext(), new TravelPlacesModel(selectedModel));
+        getNavigator().navigateToTravelPlaces(getView().getViewContext(),selectedModel);
     }
 
     /**

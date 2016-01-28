@@ -97,7 +97,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
                 if (travelModel.getId() == TravelModel.DEFAULT_ID) {
                     navigator.navigateToTravelList(this);
                 } else {
-                    navigator.navigateToTravelPlaces(this, new TravelPlacesModel(travelModel));
+                    navigator.navigateToTravelPlaces(this, travelModel);
                 }
                 result = true;
                 break;
