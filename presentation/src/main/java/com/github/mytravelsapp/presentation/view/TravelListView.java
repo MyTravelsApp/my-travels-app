@@ -17,4 +17,8 @@ public interface TravelListView extends LoadDataView {
      * @param list Travels to render.
      */
     void renderList(List<TravelModel> list);
+
+    void showLoadError();
+
+    void showRemoveError ();
 }

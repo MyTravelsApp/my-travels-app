@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -13,7 +14,7 @@ import com.github.mytravelsapp.presentation.view.View;
  *
  * @author fjtorres
  */
-public abstract class AbstractFragment<V extends View, P extends Presenter<V>> extends Fragment {
+public abstract class AbstractFragment<V extends View, P extends Presenter<V>> extends Fragment implements View {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -28,6 +29,11 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
      */
     protected void showToastMessage(final String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return getActivity();
     }
 
     protected abstract P getPresenter();

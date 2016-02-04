@@ -53,7 +53,7 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
             @Override
             public void onError(final Throwable cause) {
                 getView().hideLoading();
-                // FIXME SHOW ERROR!!!!
+                getView().showLoadError();
             }
         });
 
@@ -88,7 +88,7 @@ public class TravelListPresenter extends AbstractPresenter<TravelListView> {
 
             @Override
             public void onError(Throwable cause) {
-                // FIXME SHOW ERROR!!!!
+                getView().showRemoveError();
             }
         });
     }

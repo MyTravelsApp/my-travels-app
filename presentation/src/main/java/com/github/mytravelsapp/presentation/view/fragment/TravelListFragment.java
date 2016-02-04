@@ -143,11 +143,6 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
     @Override
-    public Context getViewContext() {
-        return getActivity();
-    }
-
-    @Override
     public TravelListPresenter getPresenter() {
         return presenter;
     }
@@ -224,6 +219,15 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         });
     }
 
+    @Override
+    public void showLoadError() {
+        showToastMessage(getString(R.string.travel_error_load));
+    }
+
+    @Override
+    public void showRemoveError() {
+        showToastMessage(getString(R.string.travel_error_delete));
+    }
 
     private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener<TravelModel>() {
         @Override

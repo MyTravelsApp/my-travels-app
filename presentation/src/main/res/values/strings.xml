@@ -46,5 +46,7 @@
 
     <!-- Travel specific text -->
     <string name="travel_delete">The travel has been removed</string>
+    <string name="travel_error_delete">Could not remove the travel</string>
+    <string name="travel_error_load">There was an error while loading travels</string>
 
 </resources>
