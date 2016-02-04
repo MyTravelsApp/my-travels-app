@@ -19,34 +19,20 @@ import butterknife.ButterKnife;
 /**
  * @author stefani
  */
-public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapter.TravelPlacesViewHolder> {
-
-    private final LayoutInflater layoutInflater;
-
-    private List<TravelPlacesModel> list;
-
-    private OnItemClickListener onItemClickListener;
-
-    private OnRemoveListener onRemoveListener;
+public class TravelPlacesAdapter extends AbstractAdapter<TravelPlacesModel, TravelPlacesAdapter.TravelPlacesViewHolder> {
 
     public TravelPlacesAdapter(final Context context, final List<TravelPlacesModel> pList) {
-        this.list = pList;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getItemCount() {
-        return list == null ? 0 : list.size();
+        super(context, pList);
     }
 
     @Override
     public void onBindViewHolder(TravelPlacesViewHolder holder, int position) {
-        final TravelPlacesModel model = list.get(position);
+        final TravelPlacesModel model = getList().get(position);
         holder.lv_row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TravelPlacesAdapter.this.onItemClickListener != null) {
-                    TravelPlacesAdapter.this.onItemClickListener.onTravelPlacesItemClicked(model);
+                if (getOnItemClickListener() != null) {
+                    getOnItemClickListener().onTravelItemClicked(model);
                 }
             }
         });
@@ -56,35 +42,11 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
 
     @Override
     public TravelPlacesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = layoutInflater.inflate(R.layout.row_travel_places, parent, false);
+        final View view = getLayoutInflater().inflate(R.layout.row_travel_places, parent, false);
         final TravelPlacesViewHolder holder = new TravelPlacesViewHolder(view);
         return holder;
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public void remove(final int position) {
-        final TravelPlacesModel removed = list.remove(position);
-        notifyItemRemoved(position);
-
-        if (onRemoveListener != null) {
-            onRemoveListener.onRemove(removed.getId());
-        }
-    }
-
-    public void setList(final List<TravelPlacesModel> pList) {
-        validateData(pList);
-        this.list = pList;
-        this.notifyDataSetChanged();
-    }
-
-    private void validateData (final List<TravelPlacesModel> data) {
-        if (data == null) {
-            throw new IllegalArgumentException("The list cannot be null");
-        }
-    }
 
     static class TravelPlacesViewHolder extends RecyclerView.ViewHolder {
 
@@ -103,14 +65,4 @@ public class TravelPlacesAdapter extends RecyclerView.Adapter<TravelPlacesAdapte
         }
     }
 
-    public interface OnItemClickListener {
-        void onTravelPlacesItemClicked(TravelPlacesModel model);
-    }
-    public interface OnRemoveListener {
-        void onRemove(long identifier);
-    }
-
-    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
-        this.onRemoveListener = onRemoveListener;
-    }
 }

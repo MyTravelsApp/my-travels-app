@@ -2,7 +2,9 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +19,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
+import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
 import com.github.mytravelsapp.presentation.view.components.TravelPlacesTouchHelperCallback;
 
@@ -59,6 +63,9 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
 
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
     private SearchView searchView;
 
     private String currentFilter;
@@ -91,7 +98,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         setHasOptionsMenu(true);
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
         //Add event delete touch
-        final ItemTouchHelper helper = new ItemTouchHelper(new TravelPlacesTouchHelperCallback(this.adapter));
+        final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<TravelPlacesModel>(this.adapter));
         helper.attachToRecyclerView(rv_travels_places);
         return fragmentView;
     }
@@ -220,9 +227,9 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     }
 
 
-    private final TravelPlacesAdapter.OnItemClickListener onItemClickListener = new TravelPlacesAdapter.OnItemClickListener() {
+    private final TravelPlacesAdapter.OnItemClickListener onItemClickListener = new TravelPlacesAdapter.OnItemClickListener<TravelPlacesModel>() {
         @Override
-        public void onTravelPlacesItemClicked(final TravelPlacesModel model) {
+        public void onTravelItemClicked(final TravelPlacesModel model) {
 
             if (getPresenter() != null && model != null) {
                 model.setTravelModel(travelModel);
@@ -240,12 +247,32 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         }
     };
 
-    private final TravelPlacesAdapter.OnRemoveListener onRemoveListener = new TravelPlacesAdapter.OnRemoveListener() {
+    private final TravelPlacesAdapter.OnRemoveListener onRemoveListener = new TravelPlacesAdapter.OnRemoveListener<TravelPlacesModel>() {
         @Override
-        public void onRemove(long identifier) {
-            if (getPresenter() != null) {
-                getPresenter().removeTravelPlaces(identifier);
-            }
+        public void onRemove(final int position, final TravelPlacesModel model) {
+
+            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
+            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TravelPlacesFragment.this.adapter.undoRemove(position, model);
+                }
+            });
+
+            undo.setCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    super.onDismissed(snackbar, event);
+
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        if (getPresenter() != null) {
+                            getPresenter().removeTravelPlaces(model.getId());
+                        }
+                    }
+                }
+            });
+
+            undo.show();
         }
     };
 

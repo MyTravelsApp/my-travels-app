@@ -1,54 +1,30 @@
 package com.github.mytravelsapp.presentation.view.activity;
 
-import android.support.v4.app.Fragment;
-import android.test.ActivityInstrumentationTestCase2;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.model.TravelModel;
 
-import org.mockito.Mock;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * @author stefani
  */
-public class TravelPlacesActivityTest extends ActivityInstrumentationTestCase2<TravelPlacesActivity> {
+public class TravelPlacesActivityTest{
 
-    private TravelPlacesActivity activity;
+    @Rule
+    public ActivityTestRule<TravelPlacesActivity> mActivityRule =
+            new ActivityTestRule<>(TravelPlacesActivity.class);
 
-    @Mock
-    private TravelModel travelModel;
-
-    private static final long FAKE_ID = 10;
-
-    public TravelPlacesActivityTest() {
-        super(TravelPlacesActivity.class);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        travelModel = new TravelModel(FAKE_ID);
-        this.setActivityIntent(TravelPlacesActivity.getCallingIntent(getInstrumentation().getContext(),travelModel));
-        activity = getActivity();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    public void testConstainsListFragment () {
-        final Fragment travelListFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragmentTravelPlaces);
-        assertThat(travelListFragment, is(notNullValue()));
-    }
-
-    public void testContainsProperTitle () {
-        final String actualTitle = activity.getTitle().toString().trim();
-        final String expectedTitle = activity.getString(R.string.activity_travel_places_title).trim();
-        assertThat(actualTitle, is(expectedTitle));
+    @Test
+    public void containsFragmentTest() {
+        onView(withId(R.id.fragmentTravelList)).check(matches(isDisplayed()));
     }
 }
