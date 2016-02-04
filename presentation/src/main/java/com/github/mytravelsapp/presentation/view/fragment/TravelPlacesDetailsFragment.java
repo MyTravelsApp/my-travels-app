@@ -8,33 +8,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.business.dto.CategoryDto;
-import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
-import com.github.mytravelsapp.business.service.TravelPlacesService;
-import com.github.mytravelsapp.business.service.impl.TravelPlacesServiceImpl;
-import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
-import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.presenter.TravelDetailPresenter;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesDetailPresenter;
-import com.github.mytravelsapp.presentation.view.TravelDetailsView;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
 import com.github.mytravelsapp.presentation.view.adapter.SpinCategoryAdapter;
-import com.github.mytravelsapp.presentation.view.components.DatePickerSelectionListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

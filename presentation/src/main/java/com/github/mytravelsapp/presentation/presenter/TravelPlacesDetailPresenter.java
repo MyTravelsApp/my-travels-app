@@ -99,7 +99,7 @@ public class TravelPlacesDetailPresenter extends AbstractPresenter<TravelPlacesD
                 public void onSuccess(Boolean result) {
                     if (Boolean.TRUE.equals(result)) {
                         getView().hideLoading();
-                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel); // FIXME Parameter with travel
+                        getNavigator().navigateToTravelPlaces(getView().getViewContext(), currentModel.getTravelModel()); // FIXME Parameter with travel
                     }
                 }
 

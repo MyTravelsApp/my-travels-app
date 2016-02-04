@@ -63,7 +63,7 @@ public class Navigator {
     /**
      * Method to defined the navigation to the activity TravelPlaces
      */
-    public void navigateToTravelPlaces(final Context context, TravelPlacesModel model){
+    public void navigateToTravelPlaces(final Context context, TravelModel model){
         if (context != null) {
             context.startActivity(TravelPlacesActivity.getCallingIntent(context, model));
         }

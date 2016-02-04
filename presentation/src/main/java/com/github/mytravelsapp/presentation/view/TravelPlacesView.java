@@ -24,5 +24,5 @@ public interface TravelPlacesView extends LoadDataView {
      * Return the current travel.
      *
      */
-    TravelPlacesModel getCurrentTravelPlaces();
+    TravelModel getCurrentTravel();
 }
