@@ -3,11 +3,12 @@
 
     <!-- Activities title -->
     <string name="activity_travel_list_title">Mis viajes</string>
-    <string name="activity_travel_new_title">New travelEntity</string>
+    <string name="activity_travel_new_title">Nuevo viaje</string>
     <string name="activity_travel_details_title">Detalles del viaje</string>
     <string name="activity_travel_planning_title">Organizador del viaje</string>
-    <string name="activity_travel_places_title">Travel Places</string>
-    <string name="activity_travel_places_details_title">Travel Places Details</string>
+    <string name="activity_travel_places_title">Lugares de interés</string>
+    <string name="activity_travel_places_details_title">Detalle de lugar de interés</string>
+    <string name="activity_categories_title">Mis categorias</string>
 
     <!-- Toolbar actions -->
     <string name="action_edit">Editar</string>
@@ -38,6 +39,7 @@
 
     <!-- Travel specific text -->
     <string name="travel_delete">El viaje se ha eliminado</string>
+    <string name="category_delete">La categoría se ha eliminado</string>
     <string name="travel_error_delete">No se ha podido eliminar el viaje</string>
     <string name="travel_error_load">Se ha producido un error al cargar los viajes</string>
 
