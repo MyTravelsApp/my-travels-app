@@ -4,8 +4,10 @@ import com.github.mytravelsapp.business.dto.CategoryDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetCategoryListInteractor;
 import com.github.mytravelsapp.business.interactor.RemoveCategoryInteractor;
+import com.github.mytravelsapp.business.interactor.SaveCategoryInteractor;
 import com.github.mytravelsapp.presentation.converter.CategoryModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
+import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.CategoryView;
 
@@ -23,13 +25,16 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
 
     private RemoveCategoryInteractor removeCategoryInteractor;
 
+    private SaveCategoryInteractor saveCategoryInteractor;
+
     private final CategoryModelConverter converter;
 
     @Inject
-    public CategoryPresenter(final Navigator pNavigator, final GetCategoryListInteractor pGetCategoryListIntector, final RemoveCategoryInteractor pRemoveCategoryInteractor, final CategoryModelConverter pConverter) {
+    public CategoryPresenter(final Navigator pNavigator, final GetCategoryListInteractor pGetCategoryListIntector, final RemoveCategoryInteractor pRemoveCategoryInteractor,final SaveCategoryInteractor pSaveCategoryInteractor, final CategoryModelConverter pConverter) {
         super(pNavigator);
         this.getCategoryListInteractor = pGetCategoryListIntector;
         this.removeCategoryInteractor = pRemoveCategoryInteractor;
+        this.saveCategoryInteractor = pSaveCategoryInteractor;
         this.converter = pConverter;
     }
 
@@ -73,6 +78,33 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
             }
         });
 
+    }
+
+    /**
+     * Save categories and render in view.
+     *.
+     */
+    public void save(final CategoryModel model) {
+        //if (getView().validate()) {
+
+            getView().showLoading();
+            saveCategoryInteractor.setData(converter.convertToDto(model));
+            saveCategoryInteractor.execute(new Callback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    if (Boolean.TRUE.equals(result)) {
+                        getView().hideLoading();
+                        getView().addItemSaved(model);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable cause) {
+                    getView().hideLoading();
+                    // FIXME SHOW ERROR!!!!
+                }
+            });
+      //  }
     }
 
 }

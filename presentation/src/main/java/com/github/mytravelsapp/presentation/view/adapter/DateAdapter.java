@@ -41,7 +41,7 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
             @Override
             public void onClick(View v) {
                 if (getOnItemClickListener() != null) {
-                    getOnItemClickListener().onTravelItemClicked(date);
+                    getOnItemClickListener().onItemClicked(date);
                 }
             }
         });

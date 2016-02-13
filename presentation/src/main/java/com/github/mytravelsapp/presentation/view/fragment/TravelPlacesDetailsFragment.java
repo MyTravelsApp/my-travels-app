@@ -103,7 +103,7 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         boolean result;
         switch (item.getItemId()) {
             case R.id.action_save_travel:
-                saveAction();
+                getPresenter().save();
                 result = true;
                 break;
             default:
@@ -111,10 +111,6 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
                 break;
         }
         return result;
-    }
-
-    private void saveAction() {
-        getPresenter().save();
     }
 
 

@@ -54,6 +54,11 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
         }
     }
 
+    public void addItemList(final M model) {
+       list.add(model);
+       notifyItemChanged(list.size()-1);
+    }
+
     private void validateData(final List<M> data) {
         if (data == null) {
             throw new IllegalArgumentException("The list cannot be null");
@@ -91,7 +96,7 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
     }
 
     public interface OnItemClickListener<M> {
-        void onTravelItemClicked(M model);
+        void onItemClicked(M model);
     }
 
     public interface OnRemoveListener<M> {
