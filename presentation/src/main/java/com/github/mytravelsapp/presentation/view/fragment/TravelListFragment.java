@@ -1,6 +1,5 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
