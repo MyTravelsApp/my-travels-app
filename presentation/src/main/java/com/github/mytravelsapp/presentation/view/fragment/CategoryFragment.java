@@ -48,6 +48,7 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
     private SearchView searchView;
 
     private String currentFilter;
+
 	
 	 @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +66,9 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 		//Show the line beetwen two rows.
         this.rv_category.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         this.adapter = new CategoryAdapter(getActivity(), new ArrayList<CategoryModel>());
-        //this.adapter.setOnItemClickListener(onItemClickListener);
+        this.adapter.setOnclickAddButtonListener(onclickAddButtonListener);
         this.adapter.setOnRemoveListener(onRemoveListener);
         this.rv_category.setAdapter(this.adapter);
-
         final ItemTouchHelper helper = new ItemTouchHelper(new CategoryTouchHelperCallback(this.adapter));
         helper.attachToRecyclerView(rv_category);
         return fragmentView;
@@ -113,6 +113,10 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
     public Context getViewContext() {
         return getActivity();
     }
+
+    public void addItemSaved(CategoryModel model){
+        adapter.addItemList(model);
+    }
 	
 	private void initialize() {
         getComponent(CategoryComponent.class).inject(this);
@@ -123,12 +127,21 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
         getPresenter().loadCategories(currentFilter);
     }
 
-    private final CategoryAdapter.OnRemoveListener onRemoveListener = new CategoryAdapter.OnRemoveListener() {
+    private final CategoryAdapter.OnRemoveListener onRemoveListener = new CategoryAdapter.OnRemoveListener<CategoryModel>() {
         @Override
-        public void onRemove(long identifier) {
+        public void onRemove(int position, CategoryModel model) {
             if (getPresenter() != null) {
-                getPresenter().removeCategory(identifier);
+                getPresenter().removeCategory(model.getId());
             }
         }
     };
+
+    private final CategoryAdapter.OnclickAddButtonListener onclickAddButtonListener = new CategoryAdapter.OnclickAddButtonListener() {
+        @Override
+        public void save(CategoryModel model) {
+            getPresenter().save(model);
+        }
+    };
+
+
 }

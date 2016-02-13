@@ -13,9 +13,16 @@ import java.util.List;
 public interface CategoryView extends LoadDataView {
 
     /**
-     * Render travels in the view.
+     * Render categories in the view.
      *
-     * @param list Travels to render.
+     * @param list Categories to render.
      */
     void renderList(List<CategoryModel> list);
+
+    /**
+     * Render travels in the view.
+     *
+     * @param categoryModel categorie to add to the list categories.
+     */
+    void addItemSaved(CategoryModel categoryModel);
 }

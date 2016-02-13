@@ -38,7 +38,16 @@ public class DatabaseCategoryRepository extends DatabaseRepository<Category, Lon
 
     @Override
     public void save(CategoryDto dto) throws PersistenceException {
-
+        Category entity = converter.convert(dto);
+        try {
+            if (entity.getId() == -1) {
+                getDao().create(entity);
+            } else {
+                getDao().update(entity);
+            }
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error when try to save category", e);
+        }
     }
 
     @Override

@@ -5,10 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.persistence.entity.Category;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 
@@ -20,74 +24,88 @@ import butterknife.ButterKnife;
 /**
  * @author stefani
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdapter.AbtractCategoryViewHolder> {
 
-    private final LayoutInflater layoutInflater;
+    private static int VIEW_TYPE_FOOTER = 0;
+    private static int VIEW_TYPE_CELL = 1;
 
-    private List<CategoryModel> list;
-
-    private OnItemClickListener onItemClickListener;
-
-    private OnRemoveListener onRemoveListener;
+    private OnclickAddButtonListener onclickAddButtonListener;
 
     public CategoryAdapter(final Context context, final List<CategoryModel> pList) {
-        this.list = pList;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        super(context,pList);
     }
 
     @Override
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return super.getItemCount()+1;
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        final CategoryModel model = list.get(position);
-        holder.lv_row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CategoryAdapter.this.onItemClickListener != null) {
-                    CategoryAdapter.this.onItemClickListener.onCategoryItemClicked(model);
+    public void onBindViewHolder(AbtractCategoryViewHolder holder, int position) {
+        if(position == getList().size()){
+          final ButtonViewHolder buttonViewHolder = (ButtonViewHolder) holder;
+            buttonViewHolder.lv_row_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buttonViewHolder.lv_row_button.setVisibility(Button.GONE);
+                    buttonViewHolder.text_category.setVisibility(Button.VISIBLE);
+                    buttonViewHolder.category_linear_buttons.setVisibility(LinearLayout.VISIBLE);
                 }
-            }
-        });
-        holder.txtTitle.setText(model.getName());
+            });
+            buttonViewHolder.lv_row_button_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onclickAddButtonListener != null){
+                        onclickAddButtonListener.save(new CategoryModel(CategoryModel.DEFAULT_ID,buttonViewHolder.text_category.getText().toString(),false));
+                        buttonViewHolder.category_linear_buttons.setVisibility(LinearLayout.GONE);
+                        buttonViewHolder.text_category.setVisibility(Button.GONE);
+                        buttonViewHolder.text_category.setText("");
+                        buttonViewHolder.lv_row_button.setVisibility(Button.VISIBLE);
+                    }
+                }
+            });
+        } else {
+            CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
+            final CategoryModel model = getList().get(position);
+            categoryViewHolder.lv_row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getOnItemClickListener() != null) {
+                        getOnItemClickListener().onItemClicked(model);
+                    }
+                }
+            });
+            categoryViewHolder.txtTitle.setText(model.getName());
+        }
 
     }
 
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = layoutInflater.inflate(R.layout.row_category, parent, false);
-        final CategoryViewHolder holder = new CategoryViewHolder(view);
-        return holder;
+    public AbtractCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == VIEW_TYPE_CELL){
+            final View view = getLayoutInflater().inflate(R.layout.row_category, parent, false);
+            final CategoryViewHolder holder = new CategoryViewHolder(view);
+            return holder;
+        } else {
+            final View view = getLayoutInflater().inflate(R.layout.row_category_button_add, parent, false);
+            final ButtonViewHolder holderButton = new ButtonViewHolder(view);
+            return  holderButton;
+        }
+
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    @Override
+    public int getItemViewType(int position) {
+        return (position == getList().size()) ? VIEW_TYPE_FOOTER : VIEW_TYPE_CELL;
     }
 
-    public void remove(final int position) {
-        final CategoryModel removed = list.remove(position);
-        notifyItemRemoved(position);
-
-        if (onRemoveListener != null) {
-            onRemoveListener.onRemove(removed.getId());
+    static abstract class AbtractCategoryViewHolder extends  RecyclerView.ViewHolder {
+        public AbtractCategoryViewHolder(final View itemView) {
+            super(itemView);
         }
     }
 
-    public void setList(final List<CategoryModel> pList) {
-        validateData(pList);
-        this.list = pList;
-        this.notifyDataSetChanged();
-    }
-
-    private void validateData (final List<CategoryModel> data) {
-        if (data == null) {
-            throw new IllegalArgumentException("The list cannot be null");
-        }
-    }
-
-    static class CategoryViewHolder extends RecyclerView.ViewHolder {
+    static class CategoryViewHolder extends AbtractCategoryViewHolder {
 
         @Bind(R.id.lv_row_categories)
         RelativeLayout lv_row;
@@ -101,14 +119,39 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    public interface OnItemClickListener {
-        void onCategoryItemClicked(CategoryModel model);
-    }
-    public interface OnRemoveListener {
-        void onRemove(long identifier);
+    static  class ButtonViewHolder extends  AbtractCategoryViewHolder{
+        @Bind(R.id.lv_row_categories_button)
+        Button lv_row_button;
+
+        @Bind(R.id.txt_new_category)
+        EditText text_category;
+
+        @Bind(R.id.category_linear_buttons)
+        LinearLayout category_linear_buttons;
+
+        @Bind(R.id.category_button_add)
+        Button lv_row_button_add;
+
+        @Bind(R.id.category_button_cancel)
+        Button lv_row_button_cancel;
+
+        public ButtonViewHolder(final View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
     }
 
-    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
-        this.onRemoveListener = onRemoveListener;
+    public interface OnclickAddButtonListener {
+        void save(CategoryModel model);
     }
+
+    public OnclickAddButtonListener getOnclickAddButtonListener() {
+        return onclickAddButtonListener;
+    }
+
+    public void setOnclickAddButtonListener(OnclickAddButtonListener onclickAddButtonListener) {
+        this.onclickAddButtonListener = onclickAddButtonListener;
+    }
+
 }

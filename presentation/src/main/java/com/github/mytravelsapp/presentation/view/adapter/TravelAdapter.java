@@ -40,7 +40,7 @@ public class TravelAdapter extends AbstractAdapter<TravelModel, TravelAdapter.Tr
             @Override
             public void onClick(View v) {
                 if (getOnItemClickListener() != null) {
-                    getOnItemClickListener().onTravelItemClicked(model);
+                    getOnItemClickListener().onItemClicked(model);
                 }
             }
         });

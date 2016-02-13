@@ -230,7 +230,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
     private final TravelAdapter.OnItemClickListener onItemClickListener = new TravelAdapter.OnItemClickListener<TravelModel>() {
         @Override
-        public void onTravelItemClicked(final TravelModel model) {
+        public void onItemClicked(final TravelModel model) {
 
             if (getPresenter() != null && model != null) {
                 getPresenter().viewTravelPlaces(model);
