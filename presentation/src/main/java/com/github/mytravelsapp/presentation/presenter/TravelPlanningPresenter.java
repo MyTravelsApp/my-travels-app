@@ -37,4 +37,8 @@ public class TravelPlanningPresenter extends AbstractPresenter<TravelPlanningVie
 
         getView().renderTravelDays(travelDays);
     }
+
+    public void selectedDate(final TravelModel model, final Date selectedDate) {
+        getNavigator().navigateToTravelDay(getView().getViewContext(), model, selectedDate);
+    }
 }
