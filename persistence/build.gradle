@@ -42,4 +42,8 @@ dependencies {
     compile persistenceDependencies.dagger
     provided persistenceDependencies.javaxAnnotation
     compile persistenceDependencies.ormLite
+
+    // TEST
+    testCompile persistenceTestDependencies.junit
+    testCompile persistenceTestDependencies.mockito
 }
