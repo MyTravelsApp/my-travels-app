@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;

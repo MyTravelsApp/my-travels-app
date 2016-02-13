@@ -14,6 +14,7 @@
     <string name="action_edit">Editar</string>
     <string name="action_save">Guardar</string>
     <string name="action_search">Buscar</string>
+    <string name="action_configure">Configurar</string>
     <string name="action_planning">Planificar</string>
 
     <!-- Generic text -->

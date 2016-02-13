@@ -17,12 +17,21 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by kisco on 24/01/2016.
+ * Adapter for present dates information.
+ *
+ * @author fjtorres
  */
 public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolder> {
 
+    private final String dateFormat;
+
     public DateAdapter(final Context context, final List<Date> pList) {
+        this(context, pList, "EEEE - dd/MM/yyyy");
+    }
+
+    public DateAdapter(final Context context, final List<Date> pList, final String pDateFormat) {
         super(context, pList);
+        this.dateFormat = pDateFormat;
     }
 
     /**
@@ -33,8 +42,7 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
      */
     @Override
     public void onBindViewHolder(DateViewHolder holder, int position) {
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        final SimpleDateFormat sdfDayOfWeek = new SimpleDateFormat("EEEE");
+        final SimpleDateFormat sdfDayOfWeek = new SimpleDateFormat(dateFormat);
 
         final Date date = getList().get(position);
         holder.lv_row.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +53,7 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
                 }
             }
         });
-        holder.txt_label.setText(sdfDayOfWeek.format(date) + " - " + sdf.format(date));
+        holder.txt_label.setText(sdfDayOfWeek.format(date));
 
     }
 

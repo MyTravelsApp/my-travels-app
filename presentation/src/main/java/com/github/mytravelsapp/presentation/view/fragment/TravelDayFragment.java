@@ -2,8 +2,6 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,15 +13,10 @@ import android.widget.RelativeLayout;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
-import com.github.mytravelsapp.presentation.presenter.TravelPlanningPresenter;
-import com.github.mytravelsapp.presentation.view.TravelPlanningView;
-import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
-import com.github.mytravelsapp.presentation.view.adapter.DateAdapter;
-import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
+import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
+import com.github.mytravelsapp.presentation.view.TravelDayView;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,31 +24,27 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Fragment that shows organizer view for travel.
- *
- * @author fjtorres
+ * Created by kisco on 11/02/2016.
  */
-public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView, TravelPlanningPresenter> implements TravelPlanningView {
+public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDayPresenter> implements TravelDayView {
 
     private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
+    private static final String ARGUMENT_SELECTED_DATE = "ARGUMENT_SELECTED_DATE";
+
+    private TravelModel travelModel;
+    private Date selectedDate;
 
     @Inject
-    TravelPlanningPresenter presenter;
+    TravelDayPresenter presenter;
 
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
 
-    @Bind(R.id.rv_travel_days)
-    RecyclerView rv_travel_days;
-
-    private DateAdapter adapter;
-
-    private TravelModel travelModel;
-
-    public static TravelPlanningFragment newInstance(final TravelModel pTravelModel) {
-        final TravelPlanningFragment fragment = new TravelPlanningFragment();
+    public static TravelDayFragment newInstance(final TravelModel pTravelModel, final Date pSelectedDate) {
+        final TravelDayFragment fragment = new TravelDayFragment();
         final Bundle arguments = new Bundle();
         arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
+        arguments.putSerializable(ARGUMENT_SELECTED_DATE, pSelectedDate);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -68,15 +57,11 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View fragmentView = inflater.inflate(R.layout.fragment_travel_planning, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_travel_day, container, false);
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
-        this.rv_travel_days.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.rv_travel_days.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        adapter = new DateAdapter(getActivity(), new ArrayList<Date>());
-        rv_travel_days.setAdapter(adapter);
-        adapter.setOnItemClickListener(dateOnItemClickListener);
+
 
         return fragmentView;
     }
@@ -90,8 +75,7 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initialize(savedInstanceState);
-
+        initialize();
     }
 
     /**
@@ -128,7 +112,7 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
     }
 
     @Override
-    public TravelPlanningPresenter getPresenter() {
+    protected TravelDayPresenter getPresenter() {
         return presenter;
     }
 
@@ -144,33 +128,11 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
         getActivity().setProgressBarIndeterminate(false);
     }
 
-    private void initialize(Bundle savedInstanceState) {
+    private void initialize() {
         getComponent(TravelComponent.class).inject(this);
         this.presenter.setView(this);
 
-        if (savedInstanceState == null) {
-            this.travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
-        } else {
-            this.travelModel = savedInstanceState.getParcelable("STATE_PARAM_TRAVEL_MODEL");
-        }
-
-        this.presenter.loadDaysOfTravel();
+        this.travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
+        this.selectedDate = (Date) getArguments().getSerializable(ARGUMENT_SELECTED_DATE);
     }
-
-    @Override
-    public void renderTravelDays(final List<Date> daysOfTravel) {
-        adapter.setList(daysOfTravel);
-    }
-
-    @Override
-    public TravelModel getCurrentModel() {
-        return travelModel;
-    }
-
-    private final DateAdapter.OnItemClickListener<Date> dateOnItemClickListener = new AbstractAdapter.OnItemClickListener<Date>() {
-        @Override
-        public void onTravelItemClicked(final Date selectedDate) {
-            presenter.selectedDate(getCurrentModel(), selectedDate);
-        }
-    };
 }

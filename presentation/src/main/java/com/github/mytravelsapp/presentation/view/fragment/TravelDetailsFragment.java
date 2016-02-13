@@ -129,9 +129,6 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
             case R.id.action_save_travel:
                 getPresenter().save();
                 break;
-            case R.id.action_planning_travel:
-                getPresenter().planning();
-                break;
             default:
                 result = super.onOptionsItemSelected(item);
                 break;

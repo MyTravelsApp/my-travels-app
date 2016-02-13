@@ -7,7 +7,6 @@ import com.github.mytravelsapp.business.interactor.RemoveTravelInteractor;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.model.TravelModel;
-import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelListView;
 

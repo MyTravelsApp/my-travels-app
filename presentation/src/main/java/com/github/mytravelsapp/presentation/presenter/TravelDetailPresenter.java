@@ -25,7 +25,7 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
     private final GetTravelInteractor getTravelInteractor;
     private final TravelModelConverter converter;
 
-    @Inject
+    //@Inject
     public TravelDetailPresenter(final Navigator pNavigator, final SaveTravelInteractor pSaveTravelInteractor,
                                  final GetTravelInteractor pGetTravelInteractor, final TravelModelConverter pConverter) {
         super(pNavigator);
@@ -81,9 +81,5 @@ public class TravelDetailPresenter extends AbstractPresenter<TravelDetailsView> 
                 }
             });
         }
-    }
-
-    public void planning() {
-        getNavigator().navigateToTravelPlanning(getView().getViewContext(), getView().getCurrentModel());
     }
 }

@@ -156,6 +156,15 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         });
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (TravelModel.DEFAULT_ID == travelModel.getId()) {
+            menu.findItem(R.id.action_planning_travel).setVisible(false);
+        }
+    }
+
     /**
      * Control menu item selection.
      *
@@ -168,6 +177,10 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         switch (item.getItemId()) {
             case R.id.action_edit_travel:
                 presenter.getNavigator().navigateToTravelDetail(getContext(),travelModel);
+                result = true;
+                break;
+            case R.id.action_planning_travel:
+                getPresenter().planning();
                 result = true;
                 break;
             default:

@@ -112,8 +112,12 @@ public class TravelModel implements Parcelable{
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeLong(getId());
         out.writeString(getName());
-        out.writeLong(getFinishDate().getTime());
-        out.writeLong(getStartDate().getTime());
+        if (getFinishDate() != null) {
+            out.writeLong(getFinishDate().getTime());
+        }
+        if (getStartDate() != null) {
+            out.writeLong(getStartDate().getTime());
+        }
     }
 
     /**

@@ -99,14 +99,27 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.LabelDisabled">
+        <item name="android:textColor">@color/textColorHint</item>
+    </style>
+
     <style name="AppTheme.TextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:textColorHint">@color/textColorHint</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.FullTextInputLayout" parent="AppTheme.TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- Inputs styles -->
     <style name="AppTheme.EditText">
         <item name="android:textColor">@color/textColorSecundary</item>
         <item name="android:textColorHint">@color/textColorHint</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="AppTheme.FullEditText" parent="AppTheme.EditText">
@@ -124,4 +137,24 @@
         <item name="android:textColor">@color/textColorSecundary</item>
     </style>
 
+    <!-- Image Button styles -->
+    <style name="AppTheme.CalendarButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:src">@drawable/ic_today_black_24dp</item>
+    </style>
+
+    <!-- Main views styles -->
+
+    <style name="AppTheme.ViewContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AppTheme.DetailViewContainer" parent="AppTheme.ViewContainer">
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+    </style>
 </resources>

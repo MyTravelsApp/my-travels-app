@@ -39,6 +39,12 @@
         </activity>
 
         <activity
+            android:name=".presentation.view.activity.TravelDayActivity"
+            android:label="@string/activity_travel_planning_title"
+            android:parentActivityName=".presentation.view.activity.TravelPlanningActivity">
+        </activity>
+
+        <activity
             android:name=".presentation.view.activity.TravelPlacesActivity"
             android:label="@string/activity_travel_places_title"
             android:parentActivityName=".presentation.view.activity.TravelListActivity">

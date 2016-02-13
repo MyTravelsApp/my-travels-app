@@ -11,4 +11,10 @@
         android:icon="@drawable/ic_mode_edit_white_18dp"
         app:showAsAction="ifRoom"
         android:title="@string/action_edit"/>
+
+    <item
+        android:id="@+id/action_planning_travel"
+        android:icon="@drawable/ic_today_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_planning" />
 </menu>

@@ -5,9 +5,4 @@
         android:icon="@drawable/ic_done_white_24dp"
         app:showAsAction="ifRoom"
         android:title="@string/action_save" />
-    <item
-        android:id="@+id/action_planning_travel"
-        android:icon="@drawable/ic_today_white_24dp"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_planning" />
 </menu>
