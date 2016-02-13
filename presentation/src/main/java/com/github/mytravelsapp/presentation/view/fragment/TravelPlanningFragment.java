@@ -169,7 +169,7 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
 
     private final DateAdapter.OnItemClickListener<Date> dateOnItemClickListener = new AbstractAdapter.OnItemClickListener<Date>() {
         @Override
-        public void onTravelItemClicked(final Date selectedDate) {
+        public void onItemClicked(final Date selectedDate) {
             presenter.selectedDate(getCurrentModel(), selectedDate);
         }
     };
