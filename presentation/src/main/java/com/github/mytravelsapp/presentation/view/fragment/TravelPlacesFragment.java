@@ -89,7 +89,6 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
         // Setup UI
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.rv_travels_places.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
         this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
         this.adapter.setOnItemClickListener(onItemClickListener);

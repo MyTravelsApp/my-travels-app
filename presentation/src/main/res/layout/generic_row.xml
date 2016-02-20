@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/AppTheme.RowCard">
+    style="@style/AppTheme.RowCard"
+    android:id="@+id/card_row">
 
     <RelativeLayout
         android:id="@+id/lv_row"

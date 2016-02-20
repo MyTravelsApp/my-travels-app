@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/AppTheme.Row"
-    android:id="@+id/lv_row_places">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_row"
+    style="@style/AppTheme.RowCard">
 
-    <include layout="@layout/travel_places" />
+    <RelativeLayout
+        android:id="@+id/lv_row_places"
+        style="@style/AppTheme.Row">
 
-</RelativeLayout>
+        <include layout="@layout/travel_places" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
