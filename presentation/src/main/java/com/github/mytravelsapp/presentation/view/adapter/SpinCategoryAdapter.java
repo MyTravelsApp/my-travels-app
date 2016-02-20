@@ -25,6 +25,7 @@ public class SpinCategoryAdapter extends ArrayAdapter<CategoryModel> {
         setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.context = context;
         this.values = objects;
+
     }
 
     public int getCount(){
@@ -67,6 +68,8 @@ public class SpinCategoryAdapter extends ArrayAdapter<CategoryModel> {
 
     public void setList(List<CategoryModel> pList){
         values = pList;
+        //Add object void for category default
+        values.add(new CategoryModel(CategoryModel.DEFAULT_ID,"",true));
         notifyDataSetChanged();
     }
 }

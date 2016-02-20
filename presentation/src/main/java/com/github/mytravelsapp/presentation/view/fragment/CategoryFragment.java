@@ -2,6 +2,8 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -45,6 +47,9 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 
     private CategoryAdapter adapter;
 
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
     private SearchView searchView;
 
     private String currentFilter;
@@ -66,7 +71,7 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 		//Show the line beetwen two rows.
         this.rv_category.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         this.adapter = new CategoryAdapter(getActivity(), new ArrayList<CategoryModel>());
-        this.adapter.setOnclickAddButtonListener(onclickAddButtonListener);
+        this.adapter.setOnClickAddButtonListener(onClickAddButtonListener);
         this.adapter.setOnRemoveListener(onRemoveListener);
         this.rv_category.setAdapter(this.adapter);
         final ItemTouchHelper helper = new ItemTouchHelper(new CategoryTouchHelperCallback(this.adapter));
@@ -123,25 +128,48 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
         this.presenter.setView(this);
     }
 
+    @Override
+    public void showRemoveError() {
+        showToastMessage(getString(R.string.category_error_travel_places));
+    }
+
     private void loadCategories() {
         getPresenter().loadCategories(currentFilter);
     }
 
     private final CategoryAdapter.OnRemoveListener onRemoveListener = new CategoryAdapter.OnRemoveListener<CategoryModel>() {
         @Override
-        public void onRemove(int position, CategoryModel model) {
-            if (getPresenter() != null) {
-                getPresenter().removeCategory(model.getId());
-            }
+        public void onRemove(final int position, final CategoryModel model) {
+            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
+            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CategoryFragment.this.adapter.undoRemove(position, model);
+                }
+            });
+
+            undo.setCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    super.onDismissed(snackbar, event);
+
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        if (getPresenter() != null) {
+                            getPresenter().removeCategory(model.getId());
+                        }
+                    }
+                }
+            });
+
+            undo.show();
         }
     };
 
-    private final CategoryAdapter.OnclickAddButtonListener onclickAddButtonListener = new CategoryAdapter.OnclickAddButtonListener() {
+    private final CategoryAdapter.OnClickAddButtonListener onClickAddButtonListener = new CategoryAdapter.OnClickAddButtonListener() {
         @Override
         public void save(CategoryModel model) {
             getPresenter().save(model);
         }
     };
-
 
 }

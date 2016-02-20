@@ -40,8 +40,11 @@
 
     <!-- Travel specific text -->
     <string name="travel_delete">El viaje se ha eliminado</string>
-    <string name="category_delete">La categoría se ha eliminado</string>
     <string name="travel_error_delete">No se ha podido eliminar el viaje</string>
     <string name="travel_error_load">Se ha producido un error al cargar los viajes</string>
+
+    <!-- Category specific text-->
+    <string name="category_error_travel_places">La categoría seleccionada tiene puntos de interés asociados</string>
+    <string name="category_delete">La categoria ha sido eliminada</string>
 
 </resources>

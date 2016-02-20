@@ -90,7 +90,7 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
     }
 
     public void setList(final List<M> pList) {
-        validateData(pList);
+            validateData(pList);
         this.list = pList;
         this.notifyDataSetChanged();
     }

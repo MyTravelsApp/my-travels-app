@@ -25,4 +25,10 @@ public interface CategoryView extends LoadDataView {
      * @param categoryModel categorie to add to the list categories.
      */
     void addItemSaved(CategoryModel categoryModel);
+
+    /**
+     * Show one message in the view.
+     *
+     */
+    void showRemoveError();
 }
