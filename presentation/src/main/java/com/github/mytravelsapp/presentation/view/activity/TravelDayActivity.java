@@ -14,6 +14,7 @@ import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDayFragment;
+import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesSelectorFragment;
 
 import java.util.Date;
 
@@ -63,7 +64,8 @@ public class TravelDayActivity extends AbstractActivity implements HasComponent<
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
             selectedDate = (Date)getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_SELECTED_DATE);
-            addFragment(R.id.fragmentTravelDay, TravelDayFragment.newInstance(travelModel, selectedDate));
+            //addFragment(R.id.fragmentTravelDay, TravelDayFragment.newInstance(travelModel, selectedDate));
+            addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }

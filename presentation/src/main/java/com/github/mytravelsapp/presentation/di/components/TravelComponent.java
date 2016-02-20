@@ -6,6 +6,7 @@ import com.github.mytravelsapp.presentation.di.modules.TravelModule;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDayFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDetailsFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
+import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesSelectorFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlanningFragment;
 
 import dagger.Component;
@@ -23,4 +24,6 @@ public interface TravelComponent extends ActivityComponent {
     void inject(TravelPlanningFragment fragment);
 
     void inject(TravelDayFragment fragment);
+
+    void inject(TravelPlacesSelectorFragment fragment);
 }

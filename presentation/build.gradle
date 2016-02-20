@@ -49,6 +49,7 @@ dependencies {
     compile presentationDependencies.butterKnife
     compile presentationDependencies.appCompact
     compile presentationDependencies.recyclerView
+    compile presentationDependencies.cardView
     compile presentationDependencies.design
     provided presentationDependencies.javaxAnnotation
 

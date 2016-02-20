@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material color palette: https://www.google.com/design/spec/style/color.html#color-color-palette -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#F44336</color>
-    <color name="colorAccentTransparent">#FFCDD2</color>
-    <color name="windowBackground">#C5CAE9</color>
+    <color name="colorPrimary">#3F51B5</color><!-- Indigo 500 -->
+    <color name="colorPrimaryDark">#303F9F</color><!-- Indigo 700 -->
+    <color name="colorAccent">#F44336</color><!-- Red 500 -->
+    <color name="colorAccentTransparent">#FFCDD2</color><!-- Red 100 -->
+    <color name="colorPrimaryLight">#88303F9F</color><!-- Indigo 700 --><!--Los dos primeros caracteres es para bajar la opacidad del color-->
+    <color name="windowBackground">#C5CAE9</color><!-- Indigo 100 -->
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecundary">#000000</color>
-    <color name="textColorHint">#757575</color>
-    <color name="lineDivider">@android:color/darker_gray</color>
-    <color name="rowBackground">#E8EAF6</color>
+    <color name="textColorHint">#757575</color><!-- Grey 600 -->
+    <color name="lineDivider">#BDBDBD</color><!-- Grey 400 -->
+    <color name="rowBackground">#E8EAF6</color><!-- Indigo 50 -->
 </resources>

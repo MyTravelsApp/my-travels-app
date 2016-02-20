@@ -16,5 +16,6 @@
     <dimen name="lv_row_subtext_size">12sp</dimen>
     <dimen name="lv_row_subtext_right_padding">3dp</dimen>
     <dimen name="lv_row_subtext_left_padding">3dp</dimen>
+    <dimen name="lv_card_margin">3dp</dimen>
 
 </resources>
