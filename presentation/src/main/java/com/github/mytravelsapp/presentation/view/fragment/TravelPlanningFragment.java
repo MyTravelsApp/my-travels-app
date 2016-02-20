@@ -2,6 +2,7 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,8 +73,8 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
-        this.rv_travel_days.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.rv_travel_days.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+        this.rv_travel_days.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        //this.rv_travel_days.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         adapter = new DateAdapter(getActivity(), new ArrayList<Date>());
         rv_travel_days.setAdapter(adapter);
         adapter.setOnItemClickListener(dateOnItemClickListener);

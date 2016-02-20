@@ -16,6 +16,7 @@
     <string name="action_search">Buscar</string>
     <string name="action_configure">Configurar</string>
     <string name="action_planning">Planificar</string>
+    <string name="action_selection">Seleccionar</string>
 
     <!-- Generic text -->
     <string name="text_search_box">Buscar&#8230;</string>
@@ -30,6 +31,7 @@
     <string name="text_category">Categoría</string>
     <string name="text_undo">Deshacer</string>
     <string name="prompt_category">Selecciona una categoría</string>
+    <string name="text_selection">Seleccionar %1$d elementos</string>
 
     <!-- Error messages -->
     <string name="error_required">Este campo es requerido.</string>

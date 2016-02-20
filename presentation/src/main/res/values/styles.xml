@@ -15,11 +15,19 @@
         <item name="android:spinnerDropDownItemStyle">@style/AppTheme.Spinner.DropDownItem</item>
         <!-- Search View -->
         <item name="android:textColorHint">@color/textColorPrimary</item>
+        <!-- Action mode -->
+        <item name="actionModeStyle">@style/AppTheme.ActionMode</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Action Mode -->
+    <style name="AppTheme.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/colorPrimary</item>
+    </style>
 
     <!-- Toolbar -->
     <style name="AppTheme.ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
@@ -92,6 +100,20 @@
 
     <style name="AppTheme.RowSubtextLabel" parent="AppTheme.RowSubtext">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.RowCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/lv_card_margin</item>
+        <item name="android:layout_marginLeft">@dimen/lv_card_margin</item>
+        <item name="android:layout_marginRight">@dimen/lv_card_margin</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="AppTheme.RowCardContent" parent="AppTheme.Row">
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <!-- Label styles -->

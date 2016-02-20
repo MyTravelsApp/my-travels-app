@@ -3,31 +3,6 @@
     style="@style/AppTheme.Row"
     android:id="@+id/lv_row_places">
 
-    <TextView
-        android:id="@+id/txt_title"
-        style="@style/AppTheme.RowText"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:singleLine="true" />
-
-    <TextView
-        android:id="@+id/txt_category"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:text="@string/text_category" />
-
-    <TextView
-        android:id="@+id/txt_colon1"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_category"
-        android:paddingEnd="3dp"
-        android:text=":" />
-
-    <TextView
-        android:id="@+id/txt_category_target"
-        style="@style/AppTheme.RowSubtext"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_colon1" />
+    <include layout="@layout/travel_places" />
 
 </RelativeLayout>
