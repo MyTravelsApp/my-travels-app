@@ -2,7 +2,6 @@ package com.github.mytravelsapp.presentation.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.persistence.entity.Category;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
-import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
     private static int VIEW_TYPE_FOOTER = 0;
     private static int VIEW_TYPE_CELL = 1;
 
-    private OnclickAddButtonListener onclickAddButtonListener;
+    private OnClickAddButtonListener onClickAddButtonListener;
 
     public CategoryAdapter(final Context context, final List<CategoryModel> pList) {
         super(context,pList);
@@ -43,31 +40,34 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
     @Override
     public void onBindViewHolder(AbtractCategoryViewHolder holder, int position) {
         if(position == getList().size()){
-          final ButtonViewHolder buttonViewHolder = (ButtonViewHolder) holder;
-            buttonViewHolder.lv_row_button.setOnClickListener(new View.OnClickListener() {
+          final AddCategoryViewHolder addCategoryViewHolder = (AddCategoryViewHolder) holder;
+            addCategoryViewHolder.lv_row_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    buttonViewHolder.lv_row_button.setVisibility(Button.GONE);
-                    buttonViewHolder.text_category.setVisibility(Button.VISIBLE);
-                    buttonViewHolder.category_linear_buttons.setVisibility(LinearLayout.VISIBLE);
+                    addCategoryViewHolder.lv_row_button.setVisibility(Button.GONE);
+                    addCategoryViewHolder.text_category.setVisibility(Button.VISIBLE);
+                    addCategoryViewHolder.category_linear_buttons.setVisibility(LinearLayout.VISIBLE);
                 }
             });
-            buttonViewHolder.lv_row_button_add.setOnClickListener(new View.OnClickListener() {
+            addCategoryViewHolder.lv_row_button_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onclickAddButtonListener != null){
-                        onclickAddButtonListener.save(new CategoryModel(CategoryModel.DEFAULT_ID,buttonViewHolder.text_category.getText().toString(),false));
-                        buttonViewHolder.category_linear_buttons.setVisibility(LinearLayout.GONE);
-                        buttonViewHolder.text_category.setVisibility(Button.GONE);
-                        buttonViewHolder.text_category.setText("");
-                        buttonViewHolder.lv_row_button.setVisibility(Button.VISIBLE);
+                    if(onClickAddButtonListener != null){
+                        onClickAddButtonListener.save(new CategoryModel(CategoryModel.DEFAULT_ID, addCategoryViewHolder.text_category.getText().toString(), false));
+                        resetListCategory(addCategoryViewHolder);
                     }
                 }
             });
+            addCategoryViewHolder.lv_row_button_cancel.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    resetListCategory(addCategoryViewHolder);
+                }
+            });
         } else {
-            CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
+            ListCategoryViewHolder listCategoryViewHolder = (ListCategoryViewHolder) holder;
             final CategoryModel model = getList().get(position);
-            categoryViewHolder.lv_row.setOnClickListener(new View.OnClickListener() {
+            listCategoryViewHolder.lv_row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (getOnItemClickListener() != null) {
@@ -75,20 +75,27 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
                     }
                 }
             });
-            categoryViewHolder.txtTitle.setText(model.getName());
+            listCategoryViewHolder.txtTitle.setText(model.getName());
         }
 
+    }
+
+    private void resetListCategory(AddCategoryViewHolder addCategoryViewHolder){
+        addCategoryViewHolder.category_linear_buttons.setVisibility(LinearLayout.GONE);
+        addCategoryViewHolder.text_category.setVisibility(Button.GONE);
+        addCategoryViewHolder.text_category.setText("");
+        addCategoryViewHolder.lv_row_button.setVisibility(Button.VISIBLE);
     }
 
     @Override
     public AbtractCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == VIEW_TYPE_CELL){
             final View view = getLayoutInflater().inflate(R.layout.row_category, parent, false);
-            final CategoryViewHolder holder = new CategoryViewHolder(view);
+            final ListCategoryViewHolder holder = new ListCategoryViewHolder(view);
             return holder;
         } else {
             final View view = getLayoutInflater().inflate(R.layout.row_category_button_add, parent, false);
-            final ButtonViewHolder holderButton = new ButtonViewHolder(view);
+            final AddCategoryViewHolder holderButton = new AddCategoryViewHolder(view);
             return  holderButton;
         }
 
@@ -105,7 +112,7 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
         }
     }
 
-    static class CategoryViewHolder extends AbtractCategoryViewHolder {
+    static class ListCategoryViewHolder extends AbtractCategoryViewHolder {
 
         @Bind(R.id.lv_row_categories)
         RelativeLayout lv_row;
@@ -113,13 +120,13 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
         @Bind(R.id.txt_title)
         TextView txtTitle;
 
-        public CategoryViewHolder(final View itemView) {
+        public ListCategoryViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static  class ButtonViewHolder extends  AbtractCategoryViewHolder{
+    static  class AddCategoryViewHolder extends  AbtractCategoryViewHolder{
         @Bind(R.id.lv_row_categories_button)
         Button lv_row_button;
 
@@ -135,23 +142,20 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
         @Bind(R.id.category_button_cancel)
         Button lv_row_button_cancel;
 
-        public ButtonViewHolder(final View itemView) {
+        public AddCategoryViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
     }
 
-    public interface OnclickAddButtonListener {
+    public interface OnClickAddButtonListener {
         void save(CategoryModel model);
     }
 
-    public OnclickAddButtonListener getOnclickAddButtonListener() {
-        return onclickAddButtonListener;
-    }
 
-    public void setOnclickAddButtonListener(OnclickAddButtonListener onclickAddButtonListener) {
-        this.onclickAddButtonListener = onclickAddButtonListener;
+    public void setOnClickAddButtonListener(OnClickAddButtonListener onClickAddButtonListener) {
+        this.onClickAddButtonListener = onClickAddButtonListener;
     }
 
 }

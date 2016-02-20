@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.dto.CategoryDto;
+import com.github.mytravelsapp.business.exception.ExistCategoryInTravelPlacesBusinessException;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetCategoryListInteractor;
 import com.github.mytravelsapp.business.interactor.RemoveCategoryInteractor;
@@ -51,7 +52,9 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
 
             @Override
             public void onError(Throwable cause) {
-                // FIXME SHOW ERROR!!!!
+                if(cause instanceof ExistCategoryInTravelPlacesBusinessException){
+                    getView().showRemoveError();
+                }
             }
         });
     }
@@ -85,8 +88,6 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
      *.
      */
     public void save(final CategoryModel model) {
-        //if (getView().validate()) {
-
             getView().showLoading();
             saveCategoryInteractor.setData(converter.convertToDto(model));
             saveCategoryInteractor.execute(new Callback<Boolean>() {
@@ -104,7 +105,6 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
                     // FIXME SHOW ERROR!!!!
                 }
             });
-      //  }
     }
 
 }

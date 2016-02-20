@@ -101,4 +101,18 @@ public class DatabaseTravelPlacesRepository extends DatabaseRepository<TravelPla
             throw new PersistenceException("Error delete travel places associated with travel: " + travelId, e);
         }
     }
+
+    @Override
+    public List<TravelPlacesDto> findByIdCategory(final Long categoryId) throws PersistenceException {
+        if (categoryId == null) {
+            throw new IllegalArgumentException("categoryId cannot be null");
+        }
+        try {
+            final QueryBuilder<TravelPlaces, Long> builder = getDao().queryBuilder();
+            builder.where().eq(TravelPlaces.FIELD_ID_CATEGORY, categoryId);
+            return converter.convertToDto(getDao().query(builder.prepare()));
+        } catch (final SQLException e) {
+            throw new PersistenceException("Error find travels", e);
+        }
+    }
 }

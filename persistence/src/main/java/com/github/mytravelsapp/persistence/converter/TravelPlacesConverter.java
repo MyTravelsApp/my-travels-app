@@ -33,7 +33,9 @@ public class TravelPlacesConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        target.setCategory(categoryConverter.convert(source.getCategoryDto()));
+        if(source.getCategoryDto() != null){
+            target.setCategory(categoryConverter.convert(source.getCategoryDto()));
+        }
         target.setTravel(travelConverter.convert(source.getTravelDto()));
         return target;
     }
@@ -58,7 +60,10 @@ public class TravelPlacesConverter {
         final TravelPlacesDto target = new TravelPlacesDto();
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        target.setCategoryDto(categoryConverter.convertToDto(source.getCategory()));
+        if(source.getCategory() != null){
+            target.setCategoryDto(categoryConverter.convertToDto(source.getCategory()));
+        }
+
         target.setTravelDto(travelConverter.convertToDto(source.getTravel()));
         target.setId(source.getId());
         return target;

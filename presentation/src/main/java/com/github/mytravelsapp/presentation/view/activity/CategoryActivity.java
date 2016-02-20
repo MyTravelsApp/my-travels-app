@@ -34,6 +34,11 @@ public class CategoryActivity extends AbstractActivity implements HasComponent<C
         super.onCreate(savedInstanceState);
         // Layout definition for activity
         setContentView(R.layout.activity_category);
+        // Set the support toolbar to show in activity
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        // Active home button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         initializeInjector();
     }

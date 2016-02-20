@@ -37,7 +37,9 @@ public class TravelPlacesAdapter extends AbstractAdapter<TravelPlacesModel, Trav
             }
         });
         holder.txtTitle.setText(model.getName());
-        holder.txtCategory.setText(model.getCategoryModel().getName());
+        if(model.getCategoryModel() != null){
+            holder.txtCategory.setText(model.getCategoryModel().getName());
+        }
     }
 
     @Override

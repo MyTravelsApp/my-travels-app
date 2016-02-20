@@ -71,7 +71,8 @@ ext {
     ]
 
     persistenceTestDependencies = [
-
+            junit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}",
     ]
 
     businessDependencies = [

@@ -25,7 +25,7 @@ public class TravelPlaces implements Serializable {
     private String observations;
     @DatabaseField(foreign=true, canBeNull = false, columnName = FIELD_ID_TRAVEL)
     private Travel travel;
-    @DatabaseField(foreign=true, canBeNull = false, foreignAutoRefresh = true, columnName = FIELD_ID_CATEGORY)
+    @DatabaseField(foreign=true, canBeNull = true, foreignAutoRefresh = true, columnName = FIELD_ID_CATEGORY)
     private Category category;
 
     public TravelPlaces() {

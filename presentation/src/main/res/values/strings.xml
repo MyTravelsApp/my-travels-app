@@ -46,8 +46,11 @@
 
     <!-- Travel specific text -->
     <string name="travel_delete">The travel has been removed</string>
-    <string name="category_delete">The category has been removed</string>
     <string name="travel_error_delete">Could not remove the travel</string>
     <string name="travel_error_load">There was an error while loading travels</string>
+
+    <!-- Category specific text-->
+    <string name="category_error_travel_places">The category selected has travel places associated</string>
+    <string name="category_delete">The category has been removed</string>
 
 </resources>

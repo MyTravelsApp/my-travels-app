@@ -77,4 +77,5 @@ public class DatabaseCategoryRepository extends DatabaseRepository<Category, Lon
             throw new PersistenceException("Error delete category with id: " + identifier, e);
         }
     }
+    
 }
