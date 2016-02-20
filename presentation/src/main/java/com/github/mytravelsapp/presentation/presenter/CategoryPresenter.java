@@ -87,7 +87,7 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
      * Save categories and render in view.
      *.
      */
-    public void save(final CategoryModel model) {
+    public void save(final CategoryModel model, final int position) {
             getView().showLoading();
             saveCategoryInteractor.setData(converter.convertToDto(model));
             saveCategoryInteractor.execute(new Callback<Boolean>() {
@@ -95,7 +95,8 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
                 public void onSuccess(Boolean result) {
                     if (Boolean.TRUE.equals(result)) {
                         getView().hideLoading();
-                        getView().addItemSaved(model);
+                        getView().addItemSaved(model,position);
+
                     }
                 }
 

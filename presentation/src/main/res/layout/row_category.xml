@@ -8,6 +8,8 @@
         style="@style/AppTheme.RowText"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:singleLine="true" />
+        android:singleLine="true"/>
+
+    <include layout="@layout/row_category_buttons"/>
 
 </RelativeLayout>

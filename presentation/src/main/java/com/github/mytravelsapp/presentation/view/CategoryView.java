@@ -24,11 +24,12 @@ public interface CategoryView extends LoadDataView {
      *
      * @param categoryModel categorie to add to the list categories.
      */
-    void addItemSaved(CategoryModel categoryModel);
+    void addItemSaved(CategoryModel categoryModel, int position);
 
     /**
      * Show one message in the view.
      *
      */
     void showRemoveError();
+
 }

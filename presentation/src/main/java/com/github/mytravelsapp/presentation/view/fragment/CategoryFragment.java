@@ -119,8 +119,14 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
         return getActivity();
     }
 
-    public void addItemSaved(CategoryModel model){
-        adapter.addItemList(model);
+    @Override
+    public void addItemSaved(CategoryModel model, int position){
+        if(position == -1){
+            adapter.addItemList(model);
+        } else{
+            adapter.notifyItemChanged(position);
+        }
+
     }
 	
 	private void initialize() {
@@ -167,8 +173,8 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 
     private final CategoryAdapter.OnClickAddButtonListener onClickAddButtonListener = new CategoryAdapter.OnClickAddButtonListener() {
         @Override
-        public void save(CategoryModel model) {
-            getPresenter().save(model);
+        public void save(CategoryModel model, int position) {
+            getPresenter().save(model, position);
         }
     };
 

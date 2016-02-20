@@ -168,6 +168,13 @@
         <item name="android:src">@drawable/ic_today_black_24dp</item>
     </style>
 
+    <!-- Image Button styles Category-->
+    <style name="AppTheme.CategoryButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <!-- Main views styles -->
 
     <style name="AppTheme.ViewContainer">

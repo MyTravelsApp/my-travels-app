@@ -56,7 +56,7 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
 
     public void addItemList(final M model) {
        list.add(model);
-       notifyItemChanged(list.size()-1);
+       notifyItemChanged(list.size() - 1);
     }
 
     private void validateData(final List<M> data) {
