@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+import com.github.mytravelsapp.presentation.view.components.RippleForegroundListener;
 
 import java.util.List;
 
@@ -61,9 +62,12 @@ public class TravelPlacesAdapter extends AbstractAdapter<TravelPlacesModel, Trav
         @Bind(R.id.txt_category_target)
         TextView txtCategory;
 
+        private final RippleForegroundListener rippleForegroundListener = new RippleForegroundListener(R.id.card_row);
+
         public TravelPlacesViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            lv_row.setOnTouchListener(rippleForegroundListener);
         }
     }
 

@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lv_row"
-    style="@style/AppTheme.Row">
 
-    <TextView
-        android:id="@+id/txt_title"
-        style="@style/AppTheme.RowText"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:singleLine="true" />
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_row"
+    style="@style/AppTheme.RowCard">
 
-    <TextView
-        android:id="@+id/txt_from"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:text="@string/text_start_date_short" />
+    <RelativeLayout
+        android:id="@+id/lv_row"
+        style="@style/AppTheme.Row">
 
-    <TextView
-        android:id="@+id/txt_colon1"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_from"
-        android:paddingEnd="@dimen/lv_row_subtext_right_padding"
-        android:text="@string/text_colon" />
+        <TextView
+            android:id="@+id/txt_title"
+            style="@style/AppTheme.RowText"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true" />
 
-    <TextView
-        android:id="@+id/txt_start_date"
-        style="@style/AppTheme.RowSubtext"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_colon1" />
+        <TextView
+            android:id="@+id/txt_from"
+            style="@style/AppTheme.RowSubtextLabel"
+            android:layout_below="@id/txt_title"
+            android:text="@string/text_start_date_short" />
 
-    <TextView
-        android:id="@+id/txt_to"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_start_date"
-        android:paddingStart="@dimen/lv_row_subtext_left_padding"
-        android:text="@string/text_finish_date_short" />
+        <TextView
+            android:id="@+id/txt_colon1"
+            style="@style/AppTheme.RowSubtextLabel"
+            android:layout_below="@id/txt_title"
+            android:layout_toEndOf="@id/txt_from"
+            android:paddingEnd="@dimen/lv_row_subtext_right_padding"
+            android:text="@string/text_colon" />
 
-    <TextView
-        android:id="@+id/txt_colon2"
-        style="@style/AppTheme.RowSubtextLabel"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_to"
-        android:paddingEnd="@dimen/lv_row_subtext_right_padding"
-        android:text="@string/text_colon" />
+        <TextView
+            android:id="@+id/txt_start_date"
+            style="@style/AppTheme.RowSubtext"
+            android:layout_below="@id/txt_title"
+            android:layout_toEndOf="@id/txt_colon1" />
 
-    <TextView
-        android:id="@+id/txt_finish_date"
-        style="@style/AppTheme.RowSubtext"
-        android:layout_below="@id/txt_title"
-        android:layout_toEndOf="@id/txt_colon2" />
+        <TextView
+            android:id="@+id/txt_to"
+            style="@style/AppTheme.RowSubtextLabel"
+            android:layout_below="@id/txt_title"
+            android:layout_toEndOf="@id/txt_start_date"
+            android:paddingStart="@dimen/lv_row_subtext_left_padding"
+            android:text="@string/text_finish_date_short" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/txt_colon2"
+            style="@style/AppTheme.RowSubtextLabel"
+            android:layout_below="@id/txt_title"
+            android:layout_toEndOf="@id/txt_to"
+            android:paddingEnd="@dimen/lv_row_subtext_right_padding"
+            android:text="@string/text_colon" />
+
+        <TextView
+            android:id="@+id/txt_finish_date"
+            style="@style/AppTheme.RowSubtext"
+            android:layout_below="@id/txt_title"
+            android:layout_toEndOf="@id/txt_colon2" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

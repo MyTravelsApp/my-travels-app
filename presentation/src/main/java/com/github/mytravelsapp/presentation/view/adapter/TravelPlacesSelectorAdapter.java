@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
+import com.github.mytravelsapp.presentation.view.components.RippleForegroundListener;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -55,8 +56,8 @@ public class TravelPlacesSelectorAdapter extends AbstractSelectorAdapter<TravelP
 
     static class TravelPlacesSelectorViewHolder extends RecyclerView.ViewHolder {
 
-/*        @Bind(R.id.lv_row_places)
-        RelativeLayout lv_row;*/
+        @Bind(R.id.lv_row_places)
+        RelativeLayout lv_row;
 
         @Bind(R.id.txt_title)
         TextView txtTitle;

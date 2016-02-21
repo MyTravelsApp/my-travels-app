@@ -56,4 +56,13 @@ public abstract class AbstractSelectorAdapter<M, VH extends RecyclerView.ViewHol
         }
         return items;
     }
+
+    public List<M> getSelectedModels() {
+        final List<M> models = new ArrayList<>(selectedItems.size());
+        for (final Integer position:getSelectedItems()) {
+            models.add(getList().get(position));
+        }
+
+        return models;
+    }
 }

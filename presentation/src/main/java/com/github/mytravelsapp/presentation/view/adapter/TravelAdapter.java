@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.view.components.RippleForegroundListener;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -88,9 +89,12 @@ public class TravelAdapter extends AbstractAdapter<TravelModel, TravelAdapter.Tr
         @Bind(R.id.txt_finish_date)
         TextView txt_finish_date;
 
+        private final RippleForegroundListener rippleForegroundListener = new RippleForegroundListener(R.id.card_row);
+
         public TravelViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            lv_row.setOnTouchListener(rippleForegroundListener);
         }
     }
 
