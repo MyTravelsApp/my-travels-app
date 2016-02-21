@@ -2,6 +2,7 @@ package com.github.mytravelsapp.presentation.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,13 +47,13 @@ public class CategoryAdapter extends AbstractAdapter<CategoryModel, CategoryAdap
         //Viewholer for add one new category
         if (position == getList().size()) {
             final AddCategoryViewHolder addCategoryViewHolder = (AddCategoryViewHolder) holder;
+            addCategoryViewHolder.reset();
             addCategoryViewHolder.lv_row_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     visibleAddCategory = true;
                     if (positionSelected != -1) {
                         notifyItemChanged(positionSelected);
-                        //positionSelected = position;
                     }
                     addCategoryViewHolder.enabledTextCategory();
                 }
