@@ -6,7 +6,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import java.util.List;
 
 /**
- * Definition of the travel list view methods.
+ * Definition of the Category  view methods.
  *
  * @author stefani
  */
@@ -31,5 +31,9 @@ public interface CategoryView extends LoadDataView {
      *
      */
     void showRemoveError();
+
+    void showConfirmationRemove(int position, CategoryModel model);
+
+    void executeRemove(int position, CategoryModel model);
 
 }

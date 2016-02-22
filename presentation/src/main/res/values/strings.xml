@@ -54,5 +54,6 @@
     <!-- Category specific text-->
     <string name="category_error_travel_places">The category selected has travel places associated</string>
     <string name="category_delete">The category has been removed</string>
+    <string name="category_delete_confirm">The category has travel places associated. Do you sure remove?</string>
 
 </resources>

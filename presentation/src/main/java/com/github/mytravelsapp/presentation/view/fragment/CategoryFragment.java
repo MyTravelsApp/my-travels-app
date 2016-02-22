@@ -1,9 +1,11 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -17,6 +19,8 @@ import com.github.mytravelsapp.presentation.di.components.CategoryComponent;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.presenter.CategoryPresenter;
 import android.support.v7.widget.SearchView;
+import android.widget.Toast;
+
 import com.github.mytravelsapp.presentation.view.CategoryView;
 import com.github.mytravelsapp.presentation.view.adapter.CategoryAdapter;
 import com.github.mytravelsapp.presentation.view.components.CategoryTouchHelperCallback;
@@ -143,31 +147,47 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
         getPresenter().loadCategories(currentFilter);
     }
 
+    @Override
+    public void showConfirmationRemove(final int position, final CategoryModel model) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.category_delete_confirm)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        executeRemove(position,model);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+
+    @Override
+    public void executeRemove(final int position, final CategoryModel model){
+        final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
+        undo.setAction(R.string.text_undo, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategoryFragment.this.adapter.undoRemove(position, model);
+            }
+        });
+
+        undo.setCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                super.onDismissed(snackbar, event);
+
+                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    if (getPresenter() != null) {
+                        getPresenter().removeCategory(model.getId());
+                    }
+                }
+            }
+        });
+
+        undo.show();
+    }
     private final CategoryAdapter.OnRemoveListener onRemoveListener = new CategoryAdapter.OnRemoveListener<CategoryModel>() {
         @Override
         public void onRemove(final int position, final CategoryModel model) {
-            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
-            undo.setAction(R.string.text_undo, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CategoryFragment.this.adapter.undoRemove(position, model);
-                }
-            });
-
-            undo.setCallback(new Snackbar.Callback() {
-                @Override
-                public void onDismissed(Snackbar snackbar, int event) {
-                    super.onDismissed(snackbar, event);
-
-                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                        if (getPresenter() != null) {
-                            getPresenter().removeCategory(model.getId());
-                        }
-                    }
-                }
-            });
-
-            undo.show();
+            getPresenter().checkTravelPlacesByCategory(position,model);
         }
     };
 

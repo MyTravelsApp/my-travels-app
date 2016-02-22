@@ -48,5 +48,7 @@
     <!-- Category specific text-->
     <string name="category_error_travel_places">La categoría seleccionada tiene puntos de interés asociados</string>
     <string name="category_delete">La categoria ha sido eliminada</string>
+    <string name="category_delete_confirm">La categoría tiene lugares de interés asociados. ¿Desea eliminarla?</string>
+
 
 </resources>
