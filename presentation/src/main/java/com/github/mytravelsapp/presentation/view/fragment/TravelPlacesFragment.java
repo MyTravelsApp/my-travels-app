@@ -80,7 +80,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     }
 
     /**
-     * Se ejecuta cada vez que se renderiza la vista
+     * It is execute when rendericed the view.
      */
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {

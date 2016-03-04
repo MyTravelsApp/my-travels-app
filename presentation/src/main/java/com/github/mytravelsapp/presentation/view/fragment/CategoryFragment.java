@@ -5,11 +5,16 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -18,9 +23,6 @@ import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.CategoryComponent;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.presenter.CategoryPresenter;
-import android.support.v7.widget.SearchView;
-import android.widget.Toast;
-
 import com.github.mytravelsapp.presentation.view.CategoryView;
 import com.github.mytravelsapp.presentation.view.adapter.CategoryAdapter;
 import com.github.mytravelsapp.presentation.view.components.CategoryTouchHelperCallback;
@@ -36,9 +38,10 @@ import butterknife.ButterKnife;
 
 
 /**
+ * Class for the fragment of category.
  * Created by stefani on 14/01/2016.
  */
-public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPresenter> implements CategoryView {
+public class CategoryFragment extends SearchFragment<CategoryView, CategoryPresenter> implements CategoryView {
 	
 	@Inject
     CategoryPresenter presenter;
@@ -58,12 +61,14 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 
     private String currentFilter;
 
-	
-	 @Override
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -83,6 +88,7 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
         return fragmentView;
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -100,6 +106,7 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
     protected CategoryPresenter getPresenter() {
         return presenter;
     }
+
 
     @Override
     public void renderList(List<CategoryModel> list) {
@@ -144,7 +151,7 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
     }
 
     private void loadCategories() {
-        getPresenter().loadCategories(currentFilter);
+        getPresenter().load(currentFilter);
     }
 
     @Override
@@ -153,9 +160,15 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
                 .setMessage(R.string.category_delete_confirm)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        executeRemove(position,model);
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
+                        executeRemove(position, model);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        CategoryFragment.this.adapter.undoRemove(position, model);
+                    }
+                }).show();
+
     }
 
 
@@ -184,6 +197,46 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
 
         undo.show();
     }
+
+    /**
+     * Load fragment menu.
+     *
+     * @param menu     Fragment menu.
+     * @param inflater Menu inflater.
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_categories, menu);
+        configureSearch(menu);
+      //  configureSearch(menu);
+    }
+
+    @Override
+    public void executeSearch(String filter) {
+        getPresenter().load(filter);
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return boolean result.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case R.id.action_search_travel:
+                result = true;
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
+    }
+
+
     private final CategoryAdapter.OnRemoveListener onRemoveListener = new CategoryAdapter.OnRemoveListener<CategoryModel>() {
         @Override
         public void onRemove(final int position, final CategoryModel model) {
@@ -197,5 +250,6 @@ public class CategoryFragment extends AbstractFragment<CategoryView, CategoryPre
             getPresenter().save(model, position);
         }
     };
+
 
 }

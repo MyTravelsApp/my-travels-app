@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" style="@style/AppTheme.ViewContainer">
+
     <include layout="@layout/toolbar" />
 
     <fragment
@@ -8,4 +9,5 @@
         android:name="com.github.mytravelsapp.presentation.view.fragment.CategoryFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

@@ -3,8 +3,13 @@ package com.github.mytravelsapp.presentation.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.presenter.Presenter;
 import com.github.mytravelsapp.presentation.view.View;
@@ -69,4 +74,5 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
         }
         return result;
     }
+
 }

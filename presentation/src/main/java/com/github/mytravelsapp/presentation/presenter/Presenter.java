@@ -21,4 +21,5 @@ public interface Presenter<V extends View> {
     void setView(@NonNull V view);
 
     V getView();
+
 }

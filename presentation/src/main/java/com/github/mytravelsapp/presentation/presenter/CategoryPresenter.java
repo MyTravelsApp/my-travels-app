@@ -45,7 +45,8 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
     }
 
     /**
-     * Remove category
+     * Remove one category.
+     * @param categoryId
      */
     public void removeCategory(final long categoryId) {
         removeCategoryInteractor.setCategoryId(categoryId);
@@ -67,7 +68,7 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
      *
      * @param filter Text to filter.
      */
-    public void loadCategories(final String filter) {
+    public void load(final String filter) {
         getView().showLoading();
         getCategoryListInteractor.setFilter(filter);
         getCategoryListInteractor.execute(new Callback<List<CategoryDto>>() {
