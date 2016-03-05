@@ -5,11 +5,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,9 +55,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    private SearchView searchView;
-
-    private String currentFilter;
+    private long idCategoryDelete = CategoryModel.DEFAULT_ID;
 
 
 	@Override
@@ -99,7 +95,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
-        loadCategories();
+        getPresenter().loadCategories(null);
     }
 	
     @Override
@@ -150,9 +146,6 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
         showToastMessage(getString(R.string.category_error_travel_places));
     }
 
-    private void loadCategories() {
-        getPresenter().load(currentFilter);
-    }
 
     @Override
     public void showConfirmationRemove(final int position, final CategoryModel model) {
@@ -174,10 +167,12 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
 
     @Override
     public void executeRemove(final int position, final CategoryModel model){
+        idCategoryDelete =model.getId();
         final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
         undo.setAction(R.string.text_undo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                idCategoryDelete=CategoryModel.DEFAULT_ID;
                 CategoryFragment.this.adapter.undoRemove(position, model);
             }
         });
@@ -189,6 +184,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
 
                 if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
                     if (getPresenter() != null) {
+                        idCategoryDelete=CategoryModel.DEFAULT_ID;
                         getPresenter().removeCategory(model.getId());
                     }
                 }
@@ -207,13 +203,13 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_categories, menu);
-        configureSearch(menu);
-      //  configureSearch(menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search_category);
+        configureSearch(searchItem);
     }
 
     @Override
     public void executeSearch(String filter) {
-        getPresenter().load(filter);
+        getPresenter().loadCategories(filter);
     }
 
     /**
@@ -230,6 +226,10 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
                 result = true;
                 break;
             default:
+                if(idCategoryDelete != CategoryModel.DEFAULT_ID){
+                    getPresenter().removeCategory(idCategoryDelete);
+                    idCategoryDelete = CategoryModel.DEFAULT_ID;
+                }
                 result = super.onOptionsItemSelected(item);
                 break;
         }

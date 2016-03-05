@@ -68,7 +68,7 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
      *
      * @param filter Text to filter.
      */
-    public void load(final String filter) {
+    public void loadCategories(final String filter) {
         getView().showLoading();
         getCategoryListInteractor.setFilter(filter);
         getCategoryListInteractor.execute(new Callback<List<CategoryDto>>() {

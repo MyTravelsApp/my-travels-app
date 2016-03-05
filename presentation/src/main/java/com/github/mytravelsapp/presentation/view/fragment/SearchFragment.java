@@ -16,8 +16,7 @@ public abstract class SearchFragment<V extends View, P extends Presenter<V>> ext
     private SearchView searchView;
     private String currentFilter;
 
-    protected void configureSearch(final Menu menu) {
-        final MenuItem searchItem = menu.findItem(R.id.action_search_category);
+    protected void configureSearch(final MenuItem searchItem) {
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getString(R.string.text_search_box));
 

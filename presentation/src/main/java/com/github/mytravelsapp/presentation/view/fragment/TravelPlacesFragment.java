@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,8 +25,6 @@ import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
-import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
-import com.github.mytravelsapp.presentation.view.components.TravelPlacesTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * Created by stefani on 10/12/2015.
  */
-public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
+public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, TravelPlacesPresenter> implements TravelPlacesView {
 
     //Travel associated of places
     private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
@@ -66,9 +62,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    private SearchView searchView;
-
-    private String currentFilter;
+    private long idTravelPlacesDelete = TravelPlacesModel.DEFAULT_ID;
 
 
     public static TravelPlacesFragment newInstance(final TravelModel pTravelModel) {
@@ -90,7 +84,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         // Setup UI
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to load
+        this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());// FIXME List to loadCategories
         this.adapter.setOnItemClickListener(onItemClickListener);
         this.adapter.setOnRemoveListener(onRemoveListener);
         this.rv_travels_places.setAdapter(this.adapter);
@@ -112,47 +106,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_travel_places, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search_travel);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint(getString(R.string.text_search_box));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String filter) {
-                currentFilter = filter;
-                filterTravelsPlaces();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String filter) {
-                return true;
-            }
-        });
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean queryTextFocused) {
-                if (!queryTextFocused) {
-                    MenuItemCompat.collapseActionView(searchItem);
-                    searchView.setQuery("", false);
-                }
-            }
-        });
-
-        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                if (currentFilter != null) {
-                    currentFilter = null;
-                    filterTravelsPlaces();
-                }
-                return true;
-            }
-        });
+        configureSearch(searchItem);
     }
 
     @Override
@@ -183,6 +137,9 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
                 result = true;
                 break;
             default:
+                if(idTravelPlacesDelete != TravelPlacesModel.DEFAULT_ID){
+                    getPresenter().removeTravelPlaces(idTravelPlacesDelete);
+                }
                 result = super.onOptionsItemSelected(item);
                 break;
         }
@@ -196,18 +153,13 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
-        filterTravelsPlaces();
-    }
+        getPresenter().searchTravelsPlaces(null, travelModel.getId());    }
 
     private void initialize() {
         getComponent(TravelPlacesComponent.class).inject(this);
 
         travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         this.presenter.setView(this);
-    }
-
-    private void filterTravelsPlaces (){
-        getPresenter().searchTravelsPlaces(currentFilter, travelModel.getId());
     }
 
     @Override
@@ -262,11 +214,12 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
     private final TravelPlacesAdapter.OnRemoveListener onRemoveListener = new TravelPlacesAdapter.OnRemoveListener<TravelPlacesModel>() {
         @Override
         public void onRemove(final int position, final TravelPlacesModel model) {
-
+            idTravelPlacesDelete = model.getId();
             final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
             undo.setAction(R.string.text_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    idTravelPlacesDelete = TravelPlacesModel.DEFAULT_ID;
                     TravelPlacesFragment.this.adapter.undoRemove(position, model);
                 }
             });
@@ -278,6 +231,7 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
 
                     if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
                         if (getPresenter() != null) {
+                            idTravelPlacesDelete = TravelPlacesModel.DEFAULT_ID;
                             getPresenter().removeTravelPlaces(model.getId());
                         }
                     }
@@ -300,4 +254,8 @@ public class TravelPlacesFragment extends AbstractFragment<TravelPlacesView, Tra
         getActivity().setProgressBarIndeterminate(false);
     }
 
+    @Override
+    public void executeSearch(String filter) {
+        getPresenter().searchTravelsPlaces(filter, travelModel.getId());
+    }
 }

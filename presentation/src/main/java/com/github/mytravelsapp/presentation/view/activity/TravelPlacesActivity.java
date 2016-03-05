@@ -89,26 +89,5 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
                 .build();
     }
 
-    /**
-     * Control menu item selection.
-     *
-     * @param item Selected menu.
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result;
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                navigator.navigateToTravelList(this);
-                result = true;
-                break;
-            default:
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-        return result;
-    }
 }
 
