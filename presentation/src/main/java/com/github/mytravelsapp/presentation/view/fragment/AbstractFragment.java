@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.presenter.Presenter;
 import com.github.mytravelsapp.presentation.view.View;
+import com.github.mytravelsapp.presentation.view.activity.AbstractActivity;
 
 /**
  * Base {@link android.support.v4.app.Fragment} class for all fragments in this application.
@@ -15,6 +16,7 @@ import com.github.mytravelsapp.presentation.view.View;
  * @author fjtorres
  */
 public abstract class AbstractFragment<V extends View, P extends Presenter<V>> extends Fragment implements View {
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -68,5 +70,9 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
             result = componentType.cast(((HasComponent<C>) getActivity()).getComponent());
         }
         return result;
+    }
+
+    protected AbstractActivity getAppActivity() {
+        return (AbstractActivity)getActivity();
     }
 }
