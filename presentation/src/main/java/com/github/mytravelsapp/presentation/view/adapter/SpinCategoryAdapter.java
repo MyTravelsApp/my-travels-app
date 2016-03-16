@@ -68,8 +68,8 @@ public class SpinCategoryAdapter extends ArrayAdapter<CategoryModel> {
 
     public void setList(List<CategoryModel> pList){
         values = pList;
-        //Add object void for category default
-        values.add(new CategoryModel(CategoryModel.DEFAULT_ID,"",true));
+        //Add object void at first position for category default
+        values.add(0, new CategoryModel(CategoryModel.DEFAULT_ID,"",true));
         notifyDataSetChanged();
     }
 }

@@ -135,8 +135,8 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
         this.travelPlacesModel = getArguments().getParcelable(ARGUMENT_TRAVEL_PLACES_MODEL);
-        getPresenter().loadModel(this.travelPlacesModel.getId());
         getPresenter().loadCategories();
+        getPresenter().loadModel(this.travelPlacesModel.getId());
     }
 
     @Override

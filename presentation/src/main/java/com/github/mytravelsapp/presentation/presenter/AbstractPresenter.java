@@ -48,4 +48,5 @@ public abstract class AbstractPresenter<V extends View> implements Presenter<V> 
     public void destroy() {
 
     }
+
 }

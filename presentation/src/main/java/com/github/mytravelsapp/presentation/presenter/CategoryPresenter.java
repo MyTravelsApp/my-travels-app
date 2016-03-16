@@ -45,7 +45,8 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
     }
 
     /**
-     * Remove category
+     * Remove one category.
+     * @param categoryId
      */
     public void removeCategory(final long categoryId) {
         removeCategoryInteractor.setCategoryId(categoryId);
