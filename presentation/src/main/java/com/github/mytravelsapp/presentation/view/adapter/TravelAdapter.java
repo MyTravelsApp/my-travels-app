@@ -8,10 +8,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.components.RippleForegroundListener;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.Bind;
@@ -46,14 +46,14 @@ public class TravelAdapter extends AbstractAdapter<TravelModel, TravelAdapter.Tr
             }
         });
         holder.txt_title.setText(model.getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
         if (model.getStartDate() != null) {
-            holder.txt_start_date.setText(sdf.format(model.getStartDate()));
+            holder.txt_start_date.setText(Utils.formatDate(model.getStartDate(), Utils.DATE_FORMAT));
         } else {
             holder.txt_start_date.setText("");
         }
         if (model.getFinishDate() != null) {
-            holder.txt_finish_date.setText(sdf.format(model.getFinishDate()));
+            holder.txt_finish_date.setText(Utils.formatDate(model.getFinishDate(), Utils.DATE_FORMAT));
         } else {
             holder.txt_finish_date.setText("");
         }

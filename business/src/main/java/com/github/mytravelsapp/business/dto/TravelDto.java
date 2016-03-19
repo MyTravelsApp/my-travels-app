@@ -1,11 +1,12 @@
 package com.github.mytravelsapp.business.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fjtorres
  */
-public class TravelDto {
+public class TravelDto implements Dto {
 
     private long id;
 
@@ -16,6 +17,8 @@ public class TravelDto {
     private Date startDate;
 
     private Date finishDate;
+
+    private List<TravelDayPlanningDto> daysPlanning;
 
     public TravelDto() {
 
@@ -67,5 +70,13 @@ public class TravelDto {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public List<TravelDayPlanningDto> getDaysPlanning() {
+        return daysPlanning;
+    }
+
+    public void setDaysPlanning(List<TravelDayPlanningDto> daysPlanning) {
+        this.daysPlanning = daysPlanning;
     }
 }

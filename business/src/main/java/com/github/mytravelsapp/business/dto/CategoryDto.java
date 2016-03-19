@@ -3,7 +3,7 @@ package com.github.mytravelsapp.business.dto;
 /**
  * Created by stefani on 17/01/2016.
  */
-public class CategoryDto {
+public class CategoryDto implements Dto {
 
     private long id;
     private String name;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" style="@style/AppTheme.ViewContainer">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    style="@style/AppTheme.ViewContainer">
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rv_travels_places"
@@ -10,4 +11,4 @@
 
     <include layout="@layout/view_progress" />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

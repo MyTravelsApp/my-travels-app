@@ -19,21 +19,25 @@ public class Travel implements Serializable {
     public static final String FIELD_DESTINATION = "DESTINATION";
     public static final String FIELD_START_DATE = "START_DATE";
     public static final String FIELD_FINISH_DATE = "FINISH_DATE";
+    public static final String FIELD_DAYS_PLANNING = "DAYS_PLANNING";
 
     @DatabaseField(generatedId = true, columnName = FIELD_ID)
     private long id;
 
-    @DatabaseField(columnName = FIELD_NAME)
+    @DatabaseField(canBeNull =  false, columnName = FIELD_NAME)
     private String name;
 
-    @DatabaseField(columnName = FIELD_DESTINATION)
+    @DatabaseField(canBeNull =  false, columnName = FIELD_DESTINATION)
     private String destination;
 
-    @DatabaseField(columnName = FIELD_START_DATE)
+    @DatabaseField(canBeNull =  false, columnName = FIELD_START_DATE)
     private Date startDate;
 
-    @DatabaseField(columnName = FIELD_FINISH_DATE)
+    @DatabaseField(canBeNull =  false, columnName = FIELD_FINISH_DATE)
     private Date finishDate;
+
+    @DatabaseField(columnName = FIELD_DAYS_PLANNING)
+    private String daysPlanning;
 
     public Travel() {
 
@@ -89,5 +93,13 @@ public class Travel implements Serializable {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public String getDaysPlanning() {
+        return daysPlanning;
+    }
+
+    public void setDaysPlanning(String daysPlanning) {
+        this.daysPlanning = daysPlanning;
     }
 }

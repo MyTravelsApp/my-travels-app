@@ -13,7 +13,7 @@ public class TravelPlaces implements Serializable {
 
     public static final String FIELD_ID = "_ID";
     public static final String FIELD_NAME = "NAME";
-    public static final String FIELD_OBERVATIONS = "OBSERVATIONS";
+    public static final String FIELD_OBSERVATIONS = "OBSERVATIONS";
     public static final String FIELD_ID_TRAVEL = "ID_TRAVEL";
     public static final String FIELD_ID_CATEGORY = "CATEGORY_ID";
 
@@ -21,7 +21,7 @@ public class TravelPlaces implements Serializable {
     private long id;
     @DatabaseField(canBeNull = false, columnName = FIELD_NAME)
     private String name;
-    @DatabaseField(columnName = FIELD_OBERVATIONS)
+    @DatabaseField(columnName = FIELD_OBSERVATIONS)
     private String observations;
     @DatabaseField(foreign=true, canBeNull = false, columnName = FIELD_ID_TRAVEL)
     private Travel travel;

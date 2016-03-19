@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.persistence.repository;
 
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.exception.PersistenceException;
 import com.github.mytravelsapp.business.repository.TravelPlacesRepository;
@@ -11,6 +12,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,6 +58,25 @@ public class DatabaseTravelPlacesRepository extends DatabaseRepository<TravelPla
     }
 
     @Override
+    public List<TravelPlacesDto> findByIds(List<Long> identifiers) throws PersistenceException {
+        List<TravelPlacesDto> result = null;
+        if (Utils.isEmpty(identifiers)) {
+            result = new ArrayList<>();
+        } else {
+            final QueryBuilder<TravelPlaces, Long> builder = getDao().queryBuilder();
+            final Where<TravelPlaces, Long> where = builder.where();
+            try {
+                where.in(TravelPlaces.FIELD_ID, identifiers);
+                result = converter.convertToDto(getDao().query(builder.prepare()));
+            } catch (final SQLException e) {
+                throw new PersistenceException("Error find travel places by identifiers", e);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     public List<TravelPlacesDto> find(final String textFilter, final long travelId) throws PersistenceException {
         // FIXME Add filters
         try {
@@ -63,10 +84,10 @@ public class DatabaseTravelPlacesRepository extends DatabaseRepository<TravelPla
             final Where<TravelPlaces, Long> where = builder.where();
             if (textFilter != null && textFilter.trim().length() > 0) {
                 final String likeFilter = "%" + textFilter + "%";
-               where.like(TravelPlaces.FIELD_NAME, likeFilter);
-               where.and().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
+                where.like(TravelPlaces.FIELD_NAME, likeFilter);
+                where.and().eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
             } else {
-               where.eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
+                where.eq(TravelPlaces.FIELD_ID_TRAVEL, travelId);
             }
 
             return converter.convertToDto(getDao().query(builder.prepare()));

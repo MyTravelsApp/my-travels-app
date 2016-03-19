@@ -3,18 +3,16 @@ package com.github.mytravelsapp.presentation.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDayFragment;
-import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesSelectorFragment;
 
 import java.util.Date;
 
@@ -37,8 +35,8 @@ public class TravelDayActivity extends AbstractActivity implements HasComponent<
     /**
      * Generate intent to open this activity.
      *
-     * @param context  Source context.
-     * @param pTravelModel Travel identifier associated with date.
+     * @param context       Source context.
+     * @param pTravelModel  Travel identifier associated with date.
      * @param pSelectedDate Selected date
      * @return Intent.
      */
@@ -63,9 +61,10 @@ public class TravelDayActivity extends AbstractActivity implements HasComponent<
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            selectedDate = (Date)getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_SELECTED_DATE);
-            //addFragment(R.id.fragmentTravelDay, TravelDayFragment.newInstance(travelModel, selectedDate));
-            addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true));
+            selectedDate = (Date) getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_SELECTED_DATE);
+            setTitle(Utils.formatLargeDate(selectedDate));
+            addFragment(R.id.fragmentTravelDay, TravelDayFragment.newInstance(travelModel, selectedDate));
+            //addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }

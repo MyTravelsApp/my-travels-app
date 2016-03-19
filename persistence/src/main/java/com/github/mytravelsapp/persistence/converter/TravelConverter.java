@@ -1,7 +1,14 @@
 package com.github.mytravelsapp.persistence.converter;
 
+import com.github.mytravelsapp.business.Utils;
+import com.github.mytravelsapp.business.converter.Converter;
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.persistence.entity.Travel;
+import com.github.mytravelsapp.persistence.helper.JsonHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +19,7 @@ import javax.inject.Inject;
 /**
  * @author fjtorres
  */
-public class TravelConverter {
+public class TravelConverter implements Converter<TravelDto, Travel> {
 
     @Inject
     public TravelConverter() {
@@ -28,6 +35,18 @@ public class TravelConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
+
+        if (!Utils.isEmpty(source.getDaysPlanning())) {
+            try {
+                JSONArray jsonArray = new JSONArray();
+                for (final TravelDayPlanningDto dayPlanning : source.getDaysPlanning()) {
+                    jsonArray.put(JsonHelper.convertDayPlanning(dayPlanning));
+                }
+                target.setDaysPlanning(jsonArray.toString());
+            } catch (final JSONException e) {
+                // FIXME ¿QUE HACEMOS?
+            }
+        }
         return target;
     }
 
@@ -54,12 +73,26 @@ public class TravelConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
+
+        if (!Utils.isEmpty(source.getDaysPlanning())) {
+            target.setDaysPlanning(new ArrayList<TravelDayPlanningDto>());
+            try {
+                final JSONArray jsonArray = new JSONArray(source.getDaysPlanning());
+                for (int i = 0; i <= jsonArray.length(); i++) {
+                    final TravelDayPlanningDto dayPlanning = JsonHelper.createDayPlanning(jsonArray.getJSONObject(i));
+                    target.getDaysPlanning().add(dayPlanning);
+                }
+            } catch (final JSONException e) {
+                // FIXME ¿QUE HACEMOS?
+            }
+        }
+
         return target;
     }
 
     public List<TravelDto> convertToDto(List<Travel> sourceList) {
         List<TravelDto> resultList;
-        if (sourceList == null || sourceList.isEmpty()) {
+        if (Utils.isEmpty(sourceList)) {
             resultList = Collections.emptyList();
         } else {
             resultList = new ArrayList<>();

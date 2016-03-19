@@ -21,19 +21,23 @@ public class AndroidApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.initializeInjector();
+        setApplicationComponent(this.initializeInjector());
     }
 
     /**
      * Initialize DI components.
      */
-    private void initializeInjector() {
-        this.applicationComponent = DaggerApplicationComponent.builder()
+    protected ApplicationComponent initializeInjector() {
+        return DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
     }
 
     public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
+    }
+
+    public void setApplicationComponent (final ApplicationComponent component) {
+        this.applicationComponent = component;
     }
 }

@@ -56,15 +56,18 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // TEST
-    testCompile presentationTestDependencies.junit
-    testCompile presentationTestDependencies.mockito
+    //testCompile presentationTestDependencies.junit
+    //testCompile presentationTestDependencies.mockito
 
     androidTestCompile presentationTestDependencies.mockito
-    //androidTestCompile presentationTestDependencies.dexmaker
-    //androidTestCompile presentationTestDependencies.dexmakerMockito
+    androidTestCompile presentationTestDependencies.dexmaker
+    androidTestCompile presentationTestDependencies.dexmakerMockito
     androidTestCompile presentationTestDependencies.supportAnnotations
     androidTestCompile presentationTestDependencies.testRunner
     androidTestCompile presentationTestDependencies.testRules
     androidTestCompile presentationTestDependencies.espresso
+    androidTestCompile presentationTestDependencies.espressoIntents
     androidTestCompile presentationTestDependencies.hamcrest
+
+    androidTestApt presentationDependencies.daggerCompiler
 }

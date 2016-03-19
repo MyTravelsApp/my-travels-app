@@ -21,6 +21,7 @@ import com.github.mytravelsapp.presentation.view.components.SelectedOnGestureLis
 import com.github.mytravelsapp.presentation.view.components.SimpleOnItemTouchListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +37,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
     private static final String TAG = "TRAVEL_PLACES_SELECTOR_FRAGMENT";
     private static final String ARGUMENT_TRAVEL_MODEL = TAG + "_ARGUMENT_TRAVEL_MODEL";
     private static final String ARGUMENT_ENABLE_SELECTION = TAG + "_ARGUMENT_ENABLE_SELECTION";
+    private static final String ARGUMENT_SELECTED_DAY = TAG + "_ARGUMENT_SELECTED_DAY";
 
     @Inject
     TravelPlacesSelectorPresenter presenter;
@@ -52,11 +54,14 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
 
     private boolean enableSelection;
 
-    public static TravelPlacesSelectorFragment newInstance(final TravelModel pTravelModel, final boolean pEnableSelection) {
+    private Date selectedDay;
+
+    public static TravelPlacesSelectorFragment newInstance(final TravelModel pTravelModel, final boolean pEnableSelection, final Date pSelectedDay) {
         final TravelPlacesSelectorFragment fragment = new TravelPlacesSelectorFragment();
         final Bundle arguments = new Bundle();
         arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
         arguments.putBoolean(ARGUMENT_ENABLE_SELECTION, pEnableSelection);
+        arguments.putLong(ARGUMENT_SELECTED_DAY, pSelectedDay.getTime());
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -93,6 +98,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
         getComponent(TravelComponent.class).inject(this);
         model = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         enableSelection = getArguments().getBoolean(ARGUMENT_ENABLE_SELECTION);
+        selectedDay = new Date(getArguments().getLong(ARGUMENT_SELECTED_DAY));
         this.presenter.setView(this);
 
         if (enableSelection) {
@@ -152,8 +158,9 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
     private final SelectedOnGestureListener.OnSelectListener onSelectListener = new SelectedOnGestureListener.OnSelectListener() {
         @Override
         public void onSelect() {
-            final List<TravelPlacesModel> selected = adapter.getSelectedModels();
-            // FIXME Llamar al presenter
+            if (getPresenter() != null) {
+                getPresenter().onSelect(selectedDay, adapter.getSelectedModels());
+            }
         }
     };
 }

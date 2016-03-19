@@ -1,6 +1,9 @@
 package com.github.mytravelsapp.presentation.converter;
 
+import com.github.mytravelsapp.business.Utils;
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.presentation.model.TravelDayPlanningModel;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 
 import java.util.ArrayList;
@@ -27,6 +30,16 @@ public class TravelModelConverter {
         target.setFinishDate(source.getFinishDate());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
+        if (!Utils.isEmpty(source.getDaysPlanning())) {
+            target.setDaysPlanning(new ArrayList<TravelDayPlanningModel>(source.getDaysPlanning().size()));
+            for (final TravelDayPlanningDto item:source.getDaysPlanning()) {
+                final TravelDayPlanningModel newItem = new TravelDayPlanningModel();
+                newItem.setDay(item.getDay());
+                newItem.setOrder(item.getOrder());
+                newItem.setTravelPlaceId(item.getTravelPlaceId());
+                target.getDaysPlanning().add(newItem);
+            }
+        }
         return target;
     }
 
@@ -53,6 +66,16 @@ public class TravelModelConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
+        if (!Utils.isEmpty(source.getDaysPlanning())) {
+            target.setDaysPlanning(new ArrayList<TravelDayPlanningDto>(source.getDaysPlanning().size()));
+            for (final TravelDayPlanningModel item:source.getDaysPlanning()) {
+                final TravelDayPlanningDto newItem = new TravelDayPlanningDto();
+                newItem.setDay(item.getDay());
+                newItem.setOrder(item.getOrder());
+                newItem.setTravelPlaceId(item.getTravelPlaceId());
+                target.getDaysPlanning().add(newItem);
+            }
+        }
         return target;
     }
 

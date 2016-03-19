@@ -11,10 +11,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 /**
@@ -56,6 +52,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
+            TableUtils.dropTable(connectionSource, Category.class, true);
+            TableUtils.dropTable(connectionSource, TravelPlaces.class, true);
             TableUtils.dropTable(connectionSource, Travel.class, true);
             onCreate(database, connectionSource);
         } catch (final SQLException e) {

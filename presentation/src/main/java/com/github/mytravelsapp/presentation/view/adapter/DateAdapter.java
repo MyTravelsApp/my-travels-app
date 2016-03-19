@@ -8,9 +8,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.view.components.RippleForegroundListener;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
     private final String dateFormat;
 
     public DateAdapter(final Context context, final List<Date> pList) {
-        this(context, pList, "EEEE - dd/MM/yyyy");
+        this(context, pList, Utils.LARGE_DATE_FORMAT);
     }
 
     public DateAdapter(final Context context, final List<Date> pList, final String pDateFormat) {
@@ -43,8 +43,6 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
      */
     @Override
     public void onBindViewHolder(DateViewHolder holder, int position) {
-        final SimpleDateFormat sdfDayOfWeek = new SimpleDateFormat(dateFormat);
-
         final Date date = getList().get(position);
         holder.lv_row.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +52,7 @@ public class DateAdapter extends AbstractAdapter<Date, DateAdapter.DateViewHolde
                 }
             }
         });
-        holder.txt_label.setText(sdfDayOfWeek.format(date));
+        holder.txt_label.setText(Utils.formatDate(date, dateFormat));
 
     }
 

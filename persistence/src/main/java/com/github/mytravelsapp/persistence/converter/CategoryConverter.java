@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.persistence.converter;
 
+import com.github.mytravelsapp.business.converter.Converter;
 import com.github.mytravelsapp.business.dto.CategoryDto;
 import com.github.mytravelsapp.persistence.entity.Category;
 
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 /**
  * @author stefani
  */
-public class CategoryConverter {
+public class CategoryConverter implements Converter<CategoryDto, Category> {
 
     @Inject
     public CategoryConverter() {

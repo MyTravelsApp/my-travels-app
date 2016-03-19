@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.view.adapter.AbstractSelectorAdapter;
-import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesSelectorFragment;
 
 /**
  * @author kisco

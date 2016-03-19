@@ -6,7 +6,7 @@ import java.util.Locale;
 /**
  * @author stefani
  */
-public class TravelPlacesDto {
+public class TravelPlacesDto implements Dto {
 
     private long id;
     private String name;

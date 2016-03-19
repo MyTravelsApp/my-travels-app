@@ -1,8 +1,7 @@
 package com.github.mytravelsapp.persistence.converter;
 
-import com.github.mytravelsapp.business.dto.TravelDto;
+import com.github.mytravelsapp.business.converter.Converter;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
-import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import javax.inject.Inject;
 /**
  * @author stefani
  */
-public class TravelPlacesConverter {
+public class TravelPlacesConverter implements Converter<TravelPlacesDto, TravelPlaces> {
 
     private final TravelConverter travelConverter;
     private final CategoryConverter categoryConverter;
@@ -33,7 +32,7 @@ public class TravelPlacesConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        if(source.getCategoryDto() != null){
+        if (source.getCategoryDto() != null) {
             target.setCategory(categoryConverter.convert(source.getCategoryDto()));
         }
         target.setTravel(travelConverter.convert(source.getTravelDto()));
@@ -60,7 +59,7 @@ public class TravelPlacesConverter {
         final TravelPlacesDto target = new TravelPlacesDto();
         target.setName(source.getName());
         target.setObservations(source.getObservations());
-        if(source.getCategory() != null){
+        if (source.getCategory() != null) {
             target.setCategoryDto(categoryConverter.convertToDto(source.getCategory()));
         }
 

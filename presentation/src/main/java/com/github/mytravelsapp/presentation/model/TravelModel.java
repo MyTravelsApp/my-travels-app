@@ -3,7 +3,11 @@ package com.github.mytravelsapp.presentation.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Class that represents a travel in the presentation layer.
@@ -22,6 +26,8 @@ public class TravelModel implements Parcelable{
     private Date startDate;
 
     private Date finishDate;
+
+    private List<TravelDayPlanningModel> daysPlanning;
 
     public TravelModel(final long pId) {
 
@@ -80,6 +86,14 @@ public class TravelModel implements Parcelable{
         this.id = id;
     }
 
+    public List<TravelDayPlanningModel> getDaysPlanning() {
+        return daysPlanning;
+    }
+
+    public void setDaysPlanning(List<TravelDayPlanningModel> daysPlanning) {
+        this.daysPlanning = daysPlanning;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -112,12 +126,18 @@ public class TravelModel implements Parcelable{
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeLong(getId());
         out.writeString(getName());
+        out.writeString(getDestination());
         if (getFinishDate() != null) {
             out.writeLong(getFinishDate().getTime());
+        } else {
+            out.writeLong(0);
         }
         if (getStartDate() != null) {
             out.writeLong(getStartDate().getTime());
+        } else {
+            out.writeLong(0);
         }
+        out.writeList(getDaysPlanning());
     }
 
     /**
@@ -129,7 +149,15 @@ public class TravelModel implements Parcelable{
     private void readFromParcel(Parcel in) {
         this.setId(in.readLong());
         this.setName(in.readString());
-        this.setFinishDate(new Date(in.readLong()));
-        this.setStartDate(new Date(in.readLong()));
+        this.setDestination(in.readString());
+        long date = in.readLong();
+        if (date != 0) {
+            this.setFinishDate(new Date(date));
+        }
+        date = in.readLong();
+        if (date != 0) {
+            this.setStartDate(new Date(date));
+        }
+        setDaysPlanning(in.readArrayList(TravelDayPlanningModel.class.getClassLoader()));
     }
 }

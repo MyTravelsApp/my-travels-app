@@ -2,6 +2,12 @@ package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +19,16 @@ import android.widget.RelativeLayout;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDayView;
+import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
+import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesSelectorAdapter;
+import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,7 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by kisco on 11/02/2016.
+ * @author fjtorres
  */
 public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDayPresenter> implements TravelDayView {
 
@@ -37,8 +49,19 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     @Inject
     TravelDayPresenter presenter;
 
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
+    @Bind(R.id.rv_travels_places)
+    RecyclerView rv_travels_places;
+
+    @Bind(R.id.btn_add_travel_places)
+    FloatingActionButton btn_add_travel_places;
+
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
+
+    private TravelPlacesAdapter adapter;
 
     public static TravelDayFragment newInstance(final TravelModel pTravelModel, final Date pSelectedDate) {
         final TravelDayFragment fragment = new TravelDayFragment();
@@ -61,7 +84,14 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
-
+        this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());
+        this.adapter.setOnRemoveListener(onRemoveListener);
+        this.rv_travels_places.setAdapter(this.adapter);
+        this.btn_add_travel_places.setOnClickListener(onAddClickListener);
+        //Add event delete touch
+        final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<>(this.adapter));
+        helper.attachToRecyclerView(rv_travels_places);
 
         return fragmentView;
     }
@@ -128,11 +158,59 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         getActivity().setProgressBarIndeterminate(false);
     }
 
+    @Override
+    public TravelModel getCurrentModel() {
+        return travelModel;
+    }
+
+    @Override
+    public void renderList(List<TravelPlacesModel> list) {
+        adapter.setList(list);
+    }
+
     private void initialize() {
         getComponent(TravelComponent.class).inject(this);
         this.presenter.setView(this);
 
         this.travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         this.selectedDate = (Date) getArguments().getSerializable(ARGUMENT_SELECTED_DATE);
+
+        getPresenter().load(selectedDate);
     }
+
+    private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            getAppActivity().addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
+        }
+    };
+
+    private final TravelPlacesAdapter.OnRemoveListener onRemoveListener = new TravelPlacesAdapter.OnRemoveListener<TravelPlacesModel>() {
+        @Override
+        public void onRemove(final int position, final TravelPlacesModel model) {
+
+            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
+            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TravelDayFragment.this.adapter.undoRemove(position, model);
+                }
+            });
+
+            undo.setCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    super.onDismissed(snackbar, event);
+
+                    if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        if (getPresenter() != null) {
+                            getPresenter().remove(selectedDate, model);
+                        }
+                    }
+                }
+            });
+
+            undo.show();
+        }
+    };
 }
