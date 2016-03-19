@@ -63,6 +63,8 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
 
     private TravelPlacesAdapter adapter;
 
+    private Snackbar undoSnackbar;
+
     public static TravelDayFragment newInstance(final TravelModel pTravelModel, final Date pSelectedDate) {
         final TravelDayFragment fragment = new TravelDayFragment();
         final Bundle arguments = new Bundle();
@@ -76,6 +78,15 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (undoSnackbar != null && undoSnackbar.isShownOrQueued()) {
+            undoSnackbar.dismiss();
+        }
     }
 
     @Override
@@ -189,15 +200,20 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         @Override
         public void onRemove(final int position, final TravelPlacesModel model) {
 
-            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
-            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+            if (undoSnackbar == null) {
+                undoSnackbar = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
+            } else {
+                undoSnackbar.dismiss();
+            }
+
+            undoSnackbar.setAction(R.string.text_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TravelDayFragment.this.adapter.undoRemove(position, model);
                 }
             });
 
-            undo.setCallback(new Snackbar.Callback() {
+            undoSnackbar.setCallback(new Snackbar.Callback() {
                 @Override
                 public void onDismissed(Snackbar snackbar, int event) {
                     super.onDismissed(snackbar, event);
@@ -210,7 +226,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
                 }
             });
 
-            undo.show();
+            undoSnackbar.show();
         }
     };
 }

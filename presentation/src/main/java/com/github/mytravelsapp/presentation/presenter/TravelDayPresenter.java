@@ -76,11 +76,15 @@ public class TravelDayPresenter extends AbstractPresenter<TravelDayView> {
 
     public void remove(final Date selectedDay, final TravelPlacesModel placeToRemove) {
         final TravelModel model = getView().getCurrentModel();
-
+        TravelDayPlanningModel toRemove = null;
         for (final TravelDayPlanningModel dayPlanning : model.getDaysPlanning()) {
             if (dayPlanning.getDay().equals(selectedDay) && dayPlanning.getTravelPlaceId().equals(placeToRemove.getId())) {
-                model.getDaysPlanning().remove(dayPlanning);
+                toRemove = dayPlanning;
             }
+        }
+
+        if (toRemove != null) {
+            model.getDaysPlanning().remove(toRemove);
         }
 
         saveTravelInteractor.setData(travelModelConverter.convertToDto(model));

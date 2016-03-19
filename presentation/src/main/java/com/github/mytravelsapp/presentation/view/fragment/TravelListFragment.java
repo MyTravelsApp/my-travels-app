@@ -62,6 +62,8 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
     private String currentFilter;
 
+    private Snackbar undoSnackbar;
+
     public TravelListFragment() {
 
     }
@@ -70,6 +72,15 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (undoSnackbar != null && undoSnackbar.isShownOrQueued()) {
+            undoSnackbar.dismiss();
+        }
     }
 
     @Override
@@ -250,15 +261,20 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         @Override
         public void onRemove(final int position, final TravelModel model) {
 
-            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
-            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+            if (undoSnackbar == null) {
+                undoSnackbar = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
+            } else {
+                undoSnackbar.dismiss();
+            }
+
+            undoSnackbar.setAction(R.string.text_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TravelListFragment.this.adapter.undoRemove(position, model);
                 }
             });
 
-            undo.setCallback(new Snackbar.Callback() {
+            undoSnackbar.setCallback(new Snackbar.Callback() {
                 @Override
                 public void onDismissed(Snackbar snackbar, int event) {
                     super.onDismissed(snackbar, event);
@@ -271,7 +287,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
                 }
             });
 
-            undo.show();
+            undoSnackbar.show();
         }
     };
 }
