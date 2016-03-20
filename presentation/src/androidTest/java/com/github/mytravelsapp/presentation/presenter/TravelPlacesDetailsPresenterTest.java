@@ -1,8 +1,10 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.interactor.Callback;
+import com.github.mytravelsapp.business.interactor.GetCategoryListInteractor;
 import com.github.mytravelsapp.business.interactor.GetTravelPlacesInteractor;
 import com.github.mytravelsapp.business.interactor.SaveTravelPlacesInteractor;
+import com.github.mytravelsapp.presentation.converter.CategoryModelConverter;
 import com.github.mytravelsapp.presentation.converter.TravelPlacesModelConverter;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
@@ -35,15 +37,21 @@ public class TravelPlacesDetailsPresenterTest {
     private SaveTravelPlacesInteractor mockSaveTravelPlacesInteractor;
 
     @Mock
+    private GetCategoryListInteractor mockGetCategoryListInteractor;
+
+    @Mock
     private TravelPlacesModelConverter mockTravelPlacesModelConverter;
 
     @Mock
     private TravelPlacesDetailsView mockTravelPlacesDetailsView;
 
+    @Mock
+    private CategoryModelConverter mockCategoryModelConverter;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new TravelPlacesDetailPresenter(mockNavigator, mockSaveTravelPlacesInteractor, mockGetTravelPlacesInteractor, mockTravelPlacesModelConverter);
+        presenter = new TravelPlacesDetailPresenter(mockNavigator, mockSaveTravelPlacesInteractor, mockGetTravelPlacesInteractor, mockGetCategoryListInteractor, mockTravelPlacesModelConverter, mockCategoryModelConverter);
         presenter.setView(mockTravelPlacesDetailsView);
     }
 
