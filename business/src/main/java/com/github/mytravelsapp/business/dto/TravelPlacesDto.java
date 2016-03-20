@@ -2,6 +2,7 @@ package com.github.mytravelsapp.business.dto;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author stefani
@@ -14,16 +15,25 @@ public class TravelPlacesDto implements Dto {
     private String observations;
     private TravelDto travelDto;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public TravelPlacesDto() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TravelPlacesDto)) return false;
+        TravelPlacesDto that = (TravelPlacesDto) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getCategoryDto(), that.getCategoryDto()) &&
+                Objects.equals(getObservations(), that.getObservations()) &&
+                Objects.equals(getTravelDto(), that.getTravelDto());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getCategoryDto(), getObservations(), getTravelDto());
     }
 
     public long getId() {
@@ -32,6 +42,14 @@ public class TravelPlacesDto implements Dto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public CategoryDto getCategoryDto() {

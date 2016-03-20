@@ -2,6 +2,7 @@ package com.github.mytravelsapp.business.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author fjtorres
@@ -30,6 +31,24 @@ public class TravelDto implements Dto {
         this.name = pName;
         this.startDate = pStartDate;
         this.finishDate = pFinishDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TravelDto)) return false;
+        TravelDto travelDto = (TravelDto) o;
+        return Objects.equals(getId(), travelDto.getId()) &&
+                Objects.equals(getName(), travelDto.getName()) &&
+                Objects.equals(getDestination(), travelDto.getDestination()) &&
+                Objects.equals(getStartDate(), travelDto.getStartDate()) &&
+                Objects.equals(getFinishDate(), travelDto.getFinishDate()) &&
+                Objects.equals(getDaysPlanning(), travelDto.getDaysPlanning());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDestination(), getStartDate(), getFinishDate(), getDaysPlanning());
     }
 
     public long getId() {
