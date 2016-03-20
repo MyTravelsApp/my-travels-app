@@ -45,6 +45,8 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
 
     private TravelModel travelModel;
 
+    private Snackbar undoSnackbar;
+
     @Inject
     TravelPlacesPresenter presenter;
 
@@ -71,6 +73,15 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
         arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, pTravelModel);
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (undoSnackbar != null && undoSnackbar.isShownOrQueued()) {
+            undoSnackbar.dismiss();
+        }
     }
 
     /**
@@ -215,8 +226,15 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
         @Override
         public void onRemove(final int position, final TravelPlacesModel model) {
             idTravelPlacesDelete = model.getId();
-            final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
-            undo.setAction(R.string.text_undo, new View.OnClickListener() {
+
+            if (undoSnackbar == null) {
+                undoSnackbar = Snackbar.make(coordinatorLayout, getString(R.string.travel_delete), Snackbar.LENGTH_INDEFINITE);
+            } else {
+                undoSnackbar.dismiss();
+            }
+
+
+            undoSnackbar.setAction(R.string.text_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     idTravelPlacesDelete = TravelPlacesModel.DEFAULT_ID;
@@ -224,7 +242,7 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
                 }
             });
 
-            undo.setCallback(new Snackbar.Callback() {
+            undoSnackbar.setCallback(new Snackbar.Callback() {
                 @Override
                 public void onDismissed(Snackbar snackbar, int event) {
                     super.onDismissed(snackbar, event);
@@ -238,7 +256,7 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
                 }
             });
 
-            undo.show();
+            undoSnackbar.show();
         }
     };
 
