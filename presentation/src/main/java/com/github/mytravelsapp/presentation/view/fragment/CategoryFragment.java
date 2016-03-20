@@ -44,6 +44,8 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
 	@Inject
     CategoryPresenter presenter;
 
+    private Snackbar undoSnackbar;
+
     @Bind(R.id.rv_categories)
     RecyclerView rv_category;
 
@@ -64,7 +66,14 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        if (undoSnackbar != null && undoSnackbar.isShownOrQueued()) {
+            undoSnackbar.dismiss();
+        }
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -168,8 +177,8 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
     @Override
     public void executeRemove(final int position, final CategoryModel model){
         idCategoryDelete =model.getId();
-        final Snackbar undo = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
-        undo.setAction(R.string.text_undo, new View.OnClickListener() {
+        undoSnackbar = Snackbar.make(coordinatorLayout, getString(R.string.category_delete), Snackbar.LENGTH_INDEFINITE);
+        undoSnackbar.setAction(R.string.text_undo, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 idCategoryDelete=CategoryModel.DEFAULT_ID;
@@ -177,7 +186,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
             }
         });
 
-        undo.setCallback(new Snackbar.Callback() {
+        undoSnackbar.setCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 super.onDismissed(snackbar, event);
@@ -191,7 +200,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
             }
         });
 
-        undo.show();
+        undoSnackbar.show();
     }
 
     /**

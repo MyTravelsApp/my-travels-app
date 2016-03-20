@@ -100,7 +100,7 @@ public class CategoryPresenter extends AbstractPresenter<CategoryView> {
                 if (Boolean.TRUE.equals(result)) {
                     getView().hideLoading();
                     getView().addItemSaved(model, position);
-
+                    model.setId(saveCategoryInteractor.getData().getId());
                 }
             }
 
