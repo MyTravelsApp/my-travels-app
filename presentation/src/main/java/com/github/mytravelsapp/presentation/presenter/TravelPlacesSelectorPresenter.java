@@ -40,13 +40,25 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
         this.travelModelConverter = pTravelModelConverter;
     }
 
-    public void loadPlaces() {
+    public void loadPlaces(final Date selectedDate) {
         final TravelModel model = getView().getCurrentModel();
         getView().showLoading();
         getTravelPlacesListInteractor.setTravelId(model.getId());
         getTravelPlacesListInteractor.execute(new Callback<List<TravelPlacesDto>>() {
             @Override
             public void onSuccess(List<TravelPlacesDto> result) {
+                final List<TravelPlacesDto> toRemove = new ArrayList<>();
+                for (final TravelDayPlanningModel item: model.getDaysPlanning()) {
+                    for (final TravelPlacesDto item2: result) {
+                        if (item != null && item2 != null && item.getDay().equals(selectedDate) && item.getTravelPlaceId().equals(item2.getId())) {
+                            toRemove.add(item2);
+                            break;
+                        }
+                    }
+                }
+
+                result.removeAll(toRemove);
+
                 getView().hideLoading();
                 getView().renderList(travelPlacesModelConverter.convert(result));
             }

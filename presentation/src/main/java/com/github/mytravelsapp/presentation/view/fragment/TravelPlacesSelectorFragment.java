@@ -107,7 +107,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
     }
 
     private void loadTravelPlaces() {
-        getPresenter().loadPlaces();
+        getPresenter().loadPlaces(selectedDay);
     }
 
     @Override
