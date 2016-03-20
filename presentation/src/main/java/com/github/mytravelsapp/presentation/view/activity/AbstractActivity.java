@@ -56,7 +56,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      */
     public void addFragment(final int containerViewId, final Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.replace(containerViewId, fragment);
         if (addToBackStack) {
             fragmentTransaction.addToBackStack(null);
         }
