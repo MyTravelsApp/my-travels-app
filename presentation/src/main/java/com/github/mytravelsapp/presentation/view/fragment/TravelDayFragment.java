@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
@@ -187,6 +188,8 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         this.selectedDate = (Date) getArguments().getSerializable(ARGUMENT_SELECTED_DATE);
 
         getPresenter().load(selectedDate);
+
+        getActivity().setTitle(Utils.formatLargeDate(selectedDate));
     }
 
     private final View.OnClickListener onAddClickListener = new View.OnClickListener() {

@@ -32,6 +32,7 @@
     <string name="text_undo">Deshacer</string>
     <string name="prompt_category">Selecciona una categoría</string>
     <string name="text_selection">Seleccionar %1$d elementos</string>
+    <string name="text_selection_default">Seleccionar elementos</string>
 
     <!-- Error messages -->
     <string name="error_required">Este campo es requerido.</string>

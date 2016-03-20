@@ -32,6 +32,7 @@
     <string name="text_undo">Undo</string>
     <string name="prompt_category">Choose a category</string>
     <string name="text_selection">Choose %1$d elements</string>
+    <string name="text_selection_default">Choose elements</string>
 
     <!-- Error messages -->
     <string name="error_required">This field is required.</string>

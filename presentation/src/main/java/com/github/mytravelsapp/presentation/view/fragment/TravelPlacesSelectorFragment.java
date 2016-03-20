@@ -78,6 +78,8 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
 
         setHasOptionsMenu(true);
 
+        getActivity().setTitle(R.string.text_selection_default);
+
         return fragmentView;
     }
 
