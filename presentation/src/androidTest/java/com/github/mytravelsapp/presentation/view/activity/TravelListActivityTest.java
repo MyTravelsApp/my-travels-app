@@ -25,7 +25,9 @@ public class TravelListActivityTest {
             new ActivityTestRule<>(TravelListActivity.class);
 
     @Test
-    public void containsFragmentTest() {
+    public void containsViewElements() {
         onView(withId(R.id.fragmentTravelList)).check(matches(isDisplayed()));
+        onView(withId(R.id.rv_travels)).check(matches(isDisplayed()));
+        onView(withId(R.id.btn_add_travel)).check(matches(isDisplayed()));
     }
 }

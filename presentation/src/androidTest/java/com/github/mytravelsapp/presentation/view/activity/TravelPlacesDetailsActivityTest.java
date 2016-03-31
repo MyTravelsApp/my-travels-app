@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 
 import org.junit.Rule;
@@ -29,7 +30,7 @@ public class TravelPlacesDetailsActivityTest{
 
     @Test
     public void containsFragmentTest() {
-        final Intent intent = TravelPlacesDetailsActivity.getCallingIntent(mActivityRule.getActivity(), new TravelPlacesModel(1L));
+        final Intent intent = TravelPlacesDetailsActivity.getCallingIntent(mActivityRule.getActivity(), new TravelPlacesModel(new TravelModel(TravelModel.DEFAULT_ID)));
         mActivityRule.launchActivity(intent);
         onView(withId(R.id.fragment_places_detail)).check(matches(isDisplayed()));
     }
