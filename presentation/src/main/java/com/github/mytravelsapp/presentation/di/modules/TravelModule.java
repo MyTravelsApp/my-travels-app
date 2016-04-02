@@ -6,8 +6,6 @@ import com.github.mytravelsapp.business.interactor.GetTravelInteractor;
 import com.github.mytravelsapp.business.interactor.GetTravelListInteractor;
 import com.github.mytravelsapp.business.interactor.SaveTravelInteractor;
 import com.github.mytravelsapp.business.repository.TravelRepository;
-import com.github.mytravelsapp.business.service.TravelService;
-import com.github.mytravelsapp.business.service.impl.TravelServiceImpl;
 import com.github.mytravelsapp.presentation.converter.TravelModelConverter;
 import com.github.mytravelsapp.presentation.di.PerActivity;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
@@ -21,12 +19,6 @@ import dagger.Provides;
  */
 @Module
 public class TravelModule {
-
-    @Provides
-    @PerActivity
-    TravelService provideTravelService(final TravelRepository repository) {
-        return new TravelServiceImpl(repository);
-    }
 
     @Provides
     @PerActivity
