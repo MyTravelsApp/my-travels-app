@@ -1,5 +1,6 @@
 package com.github.mytravelsapp.presentation.presenter;
 
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetTravelPlacesListInteractor;
@@ -92,14 +93,19 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
             @Override
             public void onSuccess(Boolean result) {
                 final TravelModel model = getView().getCurrentTravel();
-                final List<TravelDayPlanningModel> toRemove = new ArrayList<>();
-                for (final TravelDayPlanningModel item:model.getDaysPlanning()) {
-                    if (item != null && item.getTravelPlaceId().equals(travelPlacesId)) {
-                        toRemove.add(item);
+
+                if (!Utils.isEmpty(model.getDaysPlanning())) {
+                    final List<TravelDayPlanningModel> toRemove = new ArrayList<>();
+
+                    for (final TravelDayPlanningModel item : model.getDaysPlanning()) {
+                        if (item != null && item.getTravelPlaceId().equals(travelPlacesId)) {
+                            toRemove.add(item);
+                        }
                     }
+
+                    model.getDaysPlanning().removeAll(toRemove);
                 }
 
-                model.getDaysPlanning().removeAll(toRemove);
                 saveTravelInteractor.setData(travelConverter.convertToDto(model));
                 saveTravelInteractor.execute(new Callback<Boolean>() {
                     @Override
