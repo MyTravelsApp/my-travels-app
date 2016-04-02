@@ -39,7 +39,10 @@ public class TravelConverter implements Converter<TravelDto, Travel> {
         if (!Utils.isEmpty(source.getDaysPlanning())) {
             try {
                 JSONArray jsonArray = new JSONArray();
+                int order = 1;
                 for (final TravelDayPlanningDto dayPlanning : source.getDaysPlanning()) {
+                    dayPlanning.setOrder(order);
+                    order++;
                     jsonArray.put(JsonHelper.convertDayPlanning(dayPlanning));
                 }
                 target.setDaysPlanning(jsonArray.toString());
