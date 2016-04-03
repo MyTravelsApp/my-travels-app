@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
+import com.github.mytravelsapp.business.Utils;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +25,8 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
     private OnItemClickListener onItemClickListener;
 
     private OnRemoveListener onRemoveListener;
+
+    private OnMoveListener onMoveListener;
 
     public AbstractAdapter(final Context context, final List<M> pList) {
         validateData(pList);
@@ -50,6 +55,16 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
 
         if (onRemoveListener != null) {
             onRemoveListener.onRemove(position, removed);
+        }
+    }
+
+    public void move(final int fromPosition, final int toPosition) {
+        Utils.swap(list, fromPosition, toPosition);
+
+        notifyItemMoved(fromPosition, toPosition);
+
+        if (onMoveListener != null) {
+            onMoveListener.onMove(fromPosition, toPosition, list.get(toPosition));
         }
     }
 
@@ -84,6 +99,14 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
         this.onRemoveListener = onRemoveListener;
     }
 
+    public OnMoveListener getOnMoveListener() {
+        return onMoveListener;
+    }
+
+    public void setOnMoveListener(OnMoveListener onMoveListener) {
+        this.onMoveListener = onMoveListener;
+    }
+
     public List<M> getList() {
         return list;
     }
@@ -100,5 +123,9 @@ public abstract class AbstractAdapter<M, VH extends RecyclerView.ViewHolder> ext
 
     public interface OnRemoveListener<M> {
         void onRemove(int position, M model);
+    }
+
+    public interface OnMoveListener<M> {
+        void onMove(int fromPosition, int toPosition, M model);
     }
 }
