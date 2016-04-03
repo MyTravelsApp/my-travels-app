@@ -15,17 +15,29 @@ import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
  */
 public class RemoveItemTouchHelperCallback<M> extends ItemTouchHelper.SimpleCallback {
 
+    //https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf#.cwae88oel
+
     private final AbstractAdapter<M, ?> adapter;
 
+    private final boolean activeMove;
+
     public RemoveItemTouchHelperCallback(final AbstractAdapter<M, ?> pAdapter) {
+        this(pAdapter, false);
+    }
+
+    public RemoveItemTouchHelperCallback(final AbstractAdapter<M, ?> pAdapter, final boolean pActiveMove) {
         super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT);
         this.adapter = pAdapter;
+        this.activeMove = pActiveMove;
     }
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        //TODO: Not implemented here
-        return false;
+        if (activeMove) {
+            adapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        }
+
+        return activeMove;
     }
 
     @Override
