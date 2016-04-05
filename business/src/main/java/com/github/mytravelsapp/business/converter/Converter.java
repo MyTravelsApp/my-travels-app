@@ -5,14 +5,16 @@ import com.github.mytravelsapp.business.dto.Dto;
 import java.util.List;
 
 /**
+ * <D> DTO class.
+ * <E> Entity class.
  * @author fjtorres
  */
-public interface Converter<S extends Dto, T> {
-    T convert(S source);
+public interface Converter<D extends Dto, E> {
+    E convert(D source);
 
-    List<T> convert(List<S> sourceList);
+    List<E> convert(List<D> sourceList);
 
-    S convertToDto(T target);
+    D convertToDto(E target);
 
-    List<S> convertToDto(List<T> targetList);
+    List<D> convertToDto(List<E> targetList);
 }
