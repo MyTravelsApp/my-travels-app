@@ -2,6 +2,7 @@ package com.github.mytravelsapp.business.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -19,7 +20,7 @@ public class TravelDto implements Dto {
 
     private Date finishDate;
 
-    private List<TravelDayPlanningDto> daysPlanning;
+    private Map<Date, List<TravelDayPlanningDto>> daysPlanningMap;
 
     public TravelDto() {
 
@@ -43,12 +44,12 @@ public class TravelDto implements Dto {
                 Objects.equals(getDestination(), travelDto.getDestination()) &&
                 Objects.equals(getStartDate(), travelDto.getStartDate()) &&
                 Objects.equals(getFinishDate(), travelDto.getFinishDate()) &&
-                Objects.equals(getDaysPlanning(), travelDto.getDaysPlanning());
+                Objects.equals(getDaysPlanningMap(), travelDto.getDaysPlanningMap());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDestination(), getStartDate(), getFinishDate(), getDaysPlanning());
+        return Objects.hash(getId(), getName(), getDestination(), getStartDate(), getFinishDate(), getDaysPlanningMap());
     }
 
     public long getId() {
@@ -91,11 +92,11 @@ public class TravelDto implements Dto {
         this.finishDate = finishDate;
     }
 
-    public List<TravelDayPlanningDto> getDaysPlanning() {
-        return daysPlanning;
+    public Map<Date, List<TravelDayPlanningDto>> getDaysPlanningMap() {
+        return daysPlanningMap;
     }
 
-    public void setDaysPlanning(List<TravelDayPlanningDto> daysPlanning) {
-        this.daysPlanning = daysPlanning;
+    public void setDaysPlanningMap(Map<Date, List<TravelDayPlanningDto>> daysPlanningMap) {
+        this.daysPlanningMap = daysPlanningMap;
     }
 }

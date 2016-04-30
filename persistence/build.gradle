@@ -42,6 +42,7 @@ dependencies {
     compile persistenceDependencies.dagger
     provided persistenceDependencies.javaxAnnotation
     compile persistenceDependencies.ormLite
+    compile 'com.google.code.gson:gson:2.6.2'
 
     // TEST
     testCompile persistenceTestDependencies.junit

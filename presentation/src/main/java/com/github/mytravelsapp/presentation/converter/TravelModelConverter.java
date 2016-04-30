@@ -8,7 +8,10 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,16 +33,21 @@ public class TravelModelConverter {
         target.setFinishDate(source.getFinishDate());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
-        if (!Utils.isEmpty(source.getDaysPlanning())) {
-            target.setDaysPlanning(new ArrayList<TravelDayPlanningModel>(source.getDaysPlanning().size()));
-            for (final TravelDayPlanningDto item:source.getDaysPlanning()) {
-                final TravelDayPlanningModel newItem = new TravelDayPlanningModel();
-                newItem.setDay(item.getDay());
-                newItem.setOrder(item.getOrder());
-                newItem.setTravelPlaceId(item.getTravelPlaceId());
-                target.getDaysPlanning().add(newItem);
+        if (!Utils.isEmpty(source.getDaysPlanningMap())) {
+            target.setDaysPlanningMap(new HashMap<Date, List<TravelDayPlanningModel>>());
+
+            for (final Map.Entry<Date, List<TravelDayPlanningDto>> entry : source.getDaysPlanningMap().entrySet()) {
+                if (!target.getDaysPlanningMap().containsKey(entry.getKey())) {
+                    target.getDaysPlanningMap().put(entry.getKey(), new ArrayList<TravelDayPlanningModel>());
+                }
+
+                for (final TravelDayPlanningDto dayPlanningDto : entry.getValue()) {
+                    target.getDaysPlanningMap().get(entry.getKey()).add(convertDayPlanningToModel(dayPlanningDto));
+                }
             }
         }
+
+
         return target;
     }
 
@@ -66,16 +74,21 @@ public class TravelModelConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
-        if (!Utils.isEmpty(source.getDaysPlanning())) {
-            target.setDaysPlanning(new ArrayList<TravelDayPlanningDto>(source.getDaysPlanning().size()));
-            for (final TravelDayPlanningModel item:source.getDaysPlanning()) {
-                final TravelDayPlanningDto newItem = new TravelDayPlanningDto();
-                newItem.setDay(item.getDay());
-                newItem.setOrder(item.getOrder());
-                newItem.setTravelPlaceId(item.getTravelPlaceId());
-                target.getDaysPlanning().add(newItem);
+
+        if (!Utils.isEmpty(source.getDaysPlanningMap())) {
+            target.setDaysPlanningMap(new HashMap<Date, List<TravelDayPlanningDto>>());
+
+            for (final Map.Entry<Date, List<TravelDayPlanningModel>> entry : source.getDaysPlanningMap().entrySet()) {
+                if (!target.getDaysPlanningMap().containsKey(entry.getKey())) {
+                    target.getDaysPlanningMap().put(entry.getKey(), new ArrayList<TravelDayPlanningDto>());
+                }
+
+                for (final TravelDayPlanningModel dayPlanningModel : entry.getValue()) {
+                    target.getDaysPlanningMap().get(entry.getKey()).add(convertDayPlanningToDto(dayPlanningModel));
+                }
             }
         }
+
         return target;
     }
 
@@ -90,5 +103,23 @@ public class TravelModelConverter {
             }
         }
         return resultList;
+    }
+
+    private TravelDayPlanningDto convertDayPlanningToDto(final TravelDayPlanningModel source) {
+        final TravelDayPlanningDto target = new TravelDayPlanningDto();
+        target.setDay(source.getDay());
+        target.setTravelPlaceId(source.getTravelPlaceId());
+        target.setOrder(source.getOrder());
+
+        return target;
+    }
+
+    private TravelDayPlanningModel convertDayPlanningToModel(final TravelDayPlanningDto source) {
+        final TravelDayPlanningModel target = new TravelDayPlanningModel();
+        target.setDay(source.getDay());
+        target.setTravelPlaceId(source.getTravelPlaceId());
+        target.setOrder(source.getOrder());
+
+        return target;
     }
 }

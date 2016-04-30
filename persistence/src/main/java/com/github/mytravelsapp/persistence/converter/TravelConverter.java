@@ -6,13 +6,14 @@ import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.helper.JsonHelper;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -36,19 +37,8 @@ public class TravelConverter implements Converter<TravelDto, Travel> {
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
 
-        if (!Utils.isEmpty(source.getDaysPlanning())) {
-            try {
-                JSONArray jsonArray = new JSONArray();
-                int order = 1;
-                for (final TravelDayPlanningDto dayPlanning : source.getDaysPlanning()) {
-                    dayPlanning.setOrder(order);
-                    order++;
-                    jsonArray.put(JsonHelper.convertDayPlanning(dayPlanning));
-                }
-                target.setDaysPlanning(jsonArray.toString());
-            } catch (final JSONException e) {
-                // FIXME ¿QUE HACEMOS?
-            }
+        if (!Utils.isEmpty(source.getDaysPlanningMap())) {
+            target.setDaysPlanning(JsonHelper.toJson(source.getDaysPlanningMap()));
         }
         return target;
     }
@@ -78,16 +68,11 @@ public class TravelConverter implements Converter<TravelDto, Travel> {
         target.setStartDate(source.getStartDate());
 
         if (!Utils.isEmpty(source.getDaysPlanning())) {
-            target.setDaysPlanning(new ArrayList<TravelDayPlanningDto>());
-            try {
-                final JSONArray jsonArray = new JSONArray(source.getDaysPlanning());
-                for (int i = 0; i <= jsonArray.length(); i++) {
-                    final TravelDayPlanningDto dayPlanning = JsonHelper.createDayPlanning(jsonArray.getJSONObject(i));
-                    target.getDaysPlanning().add(dayPlanning);
-                }
-            } catch (final JSONException e) {
-                // FIXME ¿QUE HACEMOS?
-            }
+
+            final Type mapType = new TypeToken<Map<Date, List<TravelDayPlanningDto>>>() {
+            }.getType();
+            final Map<Date, List<TravelDayPlanningDto>> daysMap = JsonHelper.fromJson(source.getDaysPlanning(), mapType);
+            target.setDaysPlanningMap(daysMap);
         }
 
         return target;

@@ -23,6 +23,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDayView;
+import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesSelectorAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
@@ -99,10 +100,11 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         this.rv_travels_places.setLayoutManager(new LinearLayoutManager(getActivity()));
         this.adapter = new TravelPlacesAdapter(getActivity(), new ArrayList<TravelPlacesModel>());
         this.adapter.setOnRemoveListener(onRemoveListener);
+        this.adapter.setOnMoveListener(onMoveListener);
         this.rv_travels_places.setAdapter(this.adapter);
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
         //Add event delete touch
-        final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<>(this.adapter));
+        final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<>(this.adapter, true));
         helper.attachToRecyclerView(rv_travels_places);
 
         return fragmentView;
@@ -176,6 +178,11 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     }
 
     @Override
+    public void setCurrentModel(final TravelModel model) {
+        this.travelModel = model;
+    }
+
+    @Override
     public void renderList(List<TravelPlacesModel> list) {
         adapter.setList(list);
     }
@@ -230,6 +237,15 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
             });
 
             undoSnackbar.show();
+        }
+    };
+
+    final TravelPlacesAdapter.OnMoveListener onMoveListener = new AbstractAdapter.OnMoveListener<TravelPlacesModel>() {
+        @Override
+        public void onMove(int fromPosition, int toPosition, TravelPlacesModel model) {
+            if (getPresenter() != null) {
+                getPresenter().move(selectedDate, fromPosition, toPosition);
+            }
         }
     };
 }

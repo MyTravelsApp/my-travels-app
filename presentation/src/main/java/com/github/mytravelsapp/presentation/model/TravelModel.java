@@ -8,6 +8,7 @@ import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that represents a travel in the presentation layer.
@@ -27,7 +28,7 @@ public class TravelModel implements Parcelable{
 
     private Date finishDate;
 
-    private List<TravelDayPlanningModel> daysPlanning;
+    private Map<Date, List<TravelDayPlanningModel>> daysPlanningMap;
 
     public TravelModel(final long pId) {
 
@@ -86,12 +87,12 @@ public class TravelModel implements Parcelable{
         this.id = id;
     }
 
-    public List<TravelDayPlanningModel> getDaysPlanning() {
-        return daysPlanning;
+    public Map<Date, List<TravelDayPlanningModel>> getDaysPlanningMap() {
+        return daysPlanningMap;
     }
 
-    public void setDaysPlanning(List<TravelDayPlanningModel> daysPlanning) {
-        this.daysPlanning = daysPlanning;
+    public void setDaysPlanningMap(Map<Date, List<TravelDayPlanningModel>> daysPlanningMap) {
+        this.daysPlanningMap = daysPlanningMap;
     }
 
     @Override
@@ -137,7 +138,7 @@ public class TravelModel implements Parcelable{
         } else {
             out.writeLong(0);
         }
-        out.writeList(getDaysPlanning());
+        out.writeMap(getDaysPlanningMap());
     }
 
     /**
@@ -158,6 +159,6 @@ public class TravelModel implements Parcelable{
         if (date != 0) {
             this.setStartDate(new Date(date));
         }
-        setDaysPlanning(in.readArrayList(TravelDayPlanningModel.class.getClassLoader()));
+        setDaysPlanningMap(in.readHashMap(TravelDayPlanningModel.class.getClassLoader()));
     }
 }

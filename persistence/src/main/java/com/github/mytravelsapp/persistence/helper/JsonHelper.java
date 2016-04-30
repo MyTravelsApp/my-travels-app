@@ -1,29 +1,48 @@
 package com.github.mytravelsapp.persistence.helper;
 
-import com.github.mytravelsapp.business.Utils;
-import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.lang.reflect.Type;
 
 /**
+ * Utility class for working with Json.
+ *
  * @author fjtorres
  */
-public class JsonHelper {
+public final class JsonHelper {
 
-    public static TravelDayPlanningDto createDayPlanning(final JSONObject json) throws JSONException {
-        final TravelDayPlanningDto dto = new TravelDayPlanningDto();
-        dto.setDay(Utils.parseDate(json.getString("day"), Utils.DATE_FORMAT));
-        dto.setOrder(json.getInt("order"));
-        dto.setTravelPlaceId(json.getLong("travelPlaceId"));
-        return dto;
+    private JsonHelper() {
+        // Blank
     }
 
-    public static JSONObject convertDayPlanning(final TravelDayPlanningDto dto) throws JSONException {
-        JSONObject json = new JSONObject();
-        json.put("travelPlaceId", dto.getTravelPlaceId());
-        json.put("day", Utils.formatDate(dto.getDay(), Utils.DATE_FORMAT));
-        json.put("order", dto.getOrder());
-        return json;
+    /**
+     * This method transforms the parameter to a JSon string and return it.
+     *
+     * @param obj Object to transform.
+     * @param <T> Type of the parameter.
+     * @return JSon string.
+     */
+    public static <T> String toJson(T obj) {
+        final Gson gson = generateGson();
+        return gson.toJson(obj);
+    }
+
+    /**
+     * This method transforms a JSon string to an object.
+     *
+     * @param jsonStr JSon string.
+     * @param type    Type for json transformation.
+     * @param <T>     Type of the result.
+     * @return Object from json string.
+     * @see com.google.gson.reflect.TypeToken
+     */
+    public static <T> T fromJson(final String jsonStr, Type type) {
+        final Gson gson = generateGson();
+        return gson.fromJson(jsonStr, type);
+    }
+
+    private static Gson generateGson() {
+        return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").create();
     }
 }

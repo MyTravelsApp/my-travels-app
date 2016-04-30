@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.Utils;
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.FindTravelPlacesByIdsInteractor;
@@ -14,8 +15,11 @@ import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelDayView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -44,60 +48,95 @@ public class TravelDayPresenter extends AbstractPresenter<TravelDayView> {
     public void load(final Date selectedDay) {
         final TravelModel model = getView().getCurrentModel();
 
-        final List<TravelDayPlanningModel> daysPlanning = model.getDaysPlanning();
-        if (!Utils.isEmpty(daysPlanning)) {
+        if (!Utils.isEmpty(model.getDaysPlanningMap())) {
+            final List<TravelDayPlanningModel> daysPlanning = model.getDaysPlanningMap().get(selectedDay);
 
-            getView().showLoading();
-            final List<Long> travelPlacesIds = new ArrayList<>(daysPlanning.size());
+            if (daysPlanning == null) {
+                getView().renderList(new ArrayList<TravelPlacesModel>());
+            } else {
+                getView().showLoading();
+                final List<Long> travelPlacesIds = new ArrayList<>(daysPlanning.size());
+                final List<Integer> travelPlacesOrder = new ArrayList<>(daysPlanning.size());
 
-            for (final TravelDayPlanningModel dayPlanning : daysPlanning) {
-                if (dayPlanning.getDay().equals(selectedDay)) {
-                    travelPlacesIds.add(dayPlanning.getTravelPlaceId());
+                for (final TravelDayPlanningModel dayPlanning : daysPlanning) {
+                    if (dayPlanning.getDay().equals(selectedDay)) {
+                        travelPlacesIds.add(dayPlanning.getTravelPlaceId());
+                        travelPlacesOrder.add(dayPlanning.getOrder());
+                    }
                 }
+                findTravelPlacesByIdsInteractor.setTravelPlaceIds(travelPlacesIds);
+
+                findTravelPlacesByIdsInteractor.execute(new DefaultCallback<List<TravelPlacesDto>>(getView()) {
+                    @Override
+                    public void onSuccess(List<TravelPlacesDto> result) {
+                        getView().hideLoading();
+                        // Sort result by order in current day
+                        TravelPlacesDto[] resultOrderBy = new TravelPlacesDto[result.size()];
+                        for (final TravelPlacesDto item : result) {
+                            final int index = travelPlacesIds.indexOf(item.getId());
+                            resultOrderBy[travelPlacesOrder.get(index) - 1] = item;
+                        }
+
+                        getView().renderList(converter.convert(Arrays.asList(resultOrderBy)));
+                    }
+                });
             }
-            findTravelPlacesByIdsInteractor.setTravelPlaceIds(travelPlacesIds);
-
-            findTravelPlacesByIdsInteractor.execute(new Callback<List<TravelPlacesDto>>() {
-                @Override
-                public void onSuccess(List<TravelPlacesDto> result) {
-                    getView().hideLoading();
-                    getView().renderList(converter.convert(result));
-                }
-
-                @Override
-                public void onError(final Throwable cause) {
-                    getView().hideLoading();
-                    // FIXME SHOW ERROR!!!!
-                }
-            });
         }
 
     }
 
     public void remove(final Date selectedDay, final TravelPlacesModel placeToRemove) {
         final TravelModel model = getView().getCurrentModel();
-        TravelDayPlanningModel toRemove = null;
-        for (final TravelDayPlanningModel dayPlanning : model.getDaysPlanning()) {
-            if (dayPlanning.getDay().equals(selectedDay) && dayPlanning.getTravelPlaceId().equals(placeToRemove.getId())) {
-                toRemove = dayPlanning;
+
+        if (!Utils.isEmpty(model.getDaysPlanningMap())) {
+            TravelDayPlanningModel toRemove = null;
+
+            for (final TravelDayPlanningModel dayPlanning : model.getDaysPlanningMap().get(selectedDay)) {
+                if (dayPlanning.getDay().equals(selectedDay) && dayPlanning.getTravelPlaceId().equals(placeToRemove.getId())) {
+                    toRemove = dayPlanning;
+                }
             }
+
+            if (toRemove != null) {
+                model.getDaysPlanningMap().get(selectedDay).remove(toRemove);
+            }
+
+            saveTravelInteractor.setData(travelModelConverter.convertToDto(model));
+            saveTravelInteractor.execute(new DefaultCallback<Boolean>(getView()));
         }
+    }
 
-        if (toRemove != null) {
-            model.getDaysPlanning().remove(toRemove);
+    /**
+     *
+     * @param selectedDay
+     * @param fromPosition
+     * @param toPosition
+     */
+    public void move(final Date selectedDay, final int fromPosition, final int toPosition) {
+        final TravelModel model = getView().getCurrentModel();
+
+        if (!Utils.isEmpty(model.getDaysPlanningMap())) {
+            final List<TravelDayPlanningModel> dayPlanning = model.getDaysPlanningMap().get(selectedDay);
+            Utils.swap(dayPlanning, fromPosition, toPosition);
+            reOrderPlanning(model, selectedDay);
+            saveTravelInteractor.setData(travelModelConverter.convertToDto(model));
+            saveTravelInteractor.execute(new DefaultCallback<Boolean>(getView()));
         }
+    }
 
-        saveTravelInteractor.setData(travelModelConverter.convertToDto(model));
-        saveTravelInteractor.execute(new Callback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean result) {
+    /**
+     * Update order field in planning of specific day.
+     * @param model Model to update.
+     * @param selectedDay Specific day.
+     */
+    private void reOrderPlanning(final TravelModel model, final Date selectedDay) {
 
+        if (!Utils.isEmpty(model.getDaysPlanningMap()) && !Utils.isEmpty(model.getDaysPlanningMap().get(selectedDay))) {
+            int order = 1;
+            for (final TravelDayPlanningModel dayPlanning : model.getDaysPlanningMap().get(selectedDay)) {
+                dayPlanning.setOrder(order++);
             }
 
-            @Override
-            public void onError(Throwable cause) {
-                // FIXME Show error
-            }
-        });
+        }
     }
 }

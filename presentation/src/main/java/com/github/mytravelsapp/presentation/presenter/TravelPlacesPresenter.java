@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.Utils;
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetTravelPlacesListInteractor;
@@ -16,7 +17,9 @@ import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -94,16 +97,20 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
             public void onSuccess(Boolean result) {
                 final TravelModel model = getView().getCurrentTravel();
 
-                if (!Utils.isEmpty(model.getDaysPlanning())) {
-                    final List<TravelDayPlanningModel> toRemove = new ArrayList<>();
+                if (!Utils.isEmpty(model.getDaysPlanningMap())) {
 
-                    for (final TravelDayPlanningModel item : model.getDaysPlanning()) {
-                        if (item != null && item.getTravelPlaceId().equals(travelPlacesId)) {
-                            toRemove.add(item);
+
+                    for (final Map.Entry<Date, List<TravelDayPlanningModel>> entry : model.getDaysPlanningMap().entrySet()) {
+                        final List<TravelDayPlanningModel> toRemove = new ArrayList<>();
+
+                        for (final TravelDayPlanningModel dayPlanningModel : entry.getValue()) {
+                            if (dayPlanningModel != null && dayPlanningModel.getTravelPlaceId().equals(travelPlacesId)) {
+                                toRemove.add(dayPlanningModel);
+                            }
                         }
-                    }
 
-                    model.getDaysPlanning().removeAll(toRemove);
+                        entry.getValue().removeAll(toRemove);
+                    }
                 }
 
                 saveTravelInteractor.setData(travelConverter.convertToDto(model));
