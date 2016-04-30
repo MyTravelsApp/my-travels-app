@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.presenter.Presenter;
 import com.github.mytravelsapp.presentation.view.View;
@@ -36,6 +37,11 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
     @Override
     public Context getViewContext() {
         return getActivity();
+    }
+
+    @Override
+    public void showGenericError() {
+        showToastMessage(getString(R.string.error_generic));
     }
 
     protected abstract P getPresenter();

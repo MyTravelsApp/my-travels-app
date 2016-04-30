@@ -3,7 +3,10 @@ package com.github.mytravelsapp.business;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class with generic methods.
@@ -48,6 +51,22 @@ public final class Utils {
     }
 
     public static boolean isEmpty(final Collection<?> collection) {
-        return collection == null ||collection.isEmpty();
+        return collection == null || collection.isEmpty();
+    }
+
+    public static boolean isEmpty(final Map<?, ?> map) {
+        return map == null || map.isEmpty();
+    }
+
+    public static void swap(final List<?> list, final int fromPosition, final int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(list, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(list, i, i - 1);
+            }
+        }
     }
 }

@@ -74,7 +74,6 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
 
         // Setup UI
         this.rv_travel_days.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        //this.rv_travel_days.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         adapter = new DateAdapter(getActivity(), new ArrayList<Date>());
         rv_travel_days.setAdapter(adapter);
         adapter.setOnItemClickListener(dateOnItemClickListener);

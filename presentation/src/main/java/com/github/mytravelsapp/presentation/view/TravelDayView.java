@@ -13,5 +13,7 @@ public interface TravelDayView extends LoadDataView {
 
     TravelModel getCurrentModel();
 
+    void setCurrentModel(final TravelModel model);
+
     void renderList(List<TravelPlacesModel> list);
 }

@@ -35,6 +35,7 @@
     <string name="text_selection_default">Choose elements</string>
 
     <!-- Error messages -->
+    <string name="error_generic">An error has occurred, please try again.</string>
     <string name="error_required">This field is required.</string>
     <string name="error_date_format">Date format is invalid.</string>
 

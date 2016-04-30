@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.presentation.presenter;
 
 import com.github.mytravelsapp.business.Utils;
+import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
 import com.github.mytravelsapp.business.dto.TravelPlacesDto;
 import com.github.mytravelsapp.business.interactor.Callback;
 import com.github.mytravelsapp.business.interactor.GetTravelPlacesListInteractor;
@@ -15,7 +16,9 @@ import com.github.mytravelsapp.presentation.view.TravelPlacesSelectorView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,10 +51,10 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
             @Override
             public void onSuccess(List<TravelPlacesDto> result) {
 
-                if (!Utils.isEmpty(model.getDaysPlanning())) {
+                if (!Utils.isEmpty(model.getDaysPlanningMap()) && !Utils.isEmpty(model.getDaysPlanningMap().get(selectedDate))) {
                     final List<TravelPlacesDto> toRemove = new ArrayList<>();
 
-                    for (final TravelDayPlanningModel item : model.getDaysPlanning()) {
+                    for (final TravelDayPlanningModel item : model.getDaysPlanningMap().get(selectedDate)) {
                         for (final TravelPlacesDto item2 : result) {
                             if (item != null && item2 != null && item.getDay().equals(selectedDate) && item.getTravelPlaceId().equals(item2.getId())) {
                                 toRemove.add(item2);
@@ -81,18 +84,25 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
 
             getView().showLoading();
 
-            if (Utils.isEmpty(model.getDaysPlanning())) {
-                model.setDaysPlanning(new ArrayList<TravelDayPlanningModel>());
+            if (Utils.isEmpty(model.getDaysPlanningMap())) {
+                model.setDaysPlanningMap(new HashMap<Date, List<TravelDayPlanningModel>>());
             }
-            int order = model.getDaysPlanning().size();
+
+            if (!model.getDaysPlanningMap().containsKey(selectedDate)) {
+                model.getDaysPlanningMap().put(selectedDate, new ArrayList<TravelDayPlanningModel>());
+            }
+
+            final List<TravelDayPlanningModel> dayPlanning = model.getDaysPlanningMap().get(selectedDate);
+
+            int order = dayPlanning.size();
             for (final TravelPlacesModel travelPlacesModel : selection) {
                 if (travelPlacesModel != null) {
                     final TravelDayPlanningModel dayModel = new TravelDayPlanningModel();
                     dayModel.setTravelPlaceId(travelPlacesModel.getId());
                     dayModel.setDay(selectedDate);
                     dayModel.setOrder(++order);
-                    if (!model.getDaysPlanning().contains(dayModel)) {
-                        model.getDaysPlanning().add(dayModel);
+                    if (!dayPlanning.contains(dayModel)) {
+                        dayPlanning.add(dayModel);
                     }
                 }
             }

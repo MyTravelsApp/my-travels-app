@@ -8,7 +8,9 @@ import com.github.mytravelsapp.business.repository.TravelRepository;
 import javax.inject.Inject;
 
 /**
- * Created by kisco on 15/12/2015.
+ * Business logic task to save travel.
+ *
+ * @author fjtorres
  */
 public class SaveTravelInteractor extends AbstractBackgroundInteractor<Boolean> {
 

@@ -35,6 +35,7 @@
     <string name="text_selection_default">Seleccionar elementos</string>
 
     <!-- Error messages -->
+    <string name="error_generic">Ha ocurrido un error, por favor intentelo de nuevo.</string>
     <string name="error_required">Este campo es requerido.</string>
     <string name="error_date_format">El formato de fecha es invalido.</string>
 
