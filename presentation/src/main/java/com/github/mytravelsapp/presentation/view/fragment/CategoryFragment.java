@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.di.components.CategoryComponent;
+import com.github.mytravelsapp.presentation.di.components.MainComponent;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
 import com.github.mytravelsapp.presentation.presenter.CategoryPresenter;
 import com.github.mytravelsapp.presentation.view.CategoryView;
@@ -77,7 +77,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View fragmentView = inflater.inflate(R.layout.fragment_category, container, true);
+        final View fragmentView = inflater.inflate(R.layout.fragment_category, container, false);
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
@@ -146,7 +146,7 @@ public class CategoryFragment extends SearchFragment<CategoryView, CategoryPrese
     }
 	
 	private void initialize() {
-        getComponent(CategoryComponent.class).inject(this);
+        getComponent(MainComponent.class).inject(this);
         this.presenter.setView(this);
     }
 

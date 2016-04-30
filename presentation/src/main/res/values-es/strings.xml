@@ -51,12 +51,6 @@
     <string name="category_delete">La categoria ha sido eliminada</string>
     <string name="category_delete_confirm">La categoría tiene lugares de interés asociados. ¿Desea eliminarla?</string>
 
-    <string-array name="drawer_options">
-        <item>Categorias</item>
-        <item>Listado de viajes</item>
-        <item>Viajes archivados</item>
-        <item>Acerca de MyTravels app</item>
-    </string-array>
     <string name="drawer_open">Abrir menú lateral</string>
     <string name="drawer_close">Cerrar menú lateral</string>
 

@@ -52,7 +52,7 @@ public class TravelPlanningActivity extends AbstractActivity implements HasCompo
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            addFragment(R.id.fragmentTravelOrganizer, TravelPlanningFragment.newInstance(travelModel));
+            replaceFragment(R.id.fragmentTravelOrganizer, TravelPlanningFragment.newInstance(travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }

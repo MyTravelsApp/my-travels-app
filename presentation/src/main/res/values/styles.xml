@@ -187,4 +187,10 @@
         <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
     </style>
+
+    <!-- style for drawable-->
+    <style name="AppTheme.Menu">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorPrimaryLight</item>
+    </style>
 </resources>

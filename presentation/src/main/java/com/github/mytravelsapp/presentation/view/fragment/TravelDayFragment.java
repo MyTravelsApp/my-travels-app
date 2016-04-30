@@ -24,7 +24,6 @@ import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDayView;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
-import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesSelectorAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -195,7 +194,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            getAppActivity().addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
+            getAppActivity().replaceFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
         }
     };
 

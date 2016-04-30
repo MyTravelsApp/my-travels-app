@@ -57,13 +57,6 @@
     <string name="category_delete">The category has been removed</string>
     <string name="category_delete_confirm">The category has travel places associated. Do you sure remove?</string>
 
-
-    <string-array name="drawer_options">
-        <item>Categorys</item>
-        <item>Travel list</item>
-        <item>Travels archived</item>
-        <item>About</item>
-    </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 

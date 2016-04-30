@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
@@ -40,7 +39,7 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            addFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
+            replaceFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }

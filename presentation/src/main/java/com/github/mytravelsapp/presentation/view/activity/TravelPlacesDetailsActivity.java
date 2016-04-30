@@ -41,7 +41,7 @@ public class TravelPlacesDetailsActivity  extends AbstractActivity implements Ha
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelPlacesModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_PLACES_MODEL);
-            addFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesModel));
+            replaceFragment(R.id.fragment_places_detail, TravelPlacesDetailsFragment.newInstance(this.travelPlacesModel));
         } else {
             travelPlacesModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_PLACES_MODEL);
         }
