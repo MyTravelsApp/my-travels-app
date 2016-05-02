@@ -43,8 +43,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * @param containerViewId The container view to where add the fragment.
      * @param fragment        The fragment to be added.
      */
-    public void addFragment(final int containerViewId, final Fragment fragment) {
-        addFragment(containerViewId, fragment, false);
+    public void replaceFragment(final int containerViewId, final Fragment fragment) {
+        replaceFragment(containerViewId, fragment, true);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * @param fragment        The fragment to be added.
      * @param addToBackStack  indicates if we add the fragment to back to stack.
      */
-    public void addFragment(final int containerViewId, final Fragment fragment, boolean addToBackStack) {
+    public void replaceFragment(final int containerViewId, final Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(containerViewId, fragment);
         if (addToBackStack) {

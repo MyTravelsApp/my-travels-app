@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
-import com.github.mytravelsapp.presentation.view.activity.CategoryActivity;
+import com.github.mytravelsapp.presentation.view.activity.MainActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelDayActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelDetailsActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelListActivity;
@@ -100,7 +100,7 @@ public class Navigator {
      */
     public void navigateToCategory(final Context context) {
         if (context != null) {
-            context.startActivity(CategoryActivity.getCallingIntent(context));
+            context.startActivity(MainActivity.getCallingIntent(context));
         }
     }
 

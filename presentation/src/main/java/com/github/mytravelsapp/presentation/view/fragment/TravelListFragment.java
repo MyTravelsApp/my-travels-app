@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.presentation.di.components.MainComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelListPresenter;
@@ -85,7 +86,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View fragmentView = inflater.inflate(R.layout.fragment_travel_list, container, true);
+        final View fragmentView = inflater.inflate(R.layout.fragment_travel_list, container, false);
         ButterKnife.bind(this, fragmentView);
 
         // Setup UI
@@ -137,11 +138,6 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         boolean result;
         switch (item.getItemId()) {
             case R.id.action_search_travel:
-
-                result = true;
-                break;
-            case R.id.action_configure_travel:
-                presenter.getNavigator().navigateToCategory(getContext());
                 result = true;
                 break;
             default:
@@ -174,7 +170,7 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
     }
 
     private void initialize() {
-        getComponent(TravelComponent.class).inject(this);
+        getComponent(MainComponent.class).inject(this);
         this.presenter.setView(this);
     }
 

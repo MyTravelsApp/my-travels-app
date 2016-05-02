@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".presentation.view.activity.SplashActivity"
+            android:name=".presentation.view.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -20,34 +20,18 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".presentation.view.activity.TravelListActivity"
-            android:label="@string/activity_travel_list_title">
-
-        </activity>
 
         <activity
             android:name=".presentation.view.activity.TravelDetailsActivity"
             android:label="@string/activity_travel_details_title"
-            android:parentActivityName=".presentation.view.activity.TravelListActivity">
+            android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
         </activity>
 
-        <activity
-            android:name=".presentation.view.activity.TravelPlanningActivity"
-            android:label="@string/activity_travel_planning_title"
-            android:parentActivityName=".presentation.view.activity.TravelDetailsActivity">
-        </activity>
-
-        <activity
-            android:name=".presentation.view.activity.TravelDayActivity"
-            android:label="@string/activity_travel_planning_title"
-            android:parentActivityName=".presentation.view.activity.TravelPlanningActivity">
-        </activity>
 
         <activity
             android:name=".presentation.view.activity.TravelPlacesActivity"
             android:label="@string/activity_travel_places_title"
-            android:parentActivityName=".presentation.view.activity.TravelListActivity">
+            android:parentActivityName=".presentation.view.activity.MainActivity">
         </activity>
 
         <activity
@@ -56,12 +40,6 @@
             android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
         </activity>
 
-
-        <activity
-            android:name=".presentation.view.activity.CategoryActivity"
-            android:label="@string/activity_categories_title"
-            android:parentActivityName=".presentation.view.activity.TravelListActivity">
-        </activity>
 
     </application>
 

@@ -154,6 +154,7 @@
 
     <style name="AppTheme.Spinner.Item" parent="Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:textColor">@color/textColorSecundary</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
     </style>
 
     <style name="AppTheme.Spinner.DropDownItem" parent="Widget.AppCompat.DropDownItem.Spinner">
@@ -186,5 +187,18 @@
         <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <!-- style for drawable-->
+    <style name="AppTheme.Menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryLight</item>
+        <item name="itemTextColor">@color/textColorPrimary</item>
+    </style>
+    <style name="AppTheme.MenuHeader" parent="AppTheme.Menu" >
+        <item name="android:layout_height">80dp</item>
     </style>
 </resources>

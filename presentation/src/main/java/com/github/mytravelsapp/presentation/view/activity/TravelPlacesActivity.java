@@ -4,19 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.HasComponent;
 import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComponent;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
+import com.github.mytravelsapp.presentation.view.fragment.TravelDayFragment;
+import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
+import com.github.mytravelsapp.presentation.view.fragment.TravelPlanningFragment;
+
+import java.util.Date;
 
 /**
  * Created by stefani on 10/12/2015.
  */
-public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>{
+public class TravelPlacesActivity extends AbstractActivity implements HasComponent<TravelPlacesComponent>, TravelNavigationListener{
 
     private TravelPlacesComponent component;
     private TravelModel travelModel;
@@ -40,7 +44,7 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            addFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
+            replaceFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }
@@ -49,6 +53,17 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
 
         //Para activar el dagger, de momento no lo tenemos activo.
         initializeInjector();
+    }
+
+    @Override
+    public void openFragmentTravelDay(Date selectedDate) {
+        replaceFragment(R.id.fragmentTravelPlaces, TravelDayFragment.newInstance(this.travelModel,selectedDate));
+    }
+
+    @Override
+    public void openFragmentTravelPlanning() {
+        replaceFragment(R.id.fragmentTravelPlaces, TravelPlanningFragment.newInstance(this.travelModel));
+
     }
 
     /**

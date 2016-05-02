@@ -3,7 +3,6 @@ package com.github.mytravelsapp.presentation.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlanningPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlanningView;
+import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.DateAdapter;
-import com.github.mytravelsapp.presentation.view.components.SimpleDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -145,7 +144,7 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
     }
 
     private void initialize(Bundle savedInstanceState) {
-        getComponent(TravelComponent.class).inject(this);
+        getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
 
         if (savedInstanceState == null) {
@@ -170,7 +169,10 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
     private final DateAdapter.OnItemClickListener<Date> dateOnItemClickListener = new AbstractAdapter.OnItemClickListener<Date>() {
         @Override
         public void onItemClicked(final Date selectedDate) {
-            presenter.selectedDate(getCurrentModel(), selectedDate);
+            if(getActivity() instanceof TravelNavigationListener){
+                ((TravelNavigationListener) getActivity()).openFragmentTravelDay(selectedDate);
+            }
+            //presenter.selectedDate(getCurrentModel(), selectedDate);
         }
     };
 }

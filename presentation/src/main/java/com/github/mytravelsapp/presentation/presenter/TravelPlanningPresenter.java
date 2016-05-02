@@ -3,6 +3,7 @@ package com.github.mytravelsapp.presentation.presenter;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlanningView;
+import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;

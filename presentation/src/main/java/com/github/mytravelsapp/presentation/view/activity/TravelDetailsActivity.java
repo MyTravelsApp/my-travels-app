@@ -53,7 +53,7 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            addFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(travelModel));
+            replaceFragment(R.id.fragment_detail, TravelDetailsFragment.newInstance(travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }
@@ -88,18 +88,15 @@ public class TravelDetailsActivity extends AbstractActivity implements HasCompon
      * @return
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+   public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                if (travelModel.getId() == TravelModel.DEFAULT_ID) {
-                    navigator.navigateToTravelList(this);
-                } else {
-                    navigator.navigateToTravelPlaces(this, travelModel);
-                }
-                result = true;
-                break;
+           case android.R.id.home:
+               //use back when go from activity to other
+                this.back();
+                result=true;
+            break;
             default:
                 result = super.onOptionsItemSelected(item);
                 break;

@@ -18,14 +18,13 @@ import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.business.Utils;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDayView;
 import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
-import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesSelectorAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -188,7 +187,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     }
 
     private void initialize() {
-        getComponent(TravelComponent.class).inject(this);
+        getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
 
         this.travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
@@ -202,7 +201,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            getAppActivity().addFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
+            getAppActivity().replaceFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
         }
     };
 
