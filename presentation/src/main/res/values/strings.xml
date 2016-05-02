@@ -9,6 +9,7 @@
     <string name="activity_travel_places_title">Travel Places</string>
     <string name="activity_travel_places_details_title">Travel Places Details</string>
     <string name="activity_categories_title">My categories</string>
+    <string name="activity_travel_places_location_title">Add location</string>
 
     <!-- Toolbar actions -->
     <string name="action_edit">Edit</string>
@@ -17,6 +18,7 @@
     <string name="action_configure">Configure</string>
     <string name="action_planning">Planning</string>
     <string name="action_selection">Choose</string>
+    <string name="action_add_location">Add location</string>
 
     <!-- Generic text -->
     <string name="text_search_box">Search&#8230;</string>
