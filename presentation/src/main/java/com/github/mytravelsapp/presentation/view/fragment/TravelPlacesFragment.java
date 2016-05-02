@@ -17,12 +17,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
-import com.github.mytravelsapp.persistence.entity.TravelPlaces;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
+import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 
@@ -144,13 +144,12 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
                 result = true;
                 break;
             case R.id.action_planning_travel:
-                getPresenter().planning();
+                if(getActivity() instanceof TravelNavigationListener){
+                    ((TravelNavigationListener) getActivity()).openFragmentTravelPlanning();
+                }
                 result = true;
                 break;
             default:
-                if(idTravelPlacesDelete != TravelPlacesModel.DEFAULT_ID){
-                    getPresenter().removeTravelPlaces(idTravelPlacesDelete);
-                }
                 result = super.onOptionsItemSelected(item);
                 break;
         }

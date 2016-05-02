@@ -56,8 +56,7 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Layout definition for activity
-        setContentView(R.layout.activity_category_drawable);
-
+        setContentView(R.layout.activity_main_drawable);
         // Set the support toolbar to show in activity
         setToolbar();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,7 +64,7 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-        drawerTitle = getResources().getString(R.string.activity_categories_title);
+        drawerTitle = getResources().getString(R.string.activity_travel_list_title);
         if (savedInstanceState == null) {
             selectItem(drawerTitle);
         }
@@ -135,17 +134,6 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
     }
 
     private void selectItem(String title) {
-        // Enviar título como arguemento del fragmento
-      /*  Bundle args = new Bundle();
-        args.putString(PlaceholderFragment.ARG_SECTION_TITLE, title);
-        Fragment fragment = PlaceholderFragment.newInstance(title);
-        fragment.setArguments(args);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.main_content, fragment)
-                .commit();*/
-
         Fragment fragment  = new TravelListFragment();
         if(title.equals(getString(R.string.activity_categories_title))){
             fragment=  new CategoryFragment();

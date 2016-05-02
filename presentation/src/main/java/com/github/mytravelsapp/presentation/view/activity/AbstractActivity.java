@@ -44,7 +44,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * @param fragment        The fragment to be added.
      */
     public void replaceFragment(final int containerViewId, final Fragment fragment) {
-        replaceFragment(containerViewId, fragment, false);
+        replaceFragment(containerViewId, fragment, true);
     }
 
     /**

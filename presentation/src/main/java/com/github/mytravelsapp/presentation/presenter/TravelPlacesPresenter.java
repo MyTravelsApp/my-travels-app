@@ -15,6 +15,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
+import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -134,10 +135,6 @@ public class TravelPlacesPresenter extends AbstractPresenter<TravelPlacesView> {
                 getView().hideLoading();
             }
         });
-    }
-
-    public void planning() {
-        getNavigator().navigateToTravelPlanning(getView().getViewContext(), getView().getCurrentTravel());
     }
 
 }

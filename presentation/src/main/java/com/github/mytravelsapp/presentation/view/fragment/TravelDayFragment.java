@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.business.Utils;
-import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDayPresenter;
@@ -187,7 +187,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     }
 
     private void initialize() {
-        getComponent(TravelComponent.class).inject(this);
+        getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
 
         this.travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);

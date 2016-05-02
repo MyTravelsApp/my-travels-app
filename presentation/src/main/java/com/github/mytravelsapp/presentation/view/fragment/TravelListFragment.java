@@ -138,11 +138,6 @@ public class TravelListFragment extends AbstractFragment<TravelListView, TravelL
         boolean result;
         switch (item.getItemId()) {
             case R.id.action_search_travel:
-
-                result = true;
-                break;
-            case R.id.action_configure_travel:
-                presenter.getNavigator().navigateToCategory(getContext());
                 result = true;
                 break;
             default:

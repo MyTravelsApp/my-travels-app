@@ -3,11 +3,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_categories"
+            android:id="@+id/nav_travels"
             android:checked="true"
-            android:title="@string/activity_categories_title" />
-        <item
-            android:id="@+id/travel_places"
             android:title="@string/activity_travel_list_title" />
+        <item
+            android:id="@+id/nav_categories"
+            android:title="@string/activity_categories_title" />
     </group>
 </menu>

@@ -11,12 +11,12 @@
     <!-- Menú Deslizante -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemIconTint="#9156f8"
-        app:itemTextColor="#009688"
-        app:menu="@menu/menu_drawer"/>
+        style="@style/AppTheme.Menu"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer"
+      />
+
 
 </android.support.v4.widget.DrawerLayout>

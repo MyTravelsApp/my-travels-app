@@ -64,7 +64,6 @@ public class TravelDayActivity extends AbstractActivity implements HasComponent<
             selectedDate = (Date) getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_SELECTED_DATE);
             setTitle(Utils.formatLargeDate(selectedDate));
             replaceFragment(R.id.fragmentTravelDay, TravelDayFragment.newInstance(travelModel, selectedDate));
-            //replaceFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }
