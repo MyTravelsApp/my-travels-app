@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name=".presentation.view.activity.TravelDetailsActivity"
             android:label="@string/activity_travel_details_title"
@@ -39,7 +38,6 @@
             android:label="@string/activity_travel_places_details_title"
             android:parentActivityName=".presentation.view.activity.TravelPlacesActivity">
         </activity>
-
 
     </application>
 

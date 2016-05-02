@@ -17,6 +17,7 @@ import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlanningPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlanningView;
+import com.github.mytravelsapp.presentation.view.activity.AbstractActivity;
 import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 import com.github.mytravelsapp.presentation.view.adapter.AbstractAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.DateAdapter;
@@ -114,6 +115,10 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         switch (item.getItemId()) {
+            case android.R.id.home:
+                //use back when go from fragment to other
+                result=this.back();
+                break;
             default:
                 result = super.onOptionsItemSelected(item);
                 break;

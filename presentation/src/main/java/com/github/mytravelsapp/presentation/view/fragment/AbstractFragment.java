@@ -70,6 +70,13 @@ public abstract class AbstractFragment<V extends View, P extends Presenter<V>> e
         }
     }
 
+    protected boolean back(){
+        if (getActivity().getSupportFragmentManager().getBackStackEntryCount()>0){
+            return getActivity().getSupportFragmentManager().popBackStackImmediate();
+        }
+        return false;
+    }
+
     protected <C> C getComponent(Class<C> componentType) {
         C result = null;
         if (getActivity() instanceof HasComponent) {
