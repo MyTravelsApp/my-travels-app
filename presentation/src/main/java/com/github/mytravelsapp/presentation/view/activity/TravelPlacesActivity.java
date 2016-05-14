@@ -11,7 +11,6 @@ import com.github.mytravelsapp.presentation.di.components.DaggerTravelPlacesComp
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.view.fragment.TravelDayFragment;
-import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlacesFragment;
 import com.github.mytravelsapp.presentation.view.fragment.TravelPlanningFragment;
 
@@ -44,7 +43,7 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
         // Load travel identifier from parameters or saved state.
         if (savedInstanceState == null) {
             travelModel = getIntent().getParcelableExtra(INTENT_EXTRA_PARAM_TRAVEL_MODEL);
-            replaceFragment(R.id.fragmentTravelPlaces, TravelPlacesFragment.newInstance(this.travelModel));
+            replaceFragment(R.id.fragment_content_travel_places, TravelPlacesFragment.newInstance(this.travelModel));
         } else {
             travelModel = savedInstanceState.getParcelable(STATE_PARAM_TRAVEL_MODEL);
         }
@@ -57,12 +56,12 @@ public class TravelPlacesActivity extends AbstractActivity implements HasCompone
 
     @Override
     public void openFragmentTravelDay(Date selectedDate) {
-        replaceFragment(R.id.fragmentTravelPlaces, TravelDayFragment.newInstance(this.travelModel,selectedDate));
+        replaceFragment(R.id.fragment_content_travel_places, TravelDayFragment.newInstance(this.travelModel,selectedDate));
     }
 
     @Override
     public void openFragmentTravelPlanning() {
-        replaceFragment(R.id.fragmentTravelPlaces, TravelPlanningFragment.newInstance(this.travelModel));
+        replaceFragment(R.id.fragment_content_travel_places, TravelPlanningFragment.newInstance(this.travelModel));
 
     }
 

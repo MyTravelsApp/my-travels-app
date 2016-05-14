@@ -6,12 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
+import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesSelectorPresenter;
@@ -82,7 +84,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
 
         return fragmentView;
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -97,7 +99,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
     }
 
     private void initialize() {
-        getComponent(TravelComponent.class).inject(this);
+        getComponent(TravelPlacesComponent.class).inject(this);
         model = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
         enableSelection = getArguments().getBoolean(ARGUMENT_ENABLE_SELECTION);
         selectedDay = new Date(getArguments().getLong(ARGUMENT_SELECTED_DAY));

@@ -27,20 +27,8 @@ import com.github.mytravelsapp.presentation.view.fragment.TravelListFragment;
 public class MainActivity extends AbstractActivity implements HasComponent<MainComponent>{
 
     private MainComponent component;
-
-    private static final int CATEGORYES = 0;
-    private static final int TRAVEL_LIST = 1;
-    private static final int TRAVELS_ARCHIVED = 2;
-    private static final int ABOUT = 3;
-
     private DrawerLayout drawerLayout;
     private String drawerTitle;
-    private Toolbar toolbar;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
-
-
-    private String[] drawerOptions;
 
     /**
      * Generate intent to open this activity.
@@ -71,9 +59,6 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
         initializeInjector();
     }
 
-
-
-
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,13 +68,11 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
             ab.setHomeAsUpIndicator(R.drawable.ic_menu_white_18dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // Marcar item presionado
@@ -101,16 +84,6 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
                     }
                 }
         );
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            getMenuInflater().inflate(R.menu.menu_drawer, menu);
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -138,15 +111,10 @@ public class MainActivity extends AbstractActivity implements HasComponent<MainC
         if(title.equals(getString(R.string.activity_categories_title))){
             fragment=  new CategoryFragment();
         }
-
         replaceFragment(R.id.content_frame, fragment);
-
         drawerLayout.closeDrawers(); // Cerrar drawer
-
         setTitle(title); // Setear título actual
-
     }
-
 
     @Override
     public MainComponent getComponent() {
