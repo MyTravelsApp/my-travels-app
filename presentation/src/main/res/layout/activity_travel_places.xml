@@ -6,7 +6,7 @@
     <include layout="@layout/toolbar" />
 
     <FrameLayout
-        android:id="@+id/fragmentTravelPlaces"
+        android:id="@+id/fragment_content_travel_places"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -13,6 +13,7 @@ import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.navigation.Navigator;
 import com.github.mytravelsapp.presentation.view.TravelPlacesSelectorView;
+import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,7 +113,9 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
                 @Override
                 public void onSuccess(Boolean result) {
                     getView().hideLoading();
-                    getNavigator().navigateToTravelDay(getView().getViewContext(), model, selectedDate);
+                    if(getView().getViewContext() instanceof TravelNavigationListener){
+                        ((TravelNavigationListener) getView().getViewContext()).openFragmentTravelDay(selectedDate);
+                    }
                 }
 
                 @Override
@@ -122,8 +125,8 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
                 }
             });
 
-        } else {
-            getNavigator().navigateToTravelDay(getView().getViewContext(), model, selectedDate);
+        } else if(getView().getViewContext() instanceof TravelNavigationListener){
+                ((TravelNavigationListener) getView().getViewContext()).openFragmentTravelDay(selectedDate);
         }
     }
 }

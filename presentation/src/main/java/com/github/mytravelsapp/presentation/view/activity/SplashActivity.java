@@ -23,7 +23,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                final Intent myTravelsIntent = new Intent(SplashActivity.this, TravelListActivity.class);
+                final Intent myTravelsIntent = new Intent(SplashActivity.this, MainActivity.class);
                 SplashActivity.this.startActivity(myTravelsIntent);
                 SplashActivity.this.finish();
             }

@@ -201,7 +201,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     private final View.OnClickListener onAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
-            getAppActivity().replaceFragment(R.id.fragmentTravelDay, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate), true);
+            getAppActivity().replaceFragment(R.id.fragment_content_travel_places, TravelPlacesSelectorFragment.newInstance(travelModel, true, selectedDate));
         }
     };
 
