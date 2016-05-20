@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlanningPresenter;
@@ -157,7 +158,7 @@ public class TravelPlanningFragment extends AbstractFragment<TravelPlanningView,
         } else {
             this.travelModel = savedInstanceState.getParcelable("STATE_PARAM_TRAVEL_MODEL");
         }
-
+        getActivity().setTitle(R.string.activity_travel_planning_title);
         this.presenter.loadDaysOfTravel();
     }
 

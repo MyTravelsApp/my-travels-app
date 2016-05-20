@@ -84,7 +84,7 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
 
         return fragmentView;
     }
-    
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -96,6 +96,27 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
         super.onActivityCreated(savedInstanceState);
         initialize();
         loadTravelPlaces();
+    }
+
+    /**
+     * Control menu item selection.
+     *
+     * @param item Selected menu.
+     * @return boolean result.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //use back when go from fragment to other
+                result=this.back();
+                break;
+            default:
+                result = super.onOptionsItemSelected(item);
+                break;
+        }
+        return result;
     }
 
     private void initialize() {
@@ -151,6 +172,10 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
         // FIXME ERROR AL CARGAR
     }
 
+    public void finishSelection(){
+        this.back();
+    }
+
     private void activateSelection () {
         final SelectedOnGestureListener onGestureListener = new SelectedOnGestureListener(rv_travels_places, (AppCompatActivity) getActivity());
         onGestureListener.setOnSelectListener(onSelectListener);
@@ -167,4 +192,6 @@ public class TravelPlacesSelectorFragment extends AbstractFragment<TravelPlacesS
             }
         }
     };
+
+
 }

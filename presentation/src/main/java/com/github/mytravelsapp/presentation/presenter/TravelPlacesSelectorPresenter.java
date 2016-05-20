@@ -113,9 +113,11 @@ public class TravelPlacesSelectorPresenter extends AbstractPresenter<TravelPlace
                 @Override
                 public void onSuccess(Boolean result) {
                     getView().hideLoading();
-                    if(getView().getViewContext() instanceof TravelNavigationListener){
+                    getView().finishSelection();
+                    /*if(getView().getViewContext() instanceof TravelNavigationListener){
                         ((TravelNavigationListener) getView().getViewContext()).openFragmentTravelDay(selectedDate);
-                    }
+
+                    }*/
                 }
 
                 @Override
