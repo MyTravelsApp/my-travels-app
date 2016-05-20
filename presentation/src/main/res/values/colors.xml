@@ -12,4 +12,5 @@
     <color name="textColorHint">#757575</color><!-- Grey 600 -->
     <color name="lineDivider">#BDBDBD</color><!-- Grey 400 -->
     <color name="rowBackground">#E8EAF6</color><!-- Indigo 50 -->
+    <color name="loading">#FFFFFF</color>
 </resources>
