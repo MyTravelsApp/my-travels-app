@@ -101,6 +101,7 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         this.adapter.setOnRemoveListener(onRemoveListener);
         this.adapter.setOnMoveListener(onMoveListener);
         this.rv_travels_places.setAdapter(this.adapter);
+        setHasOptionsMenu(true);
         this.btn_add_travel_places.setOnClickListener(onAddClickListener);
         //Add event delete touch
         final ItemTouchHelper helper = new ItemTouchHelper(new RemoveItemTouchHelperCallback<>(this.adapter, true));
@@ -121,16 +122,6 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
         initialize();
     }
 
-    /**
-     * Load fragment menu.
-     *
-     * @param menu     Fragment menu.
-     * @param inflater Menu inflater.
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-    }
 
     /**
      * Control menu item selection.
@@ -142,6 +133,10 @@ public class TravelDayFragment extends AbstractFragment<TravelDayView, TravelDay
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result;
         switch (item.getItemId()) {
+            case android.R.id.home:
+                //use back when go from fragment to other
+                result = this.back();
+                break;
             default:
                 result = super.onOptionsItemSelected(item);
                 break;

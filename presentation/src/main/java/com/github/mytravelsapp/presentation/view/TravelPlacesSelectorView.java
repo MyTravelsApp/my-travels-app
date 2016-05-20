@@ -17,4 +17,6 @@ public interface TravelPlacesSelectorView extends LoadDataView {
     TravelModel getCurrentModel();
 
     void showLoadError ();
+
+    void finishSelection();
 }
