@@ -53,6 +53,17 @@ dependencies {
     compile presentationDependencies.design
     provided presentationDependencies.javaxAnnotation
 
+    // Maps
+    /*compile 'org.mapsforge:mapsforge-core:0.6.0'
+    compile 'org.mapsforge:mapsforge-map:0.6.0'
+    compile 'org.mapsforge:mapsforge-map-reader:0.6.0'
+    compile 'net.sf.kxml:kxml2:2.3.0'
+    compile 'org.mapsforge:mapsforge-map-android:0.6.0'
+    compile 'com.caverock:androidsvg:1.2.2-beta-1'
+    compile('org.mapsforge:mapsforge-map-android-extras:0.6.0') {
+        transitive = false
+    }*/
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // TEST
@@ -70,4 +81,7 @@ dependencies {
     androidTestCompile presentationTestDependencies.hamcrest
 
     androidTestApt presentationDependencies.daggerCompiler
+    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.victor:lib:1.0.4'
+
 }
