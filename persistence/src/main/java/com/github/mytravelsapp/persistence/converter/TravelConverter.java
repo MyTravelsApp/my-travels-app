@@ -3,6 +3,7 @@ package com.github.mytravelsapp.persistence.converter;
 import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.business.converter.Converter;
 import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
+import com.github.mytravelsapp.business.dto.TravelDestinationDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.persistence.entity.Travel;
 import com.github.mytravelsapp.persistence.helper.JsonHelper;
@@ -31,7 +32,12 @@ public class TravelConverter implements Converter<TravelDto, Travel> {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
         final Travel target = new Travel();
-        target.setDestination(source.getDestination());
+        if (source.getDestination() != null) {
+            target.setDestinationPlaceId(source.getDestination().getDestinationPlaceId());
+            target.setDestinationPlaceName(source.getDestination().getDestinationPlaceName());
+            target.setDestinationPlaceLatitude(source.getDestination().getDestinationPlaceLatitude());
+            target.setDestinationPlaceLongitude(source.getDestination().getDestinationPlaceLongitude());
+        }
         target.setFinishDate(source.getFinishDate());
         target.setId(source.getId());
         target.setName(source.getName());
@@ -61,7 +67,7 @@ public class TravelConverter implements Converter<TravelDto, Travel> {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
         final TravelDto target = new TravelDto();
-        target.setDestination(source.getDestination());
+        target.setDestination(new TravelDestinationDto(source.getDestinationPlaceId(), source.getDestinationPlaceName(), source.getDestinationPlaceLatitude(), source.getDestinationPlaceLongitude()));
         target.setFinishDate(source.getFinishDate());
         target.setId(source.getId());
         target.setName(source.getName());

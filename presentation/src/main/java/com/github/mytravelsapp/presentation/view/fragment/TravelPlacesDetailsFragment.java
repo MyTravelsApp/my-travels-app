@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -15,10 +16,16 @@ import android.widget.Spinner;
 import com.github.mytravelsapp.R;
 import com.github.mytravelsapp.presentation.di.components.TravelPlacesComponent;
 import com.github.mytravelsapp.presentation.model.CategoryModel;
+import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesDetailPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesDetailsView;
+import com.github.mytravelsapp.presentation.view.adapter.PlacesAutoCompleteAdapter;
 import com.github.mytravelsapp.presentation.view.adapter.SpinCategoryAdapter;
+import com.github.mytravelsapp.presentation.view.components.PlacesSelectionListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +44,21 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     private static final String ARGUMENT_TRAVEL_PLACES_MODEL = "ARGUMENT_TRAVEL_PLACES_MODEL";
 
+    private static final String ARGUMENT_TRAVEL_MODEL = "ARGUMENT_TRAVEL_MODEL";
+
     @Inject
     TravelPlacesDetailPresenter presenter;
 
     private TravelPlacesModel travelPlacesModel;
 
+    private TravelModel travelModel;
+
     private SpinCategoryAdapter dataAdapter;
 
+    private Place selectedPlace;
+
     @Bind(R.id.txt_name)
-    EditText txt_name;
+    AutoCompleteTextView txt_name;
 
     @Bind(R.id.txt_observation)
     EditText txt_observation;
@@ -56,12 +69,24 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
 
-    public List<CategoryModel> categories = new ArrayList<CategoryModel>();
+    public List<CategoryModel> categories = new ArrayList<>();
+
+    private GoogleApiClient googleApiClient;
+
+    private PlacesAutoCompleteAdapter placesAutoCompleteAdapter;
 
     public static TravelPlacesDetailsFragment newInstance(final TravelPlacesModel travelPlacesModel) {
         final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
         final Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGUMENT_TRAVEL_PLACES_MODEL,travelPlacesModel);
+        arguments.putParcelable(ARGUMENT_TRAVEL_PLACES_MODEL, travelPlacesModel);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    public static TravelPlacesDetailsFragment newInstance(final TravelModel travelModel) {
+        final TravelPlacesDetailsFragment fragment = new TravelPlacesDetailsFragment();
+        final Bundle arguments = new Bundle();
+        arguments.putParcelable(ARGUMENT_TRAVEL_MODEL, travelModel);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -73,12 +98,32 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_places_details, container, false);
+
         ButterKnife.bind(this, fragmentView);
         setHasOptionsMenu(true);
+
+        initGoogleApi();
+        initAutocomplete();
         dataAdapter = new SpinCategoryAdapter(getViewContext(), categories);
+
         // Setup UI
         spinner_category.setAdapter(dataAdapter);
+        txt_name.setAdapter(placesAutoCompleteAdapter);
+        txt_name.setOnItemClickListener(new PlacesSelectionListener(placesAutoCompleteAdapter, googleApiClient, placesSelectionCallback));
+
         return fragmentView;
+    }
+
+    private void initGoogleApi() {
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this.getActivity(), 0, null)
+                .build();
+    }
+
+    private void initAutocomplete() {
+        // FIXME Filter by latitude and longitude
+        placesAutoCompleteAdapter = new PlacesAutoCompleteAdapter(getActivity(), R.layout.places_search_item, googleApiClient, null, null);
     }
 
     /**
@@ -135,6 +180,9 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
         getComponent(TravelPlacesComponent.class).inject(this);
         this.presenter.setView(this);
         this.travelPlacesModel = getArguments().getParcelable(ARGUMENT_TRAVEL_PLACES_MODEL);
+        if (travelPlacesModel == null) {
+            travelModel = getArguments().getParcelable(ARGUMENT_TRAVEL_MODEL);
+        }
         getPresenter().loadCategories();
         getPresenter().loadModel(this.travelPlacesModel.getId());
     }
@@ -169,7 +217,7 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
             spinner_category.setSelection(dataAdapter.getPosition(model.getCategoryModel()));
             if (travelPlacesModel.getId() == TravelPlacesModel.DEFAULT_ID) {
                 getActivity().setTitle(R.string.activity_travel_places_title);
-            }else{
+            } else {
                 getActivity().setTitle(travelPlacesModel.getName());
             }
         }
@@ -178,7 +226,7 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
     @Override
     public void renderCategories(List<CategoryModel> pCategories) {
         if (pCategories != null) {
-           dataAdapter.setList(pCategories);
+            dataAdapter.setList(pCategories);
         }
     }
 
@@ -209,4 +257,17 @@ public class TravelPlacesDetailsFragment extends AbstractFormFragment<TravelPlac
 
     }
 
+    private final PlacesSelectionListener.PlacesSelectionCallback placesSelectionCallback = new PlacesSelectionListener.PlacesSelectionCallback() {
+        @Override
+        public void onSelect(final Place selectedPlace) {
+            txt_name.setText(selectedPlace.getName());
+            // FIXME ¿Que hacemos al seleccionar?
+            TravelPlacesDetailsFragment.this.selectedPlace = selectedPlace;
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
 }

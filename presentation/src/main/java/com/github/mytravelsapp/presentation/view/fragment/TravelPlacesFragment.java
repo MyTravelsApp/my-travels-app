@@ -1,6 +1,7 @@
 package com.github.mytravelsapp.presentation.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import com.github.mytravelsapp.presentation.model.TravelPlacesModel;
 import com.github.mytravelsapp.presentation.presenter.TravelPlacesPresenter;
 import com.github.mytravelsapp.presentation.view.TravelPlacesView;
 import com.github.mytravelsapp.presentation.view.activity.TravelNavigationListener;
+import com.github.mytravelsapp.presentation.view.activity.TravelPlacesLocationActivity;
 import com.github.mytravelsapp.presentation.view.adapter.TravelPlacesAdapter;
 import com.github.mytravelsapp.presentation.view.components.RemoveItemTouchHelperCallback;
 
@@ -149,6 +151,8 @@ public class TravelPlacesFragment extends SearchFragment<TravelPlacesView, Trave
                 }
                 result = true;
                 break;
+            case R.id.action_add_location:
+                startActivityForResult(new Intent(getViewContext(), TravelPlacesLocationActivity.class), 1);
             default:
                 result = super.onOptionsItemSelected(item);
                 break;

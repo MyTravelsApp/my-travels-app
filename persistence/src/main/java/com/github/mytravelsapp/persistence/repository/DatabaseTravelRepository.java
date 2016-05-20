@@ -68,7 +68,7 @@ public class DatabaseTravelRepository extends DatabaseRepository<Travel, Long> i
             final QueryBuilder<Travel, Long> builder = getDao().queryBuilder();
             if (textFilter != null && textFilter.trim().length() > 0) {
                 final String likeFilter = "%" + textFilter + "%";
-                builder.where().like(Travel.FIELD_NAME, likeFilter).or().like(Travel.FIELD_DESTINATION, likeFilter);
+                builder.where().like(Travel.FIELD_NAME, likeFilter).or().like(Travel.FIELD_DESTINATION_PLACE_NAME, likeFilter);
             }
 
             return converter.convertToDto(getDao().query(builder.prepare()));

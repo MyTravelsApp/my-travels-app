@@ -8,20 +8,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.presentation.di.components.TravelComponent;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 import com.github.mytravelsapp.presentation.presenter.TravelDetailPresenter;
 import com.github.mytravelsapp.presentation.view.TravelDetailsView;
+import com.github.mytravelsapp.presentation.view.adapter.PlacesAutoCompleteAdapter;
 import com.github.mytravelsapp.presentation.view.components.DatePickerSelectionListener;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.github.mytravelsapp.presentation.view.components.PlacesSelectionListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 
 import javax.inject.Inject;
 
@@ -46,7 +51,7 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     EditText txt_name;
 
     @Bind(R.id.txt_destination)
-    EditText txt_destination;
+    AutoCompleteTextView txt_destination;
 
     @Bind(R.id.txt_start_date)
     TextView txt_start_date;
@@ -62,6 +67,10 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
 
     @Bind(R.id.rl_progress)
     RelativeLayout rl_progress;
+
+    private PlacesAutoCompleteAdapter placesAutoCompleteAdapter;
+
+    private GoogleApiClient googleApiClient;
 
     public static TravelDetailsFragment newInstance(final TravelModel pTravelModel) {
         final TravelDetailsFragment fragment = new TravelDetailsFragment();
@@ -86,9 +95,14 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
         final View fragmentView = inflater.inflate(R.layout.fragment_travel_details, container, false);
         ButterKnife.bind(this, fragmentView);
 
+        initGoogleApi();
+        initAutocomplete();
+
         // Setup UI
         btn_start_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_start_date, getString(R.string.conf_date_format)));
         btn_finish_date.setOnClickListener(new DatePickerSelectionListener(getActivity(), txt_finish_date, getString(R.string.conf_date_format)));
+        txt_destination.setAdapter(placesAutoCompleteAdapter);
+        txt_destination.setOnItemClickListener(new PlacesSelectionListener(placesAutoCompleteAdapter, googleApiClient, placesSelectionCallback));
 
         return fragmentView;
     }
@@ -152,16 +166,11 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
     public void renderModel(final TravelModel model) {
         if (model != null) {
             txt_name.setText(model.getName());
-            txt_destination.setText(model.getDestination());
-            final SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.conf_date_format));
-            if (model.getStartDate() != null) {
-                txt_start_date.setText(sdf.format(model.getStartDate()));
-            }
-            if (model.getFinishDate() != null) {
-                txt_finish_date.setText(sdf.format(model.getFinishDate()));
-            }
+            txt_destination.setText(model.getDestination().getDestinationPlaceName());
+            txt_start_date.setText(Utils.formatDate(model.getStartDate(), Utils.DATE_FORMAT));
+            txt_finish_date.setText(Utils.formatDate(model.getFinishDate(), Utils.DATE_FORMAT));
 
-            if (travelModel.getId() == TravelModel.DEFAULT_ID) {
+            if (model.getId() == TravelModel.DEFAULT_ID) {
                 getActivity().setTitle(R.string.activity_travel_new_title);
             }else{
                 getActivity().setTitle(travelModel.getName());
@@ -171,18 +180,11 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
 
     @Override
     public TravelModel getCurrentModel() {
-        final TravelModel model = new TravelModel(travelModel.getId());
-        final SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.conf_date_format));
-        try {
-            model.setFinishDate(sdf.parse(txt_finish_date.getText().toString()));
-            model.setStartDate(sdf.parse(txt_start_date.getText().toString()));
-        } catch (final ParseException e) {
-            e.printStackTrace();
-            // FIXME Invalid date error???
-        }
-        model.setName(txt_name.getText().toString());
-        model.setDestination(txt_destination.getText().toString());
-        return model;
+        travelModel.setFinishDate(Utils.parseDate(txt_finish_date.getText().toString(), Utils.DATE_FORMAT));
+        travelModel.setStartDate(Utils.parseDate(txt_start_date.getText().toString(), Utils.DATE_FORMAT));
+        travelModel.setName(txt_name.getText().toString());
+        travelModel.getDestination().setDestinationPlaceName(txt_destination.getText().toString());
+        return travelModel;
     }
 
     @Override
@@ -240,5 +242,34 @@ public class TravelDetailsFragment extends AbstractFormFragment<TravelDetailsVie
         rl_progress.setVisibility(View.GONE);
         getActivity().setProgressBarIndeterminate(false);
     }
+
+    private void initGoogleApi() {
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this.getActivity(), 0, null)
+                .build();
+    }
+
+    private void initAutocomplete () {
+        final AutocompleteFilter citiesFilter = new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).build();
+        placesAutoCompleteAdapter = new PlacesAutoCompleteAdapter(getActivity(), R.layout.places_search_item, googleApiClient, null, citiesFilter);
+    }
+
+    private final PlacesSelectionListener.PlacesSelectionCallback placesSelectionCallback = new PlacesSelectionListener.PlacesSelectionCallback() {
+        @Override
+        public void onSelect(final Place selectedPlace) {
+            travelModel.getDestination().setDestinationPlaceId(selectedPlace.getId());
+            travelModel.getDestination().setDestinationPlaceName(selectedPlace.getName().toString());
+            travelModel.getDestination().setDestinationPlaceLatitude(selectedPlace.getLatLng().latitude);
+            travelModel.getDestination().setDestinationPlaceLongitude(selectedPlace.getLatLng().longitude);
+            txt_destination.setText(selectedPlace.getName());
+            txt_start_date.requestFocus();
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    };
 
 }

@@ -3,9 +3,6 @@ package com.github.mytravelsapp.presentation.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +12,12 @@ import java.util.Map;
  *
  * @author fjtorres
  */
-public class TravelModel implements Parcelable{
+public class TravelModel implements Parcelable {
     public static final long DEFAULT_ID = -1;
 
     private long id = DEFAULT_ID;
 
     private String name;
-
-    private String destination;
 
     private Date startDate;
 
@@ -30,16 +25,17 @@ public class TravelModel implements Parcelable{
 
     private Map<Date, List<TravelDayPlanningModel>> daysPlanningMap;
 
-    public TravelModel(final long pId) {
+    private TravelDestinationModel destination;
 
-        this(pId, null, null);
+    public TravelModel(final long pId) {
+        this(pId, null, new TravelDestinationModel());
     }
 
-    public TravelModel(final long pId, final String pName, final String pDestination) {
+    public TravelModel(final long pId, final String pName, final TravelDestinationModel pDestination) {
         this(pId, pName, pDestination, null, null);
     }
 
-    public TravelModel(final long pId, final String pName, final String pDestination, final Date pStartDate, final Date pFinishDate) {
+    public TravelModel(final long pId, final String pName, final TravelDestinationModel pDestination, final Date pStartDate, final Date pFinishDate) {
         this.id = pId;
         this.destination = pDestination;
         this.name = pName;
@@ -75,11 +71,11 @@ public class TravelModel implements Parcelable{
         this.finishDate = finishDate;
     }
 
-    public String getDestination() {
+    public TravelDestinationModel getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(TravelDestinationModel destination) {
         this.destination = destination;
     }
 
@@ -103,8 +99,7 @@ public class TravelModel implements Parcelable{
     /**
      * Class constructor. Read from {@link android.os.Parcel} object.
      *
-     * @param in
-     *            Input data object.
+     * @param in Input data object.
      */
     public TravelModel(final Parcel in) {
         readFromParcel(in);
@@ -127,7 +122,7 @@ public class TravelModel implements Parcelable{
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeLong(getId());
         out.writeString(getName());
-        out.writeString(getDestination());
+        out.writeParcelable(getDestination(), flags);
         if (getFinishDate() != null) {
             out.writeLong(getFinishDate().getTime());
         } else {
@@ -144,13 +139,12 @@ public class TravelModel implements Parcelable{
     /**
      * Read from {@link android.os.Parcel} object to this object.
      *
-     * @param in
-     *            Input data.
+     * @param in Input data.
      */
     private void readFromParcel(Parcel in) {
         this.setId(in.readLong());
         this.setName(in.readString());
-        this.setDestination(in.readString());
+        this.setDestination((TravelDestinationModel) in.readParcelable(TravelDestinationModel.class.getClassLoader()));
         long date = in.readLong();
         if (date != 0) {
             this.setFinishDate(new Date(date));

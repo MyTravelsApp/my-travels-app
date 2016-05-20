@@ -14,24 +14,24 @@ public class TravelDto implements Dto {
 
     private String name;
 
-    private String destination;
-
     private Date startDate;
 
     private Date finishDate;
 
     private Map<Date, List<TravelDayPlanningDto>> daysPlanningMap;
 
+    private TravelDestinationDto destination;
+
     public TravelDto() {
 
     }
 
-    public TravelDto(final long pId, final String pName, final String pDestination, final Date pStartDate, final Date pFinishDate) {
+    public TravelDto(final long pId, final String pName, final Date pStartDate, final Date pFinishDate, final TravelDestinationDto pDestination) {
         this.id = pId;
-        this.destination = pDestination;
         this.name = pName;
         this.startDate = pStartDate;
         this.finishDate = pFinishDate;
+        this.destination = pDestination;
     }
 
     @Override
@@ -41,15 +41,15 @@ public class TravelDto implements Dto {
         TravelDto travelDto = (TravelDto) o;
         return Objects.equals(getId(), travelDto.getId()) &&
                 Objects.equals(getName(), travelDto.getName()) &&
-                Objects.equals(getDestination(), travelDto.getDestination()) &&
                 Objects.equals(getStartDate(), travelDto.getStartDate()) &&
                 Objects.equals(getFinishDate(), travelDto.getFinishDate()) &&
-                Objects.equals(getDaysPlanningMap(), travelDto.getDaysPlanningMap());
+                Objects.equals(getDaysPlanningMap(), travelDto.getDaysPlanningMap()) &&
+                Objects.equals(getDestination(), travelDto.getDestination());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDestination(), getStartDate(), getFinishDate(), getDaysPlanningMap());
+        return Objects.hash(getId(), getName(), getStartDate(), getFinishDate(), getDaysPlanningMap(), getDestination());
     }
 
     public long getId() {
@@ -66,14 +66,6 @@ public class TravelDto implements Dto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public Date getStartDate() {
@@ -98,5 +90,13 @@ public class TravelDto implements Dto {
 
     public void setDaysPlanningMap(Map<Date, List<TravelDayPlanningDto>> daysPlanningMap) {
         this.daysPlanningMap = daysPlanningMap;
+    }
+
+    public TravelDestinationDto getDestination() {
+        return destination;
+    }
+
+    public void setDestination(TravelDestinationDto destination) {
+        this.destination = destination;
     }
 }

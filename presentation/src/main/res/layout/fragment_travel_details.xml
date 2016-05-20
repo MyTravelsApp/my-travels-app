@@ -18,7 +18,7 @@
         style="@style/AppTheme.FullTextInputLayout"
         android:layout_below="@id/label_name">
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/txt_destination"
             style="@style/AppTheme.FullEditText"
             android:hint="@string/text_destination" />

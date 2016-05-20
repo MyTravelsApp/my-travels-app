@@ -2,8 +2,10 @@ package com.github.mytravelsapp.presentation.converter;
 
 import com.github.mytravelsapp.business.Utils;
 import com.github.mytravelsapp.business.dto.TravelDayPlanningDto;
+import com.github.mytravelsapp.business.dto.TravelDestinationDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.presentation.model.TravelDayPlanningModel;
+import com.github.mytravelsapp.presentation.model.TravelDestinationModel;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class TravelModelConverter {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
         final TravelModel target = new TravelModel(source.getId());
-        target.setDestination(source.getDestination());
+        target.setDestination(convertTravelDestinationToModel(source.getDestination()));
         target.setFinishDate(source.getFinishDate());
         target.setName(source.getName());
         target.setStartDate(source.getStartDate());
@@ -69,7 +71,7 @@ public class TravelModelConverter {
             throw new IllegalArgumentException("Cannot transform a null value");
         }
         final TravelDto target = new TravelDto();
-        target.setDestination(source.getDestination());
+        target.setDestination(convertTravelDestinationToDto(source.getDestination()));
         target.setFinishDate(source.getFinishDate());
         target.setId(source.getId());
         target.setName(source.getName());
@@ -120,6 +122,30 @@ public class TravelModelConverter {
         target.setTravelPlaceId(source.getTravelPlaceId());
         target.setOrder(source.getOrder());
 
+        return target;
+    }
+
+    private TravelDestinationDto convertTravelDestinationToDto(final TravelDestinationModel source) {
+        TravelDestinationDto target = null;
+        if (source != null) {
+            target = new TravelDestinationDto();
+            target.setDestinationPlaceId(source.getDestinationPlaceId());
+            target.setDestinationPlaceName(source.getDestinationPlaceName());
+            target.setDestinationPlaceLatitude(source.getDestinationPlaceLatitude());
+            target.setDestinationPlaceLongitude(source.getDestinationPlaceLongitude());
+        }
+        return target;
+    }
+
+    private TravelDestinationModel convertTravelDestinationToModel(final TravelDestinationDto source) {
+        TravelDestinationModel target = null;
+        if (source != null) {
+            target = new TravelDestinationModel();
+            target.setDestinationPlaceId(source.getDestinationPlaceId());
+            target.setDestinationPlaceName(source.getDestinationPlaceName());
+            target.setDestinationPlaceLatitude(source.getDestinationPlaceLatitude());
+            target.setDestinationPlaceLongitude(source.getDestinationPlaceLongitude());
+        }
         return target;
     }
 }

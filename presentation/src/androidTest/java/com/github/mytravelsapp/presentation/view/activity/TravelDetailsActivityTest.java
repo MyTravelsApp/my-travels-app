@@ -7,10 +7,12 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.github.mytravelsapp.R;
+import com.github.mytravelsapp.business.dto.TravelDestinationDto;
 import com.github.mytravelsapp.business.dto.TravelDto;
 import com.github.mytravelsapp.business.interactor.GetTravelInteractor;
 import com.github.mytravelsapp.presentation.AndroidApplication;
 import com.github.mytravelsapp.presentation.TestComponent;
+import com.github.mytravelsapp.presentation.model.TravelDestinationModel;
 import com.github.mytravelsapp.presentation.model.TravelModel;
 
 import org.junit.Before;
@@ -69,10 +71,10 @@ public class TravelDetailsActivityTest {
         mockData.setName("TEST");
         mockData.setFinishDate(mockDate);
         mockData.setStartDate(mockDate);
-        mockData.setDestination("TEST");
+        mockData.setDestination(new TravelDestinationModel("TEST", "", 0d, 0d));
 
         final TravelDto mockDto = new TravelDto();
-        mockDto.setDestination(mockData.getDestination());
+        mockDto.setDestination(new TravelDestinationDto(mockData.getDestination().getDestinationPlaceId(), mockData.getDestination().getDestinationPlaceName(), mockData.getDestination().getDestinationPlaceLatitude(), mockData.getDestination().getDestinationPlaceLongitude()));
         mockDto.setId(mockData.getId());
         mockDto.setFinishDate(mockData.getFinishDate());
         mockDto.setStartDate(mockData.getStartDate());
@@ -86,7 +88,7 @@ public class TravelDetailsActivityTest {
         checkFields();
 
         onView(withId(R.id.txt_name)).check(matches(withText(mockData.getName())));
-        onView(withId(R.id.txt_destination)).check(matches(withText(mockData.getDestination())));
+        onView(withId(R.id.txt_destination)).check(matches(withText(mockData.getDestination().getDestinationPlaceName())));
         onView(withId(R.id.txt_start_date)).check(matches(withText(format.format(mockDate))));
         onView(withId(R.id.txt_finish_date)).check(matches(withText(format.format(mockDate))));
     }
